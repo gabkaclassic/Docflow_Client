@@ -1,4 +1,4 @@
-module client.application.docflow_client {
+module client.gui {
     requires javafx.controls;
     requires javafx.fxml;
     
@@ -14,6 +14,6 @@ module client.application.docflow_client {
     requires spring.security.core;
     requires reactor.core;
     
-    opens client.application to javafx.fxml;
-    exports client.entity;
+    opens client.gui to javafx.fxml;
+    exports client.gui;
 }
