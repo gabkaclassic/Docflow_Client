@@ -5,13 +5,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Log_in {
 
+    @FXML
+    private AnchorPane pane;
+    
     @FXML
     private ResourceBundle resources;
 
@@ -38,10 +43,6 @@ public class Log_in {
                 throw new RuntimeException(e);
             }
 
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
         });
 
         Sign_up_button.setOnAction(actionEvent -> {
@@ -55,12 +56,18 @@ public class Log_in {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
         });
+
+        Button e = new Button();
+        e.setLayoutX(500);
+        e.setLayoutY(500);
+        e.setText("NEW BUTTON");
+
+        pane.getChildren().add(e);
+        
+
+        
+        
     }
 
 }

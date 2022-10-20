@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Docflow_Client" target="0" />
+      <module name="Docflow_Client" target="19" />
     </bytecodeTargetLevel>
   </component>
 </project>

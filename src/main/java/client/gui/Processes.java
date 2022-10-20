@@ -40,6 +40,8 @@ public class Processes {
             stage.setScene(new Scene(root));
             stage.show();
         });
+    
+        processes_back.getScene().getWidth()
 
     }
 
