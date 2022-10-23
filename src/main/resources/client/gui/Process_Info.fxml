@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="1040.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ProcessInfo">
+   <children>
+      <Label layoutX="90.0" layoutY="77.0" prefHeight="30.0" prefWidth="113.0" text="Title" underline="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <SplitMenuButton layoutX="75.0" layoutY="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Steps">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </SplitMenuButton>
+      <SplitMenuButton layoutX="332.0" layoutY="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Participants">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </SplitMenuButton>
+   </children>
+</AnchorPane>

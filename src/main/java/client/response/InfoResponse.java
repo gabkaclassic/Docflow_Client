@@ -1,5 +1,5 @@
 package client.response;
-
+import client.entity.process.Process;
 import client.entity.Team;
 import client.entity.process.Participant;
 import lombok.Builder;

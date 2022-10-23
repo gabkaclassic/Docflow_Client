@@ -14,6 +14,7 @@ public class Process {
 
     private Long id;
     
+    private String title;
     private List<Step> steps;
 
     private Step currentStep;

@@ -3,6 +3,8 @@ package client.gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import client.sender.Sender;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,9 +12,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
 
 public class Add {
 
+    private Sender sender;
+    
     @FXML
     private ResourceBundle resources;
 
@@ -51,5 +56,14 @@ public class Add {
             stage.show();
         });
     }
+    
+    //@FXML
+    //public void processAction(Action action) {
+    
+        
+        
+    //    sender.createProcess();
+        
+    //}
 
 }

@@ -2,13 +2,18 @@ package client.gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import client.entity.process.Process;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 public class HelloController {
@@ -36,6 +41,9 @@ public class HelloController {
 
     @FXML
     private Button team_one;
+    
+    @FXML
+    private SplitMenuButton processes;
 
     @FXML
     void initialize() {
@@ -57,23 +65,23 @@ public class HelloController {
             stage.show();
         });
 
-        point.setOnAction(actionEvent -> {
-            point.getScene().getWindow().hide();
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("Processes.fxml"));
-
-            try {
-                loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        });
+//        point.setOnAction(actionEvent -> {
+//            point.getScene().getWindow().hide();
+//
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(getClass().getResource("Processes.fxml"));
+//
+//            try {
+//                loader.load();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            Parent root = loader.getRoot();
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(root));
+//            stage.show();
+//        });
 
         team_one.setOnAction(actionEvent -> {
             team_one.getScene().getWindow().hide();
@@ -110,6 +118,18 @@ public class HelloController {
             stage.setScene(new Scene(root));
             stage.show();
         });
+        
+//        var list = List.of("Idi naxui #1", "Idi naxui #2", "Idi naxui #3");
+        
+        List<Process> processesList = new ArrayList<>();
+        
+        processes.getItems().clear();
+
+        processesList.stream().map(Process::getTitle).forEach(title -> processes.getItems().add(new MenuItem(title)));
+        
+        
+        
+        
     }
 
 //    public void refreshScene(List<Processes> processes, List<Team> teams) {

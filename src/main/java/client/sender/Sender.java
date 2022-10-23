@@ -2,6 +2,9 @@ package client.sender;
 
 import client.entity.Team;
 import client.entity.process.Participant;
+import client.response.InfoResponse;
+import client.response.StepResponse;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +16,9 @@ import org.springframework.web.reactive.function.client.WebClient.RequestBodySpe
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 import org.springframework.web.reactive.function.client.WebClient.UriSpec;
 
+import java.io.IOException;
+import java.util.List;
+
 
 public class Sender {
     
@@ -21,7 +27,7 @@ public class Sender {
     
     private static String session = "";
     
-    public void registration(String username, String password) {
+    public static void registration(String username, String password) {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
@@ -30,16 +36,16 @@ public class Sender {
         
     }
     
-    public void createTeam() throws JsonProcessingException {
+    public static void createTeam(String teamname, long id, Participant leader) throws JsonProcessingException {
         
         // Как пример работы, реализация будет другой
         
         var team = new Team();
         var participant = new Participant();
-        participant.setId(1);
-        team.setTitle("Some team");
-        team.setTeamLeader(participant);
-        team.addParticipant(participant);
+        participant.setId(id);
+        team.setTitle(teamname);
+        team.setTeamLeader(leader);
+        //team.addParticipant(participant);
         var writer = mapper.writer().withDefaultPrettyPrinter();
 
         var params = new LinkedMultiValueMap();
@@ -49,7 +55,7 @@ public class Sender {
         
     }
     
-    private void send(String url,  LinkedMultiValueMap<String, String> params) {
+    private static JsonParser send(String url, LinkedMultiValueMap<String, String> params) {
         
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
@@ -72,22 +78,32 @@ public class Sender {
         });
     
         System.out.println(response.block());
+        return null;
     }
     
-    public void login(String username, String password) {
+    public static void login(String username, String password) {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
         send("user/login", params);
     }
+    public static InfoResponse GetUserInfo(String username) throws IOException {
+
+        var params = new LinkedMultiValueMap();
+        params.add("username", username);
+        var response = mapper.readValue(send("/info", params), InfoResponse.class);
+        return response;
+
+
+    }
     
-    public void createProcess(Process process) {
+    public static void createProcess(Process process) {
     
 
     }
     
-    public void invite(String username, Long teamId) {
+    public static void invite(String username, Long teamId) {
     
 //        var params = new LinkedMultiValueMap<String, String>();
 //        params.add("username", username);
