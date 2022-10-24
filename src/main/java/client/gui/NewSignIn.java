@@ -1,7 +1,9 @@
 package client.gui;
 
+import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.Team;
+import client.gui.data.Data;
 import client.response.InfoResponse;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
@@ -29,8 +31,9 @@ public class NewSignIn {
     @FXML
     public TextField login;
     @FXML
-    public PasswordField passwordField;
+    public PasswordField password;
 
+    private Data data = Data.getInstance();
 
     public void switchToLogin(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("new_Log_in.fxml")));
@@ -38,11 +41,12 @@ public class NewSignIn {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        data.setParticipant(new Participant());
 
     }
     public void signin(ActionEvent event) throws IOException {
-        Sender.login(login.getText(), passwordField.getText());
-        var user_info = Sender.GetUserInfo(login.getText());
+        Sender.login(login.getText(), password.getText());
+        var user_info = Sender.GetUserInfo();
         var listTeamsTitle = user_info.getTeams().stream().map(Team::getTitle).toList();
         var listProcessesTitle = user_info.getProcesses().stream().map(Process::getTitle).toList();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("new_Main_Menu.fxml"));

@@ -9,3 +9,5 @@ target
 src/test
 *.pid
 *.port
+*.iml
+*.Ds

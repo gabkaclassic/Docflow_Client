@@ -1,6 +1,8 @@
 package client.gui;
 
 import client.entity.Team;
+import client.entity.process.Participant;
+import client.gui.data.Data;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CreateTeam {
     private Sender sender;
@@ -23,15 +26,21 @@ public class CreateTeam {
     @FXML
     private TextField id;
     public void createteam(ActionEvent event) throws IOException{
+        
+        var data = Data.getInstance();
+        data.getParticipant();
+        
         FXMLLoader loader_1 = new FXMLLoader(getClass().getResource("new_Sign_in.fxml"));
         root =loader_1.load();
         NewSignIn newSignIn = loader_1.getController();
-       //var leader = Sender.GetUserInfo(newSignIn.login.getText()).getParticipant();
-        Sender.createTeam(TeamName.getText(), Long.parseLong(id.getText()), Sender.GetUserInfo(newSignIn.login.getText()).getParticipant());
+        Participant participant = Sender.GetUserInfo().getParticipant();
+        Sender.createTeam(TeamName.getText(), participant);
+        Sender.invite(participant.getOwner().getUsername(), TeamName.getText());
         FXMLLoader loader_2 = new FXMLLoader(getClass().getResource("new_Main_Menu.fxml"));
         root =loader_2.load();
         NewMainMenu newMainMenu = loader_2.getController();
-        newMainMenu.LoadInfo(Sender.GetUserInfo(newSignIn.login.getText()).getTeams(), Sender.GetUserInfo(newSignIn.login.getText()).getProcesses());
+        var response = Sender.GetUserInfo();
+        newMainMenu.LoadInfo(response.getTeams(), response.getProcesses());
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

@@ -15,5 +15,12 @@ module client.gui {
     requires reactor.core;
     
     opens client.gui to javafx.fxml;
+    exports client.response to com.fasterxml.jackson.databind;
+    exports client.entity.process to com.fasterxml.jackson.databind;
+    exports client.entity.user to com.fasterxml.jackson.databind;
+    exports client.entity.deserializer to com.fasterxml.jackson.databind;
+    exports client.entity to com.fasterxml.jackson.databind;
     exports client.gui;
+    exports client.response.deserializer to com.fasterxml.jackson.databind;
+    
 }

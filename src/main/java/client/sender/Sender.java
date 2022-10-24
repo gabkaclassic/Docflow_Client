@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -32,30 +33,30 @@ public class Sender {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
-        send("user/registry", params);
+        sendPost("user/registry", params);
         
     }
     
-    public static void createTeam(String teamname, long id, Participant leader) throws JsonProcessingException {
+    public static void createTeam(String teamname, Participant leader) throws JsonProcessingException {
         
         // Как пример работы, реализация будет другой
         
         var team = new Team();
-        var participant = new Participant();
-        participant.setId(id);
         team.setTitle(teamname);
-        team.setTeamLeader(leader);
-        //team.addParticipant(participant);
+        team.setTeamLeaderId(leader.getId());
+        team.addParticipant(leader.getOwner().getUsername());
+        leader.setTeams(List.of(team));
+        
         var writer = mapper.writer().withDefaultPrettyPrinter();
 
         var params = new LinkedMultiValueMap();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
-        send("/create/team", params);
+        sendPost("/create/team", params);
         
     }
     
-    private static JsonParser send(String url, LinkedMultiValueMap<String, String> params) {
+    private static String sendPost(String url, LinkedMultiValueMap<String, String> params) {
         
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
@@ -77,8 +78,32 @@ public class Sender {
              return clientResponse.bodyToMono(String.class);
         });
     
-        System.out.println(response.block());
-        return null;
+        return response.block();
+    }
+    
+    private static String sendGet(String url, LinkedMultiValueMap<String, String> params) {
+        
+        var client = WebClient.builder()
+                .baseUrl(BASE_URL)
+                .defaultCookie("SESSION", session)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+        UriSpec<RequestBodySpec> uriSpec = client.method(HttpMethod.GET);
+        RequestBodySpec bodySpec = uriSpec.uri(BASE_URL + url);
+        RequestHeadersSpec<?> headersSpec = bodySpec.body(
+                BodyInserters.fromFormData(params)
+        );
+        var response = headersSpec.exchangeToMono(clientResponse -> {
+            
+            var sessionCookie = clientResponse.cookies().getFirst("SESSION");
+            
+            if(sessionCookie != null)
+                session = sessionCookie.getValue();
+            
+            return clientResponse.bodyToMono(String.class);
+        });
+
+        return response.block();
     }
     
     public static void login(String username, String password) {
@@ -86,13 +111,19 @@ public class Sender {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
-        send("user/login", params);
+        try {
+            sendPost("user/login", params);
+        }
+        catch (Exception e) {
+            sendPost("user/login", params);
+        }
     }
-    public static InfoResponse GetUserInfo(String username) throws IOException {
+//    123456?C
+    public static InfoResponse GetUserInfo() throws IOException {
 
         var params = new LinkedMultiValueMap();
-        params.add("username", username);
-        var response = mapper.readValue(send("/info", params), InfoResponse.class);
+        String send = sendGet("/info", params);
+        var response = mapper.readValue(send, InfoResponse.class);
         return response;
 
 
@@ -103,10 +134,11 @@ public class Sender {
 
     }
     
-    public static void invite(String username, Long teamId) {
+    public static void invite(String username, String title) {
     
-//        var params = new LinkedMultiValueMap<String, String>();
-//        params.add("username", username);
-//        params.add("teamId", String.valueOf(teamId));
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("username", username);
+        params.add("teamId", title);
+        sendPost("invite", params);
     }
 }

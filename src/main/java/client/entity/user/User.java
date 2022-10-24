@@ -1,7 +1,9 @@
 package client.entity.user;
 
+import client.entity.deserializer.UserDeserializer;
 import client.entity.process.Participant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@JsonDeserialize(using = UserDeserializer.class)
 public class User implements UserDetails {
     
     private Long id;

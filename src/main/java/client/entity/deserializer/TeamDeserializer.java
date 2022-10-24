@@ -1,7 +1,6 @@
 package client.entity.deserializer;
 
 import client.entity.Team;
-import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;
@@ -30,12 +29,11 @@ public class TeamDeserializer extends StdDeserializer<Team> {
         
         JsonNode node = jp.getCodec().readTree(jp);
         var team = new Team();
-        team.setId(node.get("id").asLong());
         team.setTitle(node.get("title").textValue());
-        
-        team.setTeamLeader((Participant) JSONUtils.getObject(node, "teamLeader", Participant.class));
-        team.setParticipants(JSONUtils.splitObjects(node, "participants", Participant.class)
-                .map(Participant.class::cast)
+    
+        team.setTeamLeaderId(node.get("teamLeaderId").asLong());
+        team.setParticipants(JSONUtils.splitObjects(node, "participants", String.class)
+                .map(String.class::cast)
                 .toList()
         );
         team.setProcesses(JSONUtils.splitObjects(node, "processes", Process.class)
