@@ -1,6 +1,7 @@
 package client.gui.controller;
 
 import client.entity.process.Process;
+import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import client.entity.Team;
@@ -23,8 +24,14 @@ public class GeneralInfoController extends Controller{
     private SplitMenuButton process;
     
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
     
+        var response = Sender.GetUserInfo();
+        
+        data.setParticipant(response.getParticipant());
+        data.setTeams(response.getTeams());
+        data.setProcesses(response.getProcesses());
+        
         teams.getItems().clear();
         data.getTeams().stream()
                 .map(Team::getTitle)

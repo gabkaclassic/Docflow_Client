@@ -5,6 +5,7 @@ import client.entity.process.Participant;
 import client.response.InfoResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -24,7 +25,10 @@ import java.util.function.Function;
 public class Sender {
     
     private static final String BASE_URL = System.getenv("BASE_URL");
+    
     private static final ObjectMapper mapper = new ObjectMapper();
+    
+    private static final ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
     
     private static final Function<ClientResponse, Mono<String>> request = clientResponse -> {
     
@@ -46,20 +50,21 @@ public class Sender {
         send(HttpMethod.POST, "user/registry", params);
     }
     
-    public static void createTeam(String teamTitle, Participant leader) throws JsonProcessingException {
-        
+    public static void createTeam(String teamTitle, Participant leader, List<String> participants) throws JsonProcessingException {
+    
+        var writer = mapper.writer().withDefaultPrettyPrinter();
         var team = new Team();
+        
         team.setTitle(teamTitle);
         team.setTeamLeaderId(leader.getId());
-        team.addParticipant(leader.getOwner().getUsername());
-        leader.setTeams(List.of(team));
+        participants.add(leader.getOwner().getUsername());
+        team.addParticipants(participants);
         
-        var writer = mapper.writer().withDefaultPrettyPrinter();
-
         var params = new LinkedMultiValueMap();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
-        send(HttpMethod.POST,"/create/team", params);
+        send(HttpMethod.POST,"create/team", params);
+        invites(participants, teamTitle);
         
     }
     
@@ -115,5 +120,13 @@ public class Sender {
         params.add("username", username);
         params.add("teamId", title);
         send(HttpMethod.POST, "invite", params);
+    }
+    
+    public static void invites(List<String> usernames, String title) throws JsonProcessingException {
+        
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("usernames", writer.writeValueAsString(usernames));
+        params.add("teamId", title);
+        send(HttpMethod.POST, "invite/many", params);
     }
 }

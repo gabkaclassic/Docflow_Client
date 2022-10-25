@@ -15,10 +15,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class SignUpController extends Controller{
-    private Sender sender;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    
     @FXML
     private TextField login;
     @FXML

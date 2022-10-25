@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateTeamController extends Controller {
     @FXML
@@ -16,10 +18,10 @@ public class CreateTeamController extends Controller {
     public void createTeam(ActionEvent event) throws IOException{
         
         var data = Data.getInstance();
-        var participant = data.getParticipant();
+        var leader = data.getParticipant();
         
-        Sender.createTeam(TeamName.getText(), participant);
-    
+        Sender.createTeam(TeamName.getText(), leader, new ArrayList<String>()); // TO DO
+        
         showStage(event, "general_info.fxml");
     }
 }

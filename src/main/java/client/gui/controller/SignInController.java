@@ -10,9 +10,9 @@ import java.io.IOException;
 
 public class SignInController extends Controller {
     @FXML
-    public TextField login;
+    private TextField login;
     @FXML
-    public PasswordField password;
+    private PasswordField password;
 
     public void switchToLogin(ActionEvent event) throws IOException {
         

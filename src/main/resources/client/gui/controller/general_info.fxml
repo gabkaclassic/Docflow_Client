@@ -13,7 +13,7 @@
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </SplitMenuButton>
-      <SplitMenuButton fx:id="proccess" layoutX="720.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="167.0" text="Proccess">
+      <SplitMenuButton fx:id="process" layoutX="720.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="167.0" text="Proccess">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
