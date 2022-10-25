@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 
-public class ProcessInfoController {
+public class ProcessInfoController extends Controller {
 
     @FXML
     private Label Title;

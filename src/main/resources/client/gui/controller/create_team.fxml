@@ -9,6 +9,6 @@
    <children>
       <TextField fx:id="TeamName" layoutX="71.0" layoutY="84.0" promptText="Team Name" />
       <TextField fx:id="id" layoutX="71.0" layoutY="130.0" promptText="id" />
-      <Button layoutX="95.0" layoutY="188.0" mnemonicParsing="false" onAction="#createteam" text="Create" />
+      <Button layoutX="95.0" layoutY="188.0" mnemonicParsing="false" onAction="#createTeam" text="Create" />
    </children>
 </AnchorPane>

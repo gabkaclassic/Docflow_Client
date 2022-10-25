@@ -19,6 +19,6 @@
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </SplitMenuButton>
-      <Button layoutX="567.0" layoutY="97.0" mnemonicParsing="false" onAction="#CreateTeam" prefHeight="37.0" prefWidth="84.0" text="Add Team" />
+      <Button layoutX="567.0" layoutY="97.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="37.0" prefWidth="84.0" text="Add Team" />
    </children>
 </AnchorPane>

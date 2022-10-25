@@ -12,6 +12,6 @@
       <TextField fx:id="login" layoutX="254.0" layoutY="170.0" promptText="login" />
       <Label alignment="CENTER" layoutX="184.0" layoutY="102.0" prefHeight="44.0" prefWidth="316.0" text="Enter password and login you wish" />
       <Button mnemonicParsing="false" onAction="#switchToLogin" prefHeight="25.0" prefWidth="53.0" text="Back" />
-      <Button layoutX="282.0" layoutY="279.0" mnemonicParsing="false" onAction="#RegistrateUser" prefHeight="25.0" prefWidth="93.0" text="Registrate" />
+      <Button layoutX="282.0" layoutY="279.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="25.0" prefWidth="93.0" text="Sign up" />
    </children>
 </AnchorPane>
