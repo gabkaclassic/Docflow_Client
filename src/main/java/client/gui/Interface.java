@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Interface extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("new_Log_in.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Interface.class.getResource("controller/log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1440, 1024);
         fxmlLoader.setRoot(scene);
         stage.setTitle("Document flow");

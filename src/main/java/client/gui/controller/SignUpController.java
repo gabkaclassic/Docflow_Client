@@ -1,4 +1,4 @@
-package client.gui;
+package client.gui.controller;
 
 import client.sender.Sender;
 import javafx.event.ActionEvent;
@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class NewSignUp {
+public class SignUpController {
     private Sender sender;
     private Stage stage;
     private Scene scene;
@@ -24,7 +24,7 @@ public class NewSignUp {
     @FXML
     private PasswordField password;
     public void switchToLogin(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("new_Log_in.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("log_in.fxml")));
         stage = (Stage)(((Node)event.getSource()).getScene().getWindow());
         scene = new Scene(root);
         stage.setScene(scene);
@@ -33,7 +33,7 @@ public class NewSignUp {
     }
     public void RegistrateUser(ActionEvent event) throws IOException {
         Sender.registration(login.getText(),password.getText());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("new_Log_in.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("log_in.fxml"));
         root = loader.load();
         stage = (Stage)(((Node)event.getSource()).getScene().getWindow());
         scene = new Scene(root);

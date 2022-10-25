@@ -22,5 +22,7 @@ module client.gui {
     exports client.entity to com.fasterxml.jackson.databind;
     exports client.gui;
     exports client.response.deserializer to com.fasterxml.jackson.databind;
+    exports client.gui.controller;
+    opens client.gui.controller to javafx.fxml;
     
 }

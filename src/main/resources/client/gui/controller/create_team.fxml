@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CreateTeam">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateTeamController">
    <children>
       <TextField fx:id="TeamName" layoutX="71.0" layoutY="84.0" promptText="Team Name" />
       <TextField fx:id="id" layoutX="71.0" layoutY="130.0" promptText="id" />

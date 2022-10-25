@@ -1,10 +1,10 @@
-package client.gui;
+package client.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 
-public class ProcessInfo {
+public class ProcessInfoController {
 
     @FXML
     private Label Title;

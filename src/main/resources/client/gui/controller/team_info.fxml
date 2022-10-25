@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="client.gui.TeamInfo"
+            fx:controller="client.gui.controller.TeamInfoController"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

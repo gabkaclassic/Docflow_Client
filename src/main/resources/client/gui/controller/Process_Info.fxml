@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="1040.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ProcessInfo">
+<AnchorPane prefHeight="1040.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.ProcessInfoController">
    <children>
       <Label layoutX="90.0" layoutY="77.0" prefHeight="30.0" prefWidth="113.0" text="Title" underline="true">
          <font>
