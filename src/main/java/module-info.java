@@ -11,6 +11,7 @@ module client.gui {
     requires spring.core;
     requires spring.webflux;
     requires lombok;
+    requires spring.security.crypto;
     requires spring.security.core;
     requires reactor.core;
     
