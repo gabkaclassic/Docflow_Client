@@ -21,15 +21,21 @@ public class GeneralInfoController extends Controller{
     private SplitMenuButton teams;
     @FXML
     private SplitMenuButton process;
-
-    public void loadInfo(List<Team> teamList, List<Process> processList){
-        
+    
+    @FXML
+    public void initialize() {
+    
         teams.getItems().clear();
-        teamList.stream().map(Team::getTitle).forEach(title -> teams.getItems().add(new MenuItem(title)));
-        
+        data.getTeams().stream()
+                .map(Team::getTitle)
+                .forEach(title -> teams.getItems().add(new MenuItem(title)));
+    
         process.getItems().clear();
-        processList.stream().map(Process::getTitle).forEach(title -> process.getItems().add(new MenuItem(title)));
+        data.getProcesses().stream()
+                .map(Process::getTitle)
+                .forEach(title -> process.getItems().add(new MenuItem(title)));
     }
+    
     public void createTeam(ActionEvent event) throws IOException{
     
         showStage(event, "create_team.fxml");
