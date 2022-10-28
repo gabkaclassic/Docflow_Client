@@ -14,6 +14,7 @@ public class Interface extends Application {
     public void start(Stage stage) throws IOException {
         
         FXMLLoader fxmlLoader = new FXMLLoader(Interface.class.getResource("controller/login.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(Interface.class.getResource("controller/create_team.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1440, 1024);
         fxmlLoader.setRoot(scene);
         stage.setTitle("Document flow");

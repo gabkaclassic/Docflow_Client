@@ -2,6 +2,7 @@ package client.sender;
 
 import client.entity.Team;
 import client.entity.process.Participant;
+import client.response.ExistResponse;
 import client.response.InfoResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,7 @@ public class Sender {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
-        send(HttpMethod.POST, "user/registry", params);
+        send(HttpMethod.POST,"user/registry", params);
     }
     
     public static void createTeam(String teamTitle, Participant leader, List<String> participants) throws JsonProcessingException {
@@ -63,9 +64,8 @@ public class Sender {
         var params = new LinkedMultiValueMap();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
-        send(HttpMethod.POST,"create/team", params);
+        send(HttpMethod.POST, "create/team", params);
         invites(participants, teamTitle);
-        
     }
     
     private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
@@ -75,12 +75,22 @@ public class Sender {
                 .defaultCookie("SESSION", session)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-        UriSpec<RequestBodySpec> uriSpec = client.method(method);
-        RequestBodySpec bodySpec = uriSpec.uri(BASE_URL + url);
-        RequestHeadersSpec<?> headersSpec = bodySpec.body(
-                BodyInserters.fromFormData(params)
-        );
+    
+        RequestHeadersSpec<?> headersSpec;
         
+        if(method.name().equals("post")) {
+            UriSpec<RequestBodySpec> uriSpec = client.post();
+            RequestBodySpec bodySpec = uriSpec.uri(BASE_URL + url);
+            headersSpec = bodySpec.body(BodyInserters.fromFormData(params));
+        }
+        else {
+            headersSpec = client.get()
+                    .uri(uriBuilder -> uriBuilder
+                            .path(url)
+                            .queryParams(params)
+                            .build()
+                    );
+        }
         String response;
         
         try {
@@ -92,13 +102,12 @@ public class Sender {
         
         return response;
     }
-    
     public static void login(String username, String password) {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
-        send(HttpMethod.POST, "user/login", params);
+        send(HttpMethod.POST,"user/login", params);
     }
     
     public static InfoResponse GetUserInfo() throws IOException {
@@ -119,7 +128,7 @@ public class Sender {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", title);
-        send(HttpMethod.POST, "invite", params);
+        send(HttpMethod.POST,"invite", params);
     }
     
     public static void invites(List<String> usernames, String title) throws JsonProcessingException {
@@ -127,6 +136,23 @@ public class Sender {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("usernames", writer.writeValueAsString(usernames));
         params.add("teamId", title);
-        send(HttpMethod.POST, "invite/many", params);
+        send(HttpMethod.POST,"invite/many", params);
+    }
+    
+    public static ExistResponse teamExists(String title) throws JsonProcessingException {
+    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("title", title);
+        var result = send(HttpMethod.GET, "exist/team", params);
+        
+        return mapper.readValue(result, ExistResponse.class);
+    }
+    
+    public static ExistResponse userExists(String username) throws JsonProcessingException {
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("username", username);
+        var result = send(HttpMethod.GET, "exist/user", params);
+    
+        return mapper.readValue(result, ExistResponse.class);
     }
 }

@@ -2,9 +2,7 @@ package client.entity.process;
 
 import client.entity.Team;
 import client.entity.user.User;
-import client.response.deserializer.ParticipantDeserializer;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import client.entity.deserializer.ParticipantDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

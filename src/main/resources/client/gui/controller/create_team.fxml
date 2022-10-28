@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateTeamController">
    <children>
-      <TextField fx:id="TeamName" layoutX="71.0" layoutY="84.0" promptText="Team Name" />
-      <TextField fx:id="id" layoutX="71.0" layoutY="130.0" promptText="id" />
-      <Button layoutX="95.0" layoutY="188.0" mnemonicParsing="false" onAction="#createTeam" text="Create" />
+      <TextField fx:id="teamTitle" alignment="TOP_LEFT" layoutX="224.0" layoutY="70.0" promptText="Team title" />
+      <Button layoutX="254.0" layoutY="344.0" mnemonicParsing="false" onAction="#createTeam" text=" Create team" />
+      <Label layoutX="247.0" layoutY="20.0" text="Team title">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username" alignment="TOP_LEFT" layoutX="45.0" layoutY="187.0" prefHeight="26.0" prefWidth="210.0" promptText="Participant's account nick" />
+      <Label layoutX="186.0" layoutY="127.0" text="Invites of participants">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="308.0" layoutY="187.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </SplitMenuButton>
+      <Button layoutX="45.0" layoutY="256.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to team" />
+      <Label fx:id="userError" layoutX="45.0" layoutY="213.0" prefHeight="18.0" prefWidth="210.0" textFill="#e51010">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="teamError" layoutX="226.0" layoutY="102.0" prefHeight="18.0" prefWidth="152.0" textFill="#e51010">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

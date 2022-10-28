@@ -1,4 +1,4 @@
-package client.response.deserializer;
+package client.entity.deserializer;
 
 import client.entity.process.Participant;
 import client.entity.user.User;
