@@ -77,6 +77,6 @@ public class GeneralInfoController extends Controller{
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), "create_process.fxml");
+        showStage(event, data.getPreviousScene(), source);
     }
 }

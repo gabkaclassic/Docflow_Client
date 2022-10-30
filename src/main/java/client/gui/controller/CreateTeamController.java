@@ -25,6 +25,7 @@ public class CreateTeamController extends Controller {
     @FXML
     private Label userError;
     
+    private final String source = "create_team.fxml";
     @FXML
     public void initialize() {
         
@@ -76,12 +77,12 @@ public class CreateTeamController extends Controller {
         Sender.createTeam(title, leader, participants);
         hideTeamError();
         
-        showStage(event, "general_info.fxml", "create_team.fxml");
+        showStage(event, "general_info.fxml", source);
     }
     
     public void switchToMainMenu(ActionEvent event) throws IOException {
     
-        showStage(event, "general_info.fxml", "create_team.fxml");
+        showStage(event, "general_info.fxml", source);
     }
     
     public void addParticipant(ActionEvent event) throws JsonProcessingException {
@@ -137,6 +138,6 @@ public class CreateTeamController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), "create_team.fxml");
+        showStage(event, data.getPreviousScene(), source);
     }
 }
