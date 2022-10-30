@@ -78,7 +78,7 @@ public class Sender {
     
         RequestHeadersSpec<?> headersSpec;
         
-        if(method.name().equals("post")) {
+        if(method.name().equals("POST")) {
             UriSpec<RequestBodySpec> uriSpec = client.post();
             RequestBodySpec bodySpec = uriSpec.uri(BASE_URL + url);
             headersSpec = bodySpec.body(BodyInserters.fromFormData(params));
