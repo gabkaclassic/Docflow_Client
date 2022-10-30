@@ -5,13 +5,19 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignInController">
    <children>
       <PasswordField fx:id="password" layoutX="226.0" layoutY="200.0" promptText="password" />
-      <TextField fx:id="login" layoutX="226.0" layoutY="137.0" promptText="login" />
       <Label alignment="CENTER" layoutX="157.0" layoutY="63.0" prefHeight="43.0" prefWidth="287.0" text="Enter Your login and password" />
-      <Button mnemonicParsing="false" onAction="#switchToLogin" prefHeight="25.0" prefWidth="58.0" text="Back" />
-      <Button layoutX="274.0" layoutY="260.0" mnemonicParsing="false" onAction="#signIn" text="Sign in" />
+      <Button mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="58.0" text="Back" />
+      <Button layoutX="274.0" layoutY="276.0" mnemonicParsing="false" onAction="#signIn" text="Sign in" />
+      <TextField fx:id="login" layoutX="226.0" layoutY="137.0" promptText="login" />
+      <Label fx:id="error" alignment="CENTER" layoutX="157.0" layoutY="235.0" prefHeight="25.0" prefWidth="287.0" text="Invalid login or password" textFill="#ff0404">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -1,51 +1,82 @@
 package client.gui.controller;
 
-import client.entity.process.Process;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import client.entity.Team;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 public class GeneralInfoController extends Controller{
     @FXML
     private SplitMenuButton teams;
     @FXML
-    private SplitMenuButton process;
+    private SplitMenuButton processes;
+    @FXML
+    private Button back;
     
+    private final String source = "general_info.fxml";
     @FXML
     public void initialize() throws IOException {
     
+        if(data.getPreviousScene() == null)
+            back.setVisible(false);
+        
         var response = Sender.GetUserInfo();
+        teams.getItems().clear();
+        processes.getItems().clear();
         
         data.setParticipant(response.getParticipant());
         data.setTeams(response.getTeams());
         data.setProcesses(response.getProcesses());
-        
-        teams.getItems().clear();
-        data.getTeams().stream()
-                .map(Team::getTitle)
-                .forEach(title -> teams.getItems().add(new MenuItem(title)));
     
-        process.getItems().clear();
-        data.getProcesses().stream()
-                .map(Process::getTitle)
-                .forEach(title -> process.getItems().add(new MenuItem(title)));
+        for(var team: data.getTeams()) {
+        
+            var item = new MenuItem(team.getTitle());
+        
+            item.setOnAction(event -> {
+                data.setCurrentTeam(team);
+                try {
+                    showStage(event, "team_info.fxml", source);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        
+            teams.getItems().add(item);
+        }
+    
+        for(var process: data.getProcesses()) {
+        
+            var item = new MenuItem(process.getTitle());
+        
+            item.setOnAction(event -> {
+                data.setCurrentProcess(process);
+                try {
+                    showStage(event, "process_info.fxml", source);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        
+            processes.getItems().add(item);
+        }
     }
     
     public void createTeam(ActionEvent event) throws IOException{
-    
-        showStage(event, "create_team.fxml");
+        
+        showStage(event, "create_team.fxml", source);
     }
-
+    
+    public void createProcess(ActionEvent event) throws IOException{
+        
+        showStage(event, "create_process.fxml", source);
+    }
+    
+    public void back(ActionEvent event) throws IOException {
+        
+        showStage(event, data.getPreviousScene(), "create_process.fxml");
+    }
 }

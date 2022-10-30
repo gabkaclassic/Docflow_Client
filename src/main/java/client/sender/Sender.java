@@ -4,6 +4,7 @@ import client.entity.Team;
 import client.entity.process.Participant;
 import client.response.ExistResponse;
 import client.response.InfoResponse;
+import client.response.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -43,12 +44,12 @@ public class Sender {
     
     private static String session = "";
     
-    public static void registration(String username, String password) {
+    public static Response registration(String username, String password) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
-        send(HttpMethod.POST,"user/registry", params);
+        return mapper.readValue(send(HttpMethod.POST,"user/registry", params), Response.class);
     }
     
     public static void createTeam(String teamTitle, Participant leader, List<String> participants) throws JsonProcessingException {
@@ -102,12 +103,13 @@ public class Sender {
         
         return response;
     }
-    public static void login(String username, String password) {
+    public static Response login(String username, String password) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
-        send(HttpMethod.POST,"user/login", params);
+        
+        return mapper.readValue(send(HttpMethod.POST,"user/login", params), Response.class);
     }
     
     public static InfoResponse GetUserInfo() throws IOException {

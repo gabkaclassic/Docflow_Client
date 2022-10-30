@@ -18,7 +18,10 @@ public class Controller {
     {
         data = Data.getInstance();
     }
-    protected void showStage(ActionEvent event, String resource) throws IOException {
+    
+    protected void showStage(ActionEvent event, String resource, String current) throws IOException {
+        
+        data.setPreviousScene(current);
         
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
         var stage = (Stage)(((Node)event.getSource()).getScene().getWindow());

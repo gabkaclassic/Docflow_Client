@@ -29,4 +29,8 @@ public class Participant implements Serializable {
         
         teams.add(team);
     }
+    
+    public String getUsername() {
+        return owner.getUsername();
+    }
 }

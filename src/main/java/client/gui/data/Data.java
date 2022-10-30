@@ -15,6 +15,11 @@ public class Data {
     
     private List<Process> processes;
     
+    private Team currentTeam;
+    
+    private Process currentProcess;
+    
+    private String previousScene;
     private static Data instance;
     
     public static Data getInstance() {

@@ -17,28 +17,29 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="username" alignment="TOP_LEFT" layoutX="45.0" layoutY="187.0" prefHeight="26.0" prefWidth="210.0" promptText="Participant's account nick" />
-      <Label layoutX="186.0" layoutY="127.0" text="Invites of participants">
+      <TextField fx:id="username" alignment="TOP_LEFT" layoutX="45.0" layoutY="200.0" prefHeight="26.0" prefWidth="210.0" promptText="Participant's account nick" />
+      <Label layoutX="187.0" layoutY="139.0" text="Invites of participants">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="308.0" layoutY="187.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
+      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="309.0" layoutY="200.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
          </items>
       </SplitMenuButton>
       <Button layoutX="45.0" layoutY="256.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to team" />
-      <Label fx:id="userError" layoutX="45.0" layoutY="213.0" prefHeight="18.0" prefWidth="210.0" textFill="#e51010">
+      <Label fx:id="userError" layoutX="45.0" layoutY="226.0" prefHeight="18.0" prefWidth="210.0" text="Team with this title already exists" textFill="#e51010">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="teamError" layoutX="226.0" layoutY="102.0" prefHeight="18.0" prefWidth="152.0" textFill="#e51010">
+      <Label fx:id="teamError" layoutX="195.0" layoutY="109.0" prefHeight="18.0" prefWidth="210.0" text="Account with this username doesn't exists" textFill="#e51010">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
+      <Button layoutY="-1.0" minWidth="53.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="58.0" text="Back" />
    </children>
 </AnchorPane>

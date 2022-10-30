@@ -5,20 +5,21 @@
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
+<AnchorPane prefHeight="400.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
    <children>
-      <SplitMenuButton fx:id="teams" layoutX="389.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="178.0" text="Teams">
+      <SplitMenuButton fx:id="teams" layoutX="85.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="178.0" text="Teams">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </SplitMenuButton>
-      <SplitMenuButton fx:id="process" layoutX="720.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="167.0" text="Proccess">
+      <SplitMenuButton fx:id="processes" layoutX="398.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="167.0" text="Proccess">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </SplitMenuButton>
-      <Button layoutX="567.0" layoutY="97.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="37.0" prefWidth="84.0" text="Add Team" />
+      <Button layoutX="274.0" layoutY="97.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="37.0" prefWidth="84.0" text="Add Team" />
+      <Button fx:id="back" layoutY="-4.0" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="83.0" text="Back" />
    </children>
 </AnchorPane>

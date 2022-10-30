@@ -5,24 +5,19 @@ import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateTeamController extends Controller {
     @FXML
     private TextField teamTitle;
     @FXML
     private TextField username;
-    
     @FXML
     private SplitMenuButton participantsList;
     @FXML
@@ -32,6 +27,9 @@ public class CreateTeamController extends Controller {
     
     @FXML
     public void initialize() {
+        
+        hideTeamError();
+        hideUserError();
         
         participantsList.getItems().clear();
     
@@ -78,7 +76,12 @@ public class CreateTeamController extends Controller {
         Sender.createTeam(title, leader, participants);
         hideTeamError();
         
-        showStage(event, "general_info.fxml");
+        showStage(event, "general_info.fxml", "create_team.fxml");
+    }
+    
+    public void switchToMainMenu(ActionEvent event) throws IOException {
+    
+        showStage(event, "general_info.fxml", "create_team.fxml");
     }
     
     public void addParticipant(ActionEvent event) throws JsonProcessingException {
@@ -94,22 +97,22 @@ public class CreateTeamController extends Controller {
     
     private void showUserError() {
         
-        userError.setText("Account with this username doesn't exists");
+        userError.setVisible(true);
     }
     
     private void showTeamError() {
         
-        teamError.setText("Team with this title already exists");
+        teamError.setVisible(true);
     }
     
     private void hideUserError() {
         
-        userError.setText("");
+        userError.setVisible(false);
     }
     
     private void hideTeamError() {
         
-        teamError.setText("");
+        teamError.setVisible(false);
     }
     
     private boolean checkUsername(String username) throws JsonProcessingException {
@@ -130,5 +133,10 @@ public class CreateTeamController extends Controller {
             showTeamError();
         
         return valid;
+    }
+    
+    public void back(ActionEvent event) throws IOException {
+        
+        showStage(event, data.getPreviousScene(), "create_team.fxml");
     }
 }
