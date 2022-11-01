@@ -17,13 +17,12 @@
           <MenuItem mnemonicParsing="false" text="Action 1" />
         </items>
       </SplitMenuButton>
-      <Button layoutX="164.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Save step" />
-      <Button layoutX="377.0" layoutY="701.0" mnemonicParsing="false" text="Create process" />
-      <TextField fx:id="stepTitle" layoutX="194.0" layoutY="241.0" />
+      <Button layoutX="164.0" layoutY="614.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="25.0" prefWidth="82.0" text="Save step" />
+      <Button layoutX="377.0" layoutY="701.0" mnemonicParsing="false" onAction="#createProcess" text="Create process" />
+      <TextField fx:id="stepTitle" layoutX="205.0" layoutY="233.0" />
       <Label layoutX="110.0" layoutY="245.0" text="Step title:" />
       <Button layoutX="280.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Delete step" />
-      <TextField fx:id="username" alignment="TOP_LEFT" layoutX="189.0" layoutY="289.0" prefHeight="26.0" prefWidth="210.0" promptText="Participant's account nick" />
-      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="456.0" layoutY="289.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
+      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="619.0" layoutY="290.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -33,7 +32,7 @@
       <Label layoutX="110.0" layoutY="293.0" text="Participants:" />
       <Label layoutX="20.0" layoutY="407.0" text="Documents:" />
       <TextField fx:id="documentTitle" alignment="TOP_LEFT" layoutX="199.0" layoutY="403.0" prefHeight="26.0" prefWidth="210.0" />
-      <SplitMenuButton fx:id="documentsList" alignment="TOP_CENTER" layoutX="466.0" layoutY="403.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Documents">
+      <SplitMenuButton fx:id="documentsList" alignment="TOP_CENTER" layoutX="619.0" layoutY="404.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Documents">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -46,5 +45,12 @@
       <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" layoutX="143.0" layoutY="178.0" prefWidth="150.0" />
       <Label layoutX="203.0" layoutY="148.0" text="Team" />
       <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="83.0" text="Back" />
+      <TextField fx:id="stepNumber" layoutX="466.0" layoutY="233.0" prefHeight="25.0" prefWidth="42.0" />
+      <Label layoutX="399.0" layoutY="237.0" text="Number:" />
+      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="412.0" layoutY="290.0" prefWidth="150.0" />
+      <Label layoutX="466.0" layoutY="262.0" text="Rules:" />
+      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="224.0" layoutY="290.0" prefWidth="150.0" />
+      <Button layoutX="224.0" layoutY="338.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="25.0" prefWidth="82.0" text="Add to step" />
+      <Button layoutX="192.0" layoutY="524.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="25.0" prefWidth="106.0" text="Add document" />
    </children>
 </AnchorPane>

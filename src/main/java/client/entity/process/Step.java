@@ -20,9 +20,7 @@ public class Step {
   
     private Set<Document> documents = new HashSet<>();
 
-    private Map<Long, Rules> rules = new HashMap<>();
-
-    private Set<Participant> participants = new HashSet<>();
+    private Map<String, Rules> rules = new HashMap<>();
     
     public boolean addDocument(Document document){
         

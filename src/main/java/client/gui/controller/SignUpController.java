@@ -31,15 +31,16 @@ public class SignUpController extends Controller{
         
         try {
             var response = Sender.registration(login.getText(), password.getText());
-            showStage(event, "login.fxml", source);
-            
+    
             if(response.isError()) {
                 error.setText(response.getMessage());
                 showError();
+                return;
             }
+            showStage(event, "login.fxml", source);
         }
         catch (Exception e) {
-            
+            e.printStackTrace();
             showError();
         }
         

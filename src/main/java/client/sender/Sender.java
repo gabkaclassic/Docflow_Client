@@ -48,7 +48,7 @@ public class Sender {
     private static String session = "";
     
     public static Response registration(String username, String password) throws JsonProcessingException {
-        
+    
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
@@ -127,9 +127,12 @@ public class Sender {
         return mapper.readValue(send, InfoResponse.class);
     }
     
-    public static void createProcess(Process process) {
+    public static Response createProcess(Process process) throws JsonProcessingException {
     
-    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("process", writer.writeValueAsString(process));
+        
+        return mapper.readValue(send(HttpMethod.POST, "create/process", params), Response.class);
     }
     
     public static void invite(String username, String title) {

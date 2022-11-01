@@ -90,7 +90,7 @@ public class CreateTeamController extends Controller {
         if(!checkUsername(username.getText())) return;
         
         var participant = new MenuItem(username.getText());
-        participant.setOnAction(event1 -> participantsList.getItems().remove(participantsList.getItems().size()-1));
+        participant.setOnAction(event1 -> participantsList.getItems().remove(participant));
         participantsList.getItems().add(participant);
         username.setText("");
         hideUserError();
