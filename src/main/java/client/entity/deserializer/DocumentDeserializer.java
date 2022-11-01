@@ -2,7 +2,6 @@ package client.entity.deserializer;
 
 import client.entity.process.document.Comment;
 import client.entity.process.document.Document;
-import client.entity.process.document.DocumentType;
 import client.entity.process.document.Resource;
 import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;
@@ -31,10 +30,9 @@ public class DocumentDeserializer extends StdDeserializer<Document> {
         
         JsonNode node = jp.getCodec().readTree(jp);
         var document = new Document();
-        document.setId(node.get("id").textValue());
         document.setFile((byte[]) JSONUtils.getObject(node, "file", byte[].class));
         document.setTitle(node.get("title").textValue());
-        document.setType((DocumentType) JSONUtils.getObject(node, "type", DocumentType.class));
+        document.setFormat(node.get("format").textValue());
         document.setComments(JSONUtils.splitObjects(node, "comments", Comment.class)
                 .map(Comment.class::cast)
                 .collect(Collectors.toList())

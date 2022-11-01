@@ -8,17 +8,20 @@ module client.gui {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires spring.web;
+    requires java.desktop;
     requires spring.core;
     requires spring.webflux;
     requires lombok;
     requires spring.security.crypto;
     requires spring.security.core;
     requires reactor.core;
+    requires java.datatransfer;
     
     opens client.gui to javafx.fxml;
     exports client.response to com.fasterxml.jackson.databind;
     exports client.entity.process to com.fasterxml.jackson.databind;
     exports client.entity.user to com.fasterxml.jackson.databind;
+    exports client.entity.process.document to com.fasterxml.jackson.databind;
     exports client.entity.deserializer to com.fasterxml.jackson.databind;
     exports client.entity to com.fasterxml.jackson.databind;
     exports client.gui;

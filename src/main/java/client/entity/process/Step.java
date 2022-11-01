@@ -24,5 +24,10 @@ public class Step {
 
     private Set<Participant> participants = new HashSet<>();
     
+    public boolean addDocument(Document document){
+        
+        return documents.add(document);
+    }
+    
 }
 

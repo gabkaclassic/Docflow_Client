@@ -1,5 +1,6 @@
 package client.gui.controller;
 
+import client.response.InfoResponse;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,30 +31,28 @@ public class SignInController extends Controller {
         showStage(event, "login.fxml", source);
     }
     public void signIn(ActionEvent event) throws IOException {
+    
         
         
         try {
             var response = Sender.login(login.getText(), password.getText());
             if(response.isError()) {
-                showError();
+                showError(response.getMessage());
                 return;
             }
+            data.setParticipant(response.getParticipant());
+            data.setTeams(response.getTeams());
+            data.setProcesses(response.getProcesses());
+            showStage(event, "general_info.fxml", source);
         }
         catch (Exception e) {
-            
-            showError();
-            System.out.println(e);
+            e.printStackTrace();
+            showError("Unknown connection error");
         }
-
-        
-        var infoResponse = Sender.GetUserInfo();
-        data.setParticipant(infoResponse.getParticipant());
-        data.setTeams(infoResponse.getTeams());
-        data.setProcesses(infoResponse.getProcesses());
-        showStage(event, "general_info.fxml", source);
     }
-    private void showError() {
+    private void showError(String message) {
         
+        error.setText(message);
         error.setVisible(true);
     }
     private void hideError() {

@@ -14,7 +14,7 @@
       <Button mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="58.0" text="Back" />
       <Button layoutX="274.0" layoutY="276.0" mnemonicParsing="false" onAction="#signIn" text="Sign in" />
       <TextField fx:id="login" layoutX="226.0" layoutY="137.0" promptText="login" />
-      <Label fx:id="error" alignment="CENTER" layoutX="157.0" layoutY="235.0" prefHeight="25.0" prefWidth="287.0" text="Invalid login or password" textFill="#ff0404">
+      <Label fx:id="error" alignment="CENTER" layoutX="157.0" layoutY="235.0" prefHeight="25.0" prefWidth="287.0" text="login error" textFill="#ff0404">
          <font>
             <Font size="11.0" />
          </font>

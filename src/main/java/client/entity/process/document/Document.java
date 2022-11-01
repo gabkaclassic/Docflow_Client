@@ -4,6 +4,8 @@ import client.entity.deserializer.DocumentDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,16 +13,14 @@ import java.util.List;
 @JsonDeserialize(using = DocumentDeserializer.class)
 public class Document {
     
-    private String id;
-    
     private String title;
 
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     private byte[] file;
 
-    private List<Resource> resources;
+    private List<Resource> resources = new ArrayList<>();
 
-    private DocumentType type;
+    private String format;
 }
 

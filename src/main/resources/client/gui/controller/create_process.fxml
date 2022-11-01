@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="client.gui.controller.CreateProcessController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="749.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
+   <children>
+      <Label layoutX="127.0" layoutY="97.0" text="Process title:" />
+      <TextField fx:id="processTitle" layoutX="205.0" layoutY="93.0" />
+      <SplitMenuButton fx:id="stepsList" layoutX="779.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Steps">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+        </items>
+      </SplitMenuButton>
+      <Button layoutX="164.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Save step" />
+      <Button layoutX="377.0" layoutY="701.0" mnemonicParsing="false" text="Create process" />
+      <TextField fx:id="stepTitle" layoutX="194.0" layoutY="241.0" />
+      <Label layoutX="110.0" layoutY="245.0" text="Step title:" />
+      <Button layoutX="280.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Delete step" />
+      <TextField fx:id="username" alignment="TOP_LEFT" layoutX="189.0" layoutY="289.0" prefHeight="26.0" prefWidth="210.0" promptText="Participant's account nick" />
+      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="456.0" layoutY="289.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </SplitMenuButton>
+<!--      <Button layoutX="199.0" layoutY="345.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to step" />-->
+      <Label layoutX="110.0" layoutY="293.0" text="Participants:" />
+      <Label layoutX="20.0" layoutY="407.0" text="Documents:" />
+      <TextField fx:id="documentTitle" alignment="TOP_LEFT" layoutX="199.0" layoutY="403.0" prefHeight="26.0" prefWidth="210.0" />
+      <SplitMenuButton fx:id="documentsList" alignment="TOP_CENTER" layoutX="466.0" layoutY="403.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Documents">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </SplitMenuButton>
+<!--      <Button layoutX="199.0" layoutY="528.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to step" />-->
+      <TextField fx:id="documentExtension" alignment="TOP_LEFT" layoutX="194.0" layoutY="469.0" prefHeight="26.0" prefWidth="210.0" promptText=".&lt;any file format&gt;" />
+      <Label layoutX="102.0" layoutY="407.0" text="Document title:" />
+      <Label layoutX="65.0" layoutY="474.0" text="Document extension:" />
+      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" layoutX="143.0" layoutY="178.0" prefWidth="150.0" />
+      <Label layoutX="203.0" layoutY="148.0" text="Team" />
+      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="83.0" text="Back" />
+   </children>
 </AnchorPane>

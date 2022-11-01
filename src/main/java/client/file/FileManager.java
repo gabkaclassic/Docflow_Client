@@ -1,39 +1,110 @@
 package client.file;
 
 import client.entity.process.document.Document;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
+import java.awt.*;
 import java.io.*;
+import java.util.*;
+import java.util.List;
 
 public class FileManager {
     
-    private static final String DEFAULT_PATH = "C:\\Users\\Kuzmi\\Desktop\\Discrete matematic";
+    private static final String WORKDIR = "documents";
     private static final String SEPARATOR = System.getProperty("file.separator");
     
-    public void saveDocument(Document document) throws IOException {
+    public void saveDocument(Document document, String processTitle) throws IOException {
         
-        var file = new File(String.join(SEPARATOR, DEFAULT_PATH, document.getTitle()) + document.getType().getDefaultFormat());
+        var file = new File(getFilename(document, processTitle));
+        
+        checkDirectories(document, processTitle);
+        
         try(var out = new FileOutputStream(file)) {
-            
-            if(!file.exists())
-                file.createNewFile();
-            out.write(document.getFile());
+            var data = document.getFile() == null ? new byte[1] : document.getFile();
+            out.write(data);
         } catch (IOException e) {
             throw e;
         }
     }
     
-    public Document updateDocument(Document document) throws IOException {
+    public Set<Document> updateDocuments(String processTitle) throws IOException {
         
-        var file = new File(String.join(DEFAULT_PATH, document.getTitle()) + document.getType().getDefaultFormat());
+        var directory = new File(getFilename(processTitle));
+        var documents = new HashSet<Document>();
         
-        try(var in = new FileInputStream(file)) {
-         
-            document.setFile(in.readAllBytes());
+        for(var file: Objects.requireNonNull(directory.listFiles())) {
+    
+            var name = file.getName();
+            var title = name.substring(0, name.lastIndexOf('.'));
+            
+            var document = new Document();
+    
+            document.setTitle(title);
+            document.setFormat(name.substring(name.lastIndexOf('.')));
+            
+            try (var in = new FileInputStream(file)) {
+                
+                document.setFile(in.readAllBytes());
+            } catch (IOException e) {
+                throw e;
+            }
+            
+            documents.add(document);
+        }
+        
+        return documents;
+    }
+    
+    public void updateDocument(ActionEvent event, Document document, String processTitle) throws IOException {
+        
+        var fileChooser = new FileChooser();
+        fileChooser.setTitle("Select document " + document.getTitle());
+        fileChooser.setSelectedExtensionFilter(new ExtensionFilter(document.getTitle(), "*" + document.getFormat()));
+        fileChooser.setInitialDirectory(new File(getFilename(processTitle)));
+        var file = fileChooser.showSaveDialog((((Node)event.getSource()).getScene().getWindow()));
+        var filename = file.getName();
+        document.setTitle(filename.substring(0, filename.lastIndexOf('.')));
+        document.setFormat(filename.substring(filename.lastIndexOf('.')));
+        
+        checkDirectories(document, processTitle);
+        
+        try (var in = new FileInputStream(file); var out = new FileOutputStream(getFilename(document, processTitle))) {
+            var data = in.readAllBytes();
+            document.setFile(data);
+            out.write(data);
         } catch (IOException e) {
             throw e;
         }
+    }
     
-        return document;
+    public void openDocument(Document document, String processTitle) throws IOException {
+        
+        Desktop.getDesktop().open(new File(getFilename(document, processTitle)));
+    }
+    
+    private void checkDirectories(Document document, String processTitle) throws IOException {
+        
+        var workdir = new File(WORKDIR);
+        var dir = new File(getFilename(processTitle));
+        var file = new File(getFilename(document, processTitle));
+        
+        if(!workdir.exists())
+            workdir.mkdir();
+        if(!dir.exists())
+            dir.mkdir();
+        if(!file.exists())
+            file.createNewFile();
+    }
+    
+    private String getFilename(Document document, String processTitle) {
+        return String.join(SEPARATOR, WORKDIR, processTitle, document.getTitle()) + document.getFormat();
+    }
+    
+    private String getFilename(String processTitle) {
+        return String.join(SEPARATOR, WORKDIR, processTitle);
     }
     
 }

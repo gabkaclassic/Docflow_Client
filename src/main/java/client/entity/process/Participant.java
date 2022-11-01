@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,6 +27,9 @@ public class Participant implements Serializable {
     private List<Team> teams;
     
     public void addTeam(Team team) {
+        
+        if(teams == null)
+            teams = new ArrayList<>();
         
         teams.add(team);
     }

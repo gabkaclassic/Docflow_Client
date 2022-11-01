@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @JsonDeserialize(using = ProcessDeserializer.class)
@@ -19,12 +18,27 @@ public class Process {
 
     private Step currentStep;
     
-    public boolean nextStep() {
+    public void nextStep() {
         
-        return Objects.nonNull(currentStep = steps.stream()
+        currentStep = steps.stream()
                     .filter(step -> step.getNumber() == currentStep.getNumber() + 1)
-                    .findFirst().orElse(null)
-        );
+                    .findFirst().orElse(null);
+    }
+    
+    public void previousStep() {
+        currentStep = steps.stream()
+                .filter(step -> step.getNumber() == currentStep.getNumber() - 1)
+                .findFirst().orElse(null);
+    }
+    
+    public boolean started() {
+        return steps.stream()
+                .noneMatch(step -> step.getNumber() == currentStep.getNumber() - 1);
+    }
+    
+    public boolean finished() {
         
+        return steps.stream()
+                .noneMatch(step -> step.getNumber() == currentStep.getNumber() + 1);
     }
 }

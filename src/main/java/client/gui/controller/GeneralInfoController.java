@@ -1,13 +1,21 @@
 package client.gui.controller;
 
+import client.entity.process.Process;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 public class GeneralInfoController extends Controller{
     @FXML
@@ -24,13 +32,13 @@ public class GeneralInfoController extends Controller{
         if(data.getPreviousScene() == null)
             back.setVisible(false);
         
-        var response = Sender.GetUserInfo();
+//        var response = Sender.GetUserInfo();
         teams.getItems().clear();
         processes.getItems().clear();
-        
-        data.setParticipant(response.getParticipant());
-        data.setTeams(response.getTeams());
-        data.setProcesses(response.getProcesses());
+//
+//        data.setParticipant(response.getParticipant());
+//        data.setTeams(response.getTeams());
+//        data.setProcesses(response.getProcesses());
     
         for(var team: data.getTeams()) {
         
@@ -39,7 +47,8 @@ public class GeneralInfoController extends Controller{
             item.setOnAction(event -> {
                 data.setCurrentTeam(team);
                 try {
-                    showStage(event, "team_info.fxml", source);
+                    showStage(teams, "team_info.fxml");
+                    
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -47,15 +56,23 @@ public class GeneralInfoController extends Controller{
         
             teams.getItems().add(item);
         }
-    
+        
+        
+        var proc = new Process();
+        proc.setTitle("sal;kjasfl");
+        data.setProcesses(List.of(proc));
+        
+        
         for(var process: data.getProcesses()) {
         
             var item = new MenuItem(process.getTitle());
-        
+    
             item.setOnAction(event -> {
-                data.setCurrentProcess(process);
+//                data.setCurrentProcess(process);
+                data.setCurrentProcess(proc);
+                
                 try {
-                    showStage(event, "process_info.fxml", source);
+                    showStage(processes, "process_info.fxml");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -77,6 +94,20 @@ public class GeneralInfoController extends Controller{
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        if(!data.getPreviousScene().contains("sign"))
+            showStage(event, data.getPreviousScene(), source);
+        else
+            showStage(event, source, source);
+    }
+    
+    private void showStage(Node node, String to) throws IOException {
+    
+        data.setPreviousScene(source);
+    
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(to)));
+        var stage = (Stage)(node.getScene().getWindow());
+        var scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

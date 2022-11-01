@@ -2,9 +2,12 @@ package client.sender;
 
 import client.entity.Team;
 import client.entity.process.Participant;
+import client.entity.process.Process;
+import client.entity.process.Step;
 import client.response.ExistResponse;
 import client.response.InfoResponse;
 import client.response.Response;
+import client.response.StepResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -69,7 +72,7 @@ public class Sender {
         invites(participants, teamTitle);
     }
     
-    private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
+    private static String send(HttpMethod method, String url, LinkedMultiValueMap params) {
         
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
@@ -103,17 +106,21 @@ public class Sender {
         
         return response;
     }
-    public static Response login(String username, String password) throws JsonProcessingException {
+    public static InfoResponse login(String username, String password) throws IOException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("password", password);
+    
+        String send = send(HttpMethod.POST, "user/login", params);
         
-        return mapper.readValue(send(HttpMethod.POST,"user/login", params), Response.class);
+        if(send == null)
+            return getUserInfo();
+        
+        return mapper.readValue(send, InfoResponse.class);
     }
     
-    public static InfoResponse GetUserInfo() throws IOException {
-
+    public static InfoResponse getUserInfo() throws IOException {
         var params = new LinkedMultiValueMap();
         String send = send(HttpMethod.GET, "/info", params);
     
@@ -131,6 +138,13 @@ public class Sender {
         params.add("username", username);
         params.add("teamId", title);
         send(HttpMethod.POST,"invite", params);
+    }
+    
+    public static void updateStep(Step step) throws JsonProcessingException {
+        
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("step", writer.writeValueAsString(step));
+        var response = mapper.readValue(send(HttpMethod.POST, "step/update", params), Response.class);
     }
     
     public static void invites(List<String> usernames, String title) throws JsonProcessingException {
@@ -153,7 +167,30 @@ public class Sender {
     public static ExistResponse userExists(String username) throws JsonProcessingException {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
-        var result = send(HttpMethod.GET, "exist/user", params);
+    
+        return mapper.readValue(send(HttpMethod.GET, "exist/user", params), ExistResponse.class);
+    }
+    
+    public static StepResponse approve(Process process) throws JsonProcessingException {
+        
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("process", writer.writeValueAsString(process));
+        
+        return mapper.readValue(send(HttpMethod.GET, "step/approve", params), StepResponse.class);
+    }
+    
+    public static StepResponse refuse(Process process) throws JsonProcessingException {
+        
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("process", writer.writeValueAsString(process));
+        
+        return mapper.readValue(send(HttpMethod.GET, "step/refuse", params), StepResponse.class);
+    }
+    
+    public static ExistResponse processExists(String title) throws JsonProcessingException {
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("title", title);
+        var result = send(HttpMethod.GET, "exist/process", params);
     
         return mapper.readValue(result, ExistResponse.class);
     }

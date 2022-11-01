@@ -15,6 +15,8 @@ public class JSONUtils {
     public static Stream<Object> splitObjects(JsonNode node, String title, Class cl) {
     
         var objects = node.get(title).toPrettyString();
+        if(objects.equals("null"))
+            return Stream.empty();
         objects = objects.substring(objects.indexOf("[") + 1, objects.lastIndexOf("]"));
         return Arrays.stream(objects.split("\n},"))
                 .map(s -> {
