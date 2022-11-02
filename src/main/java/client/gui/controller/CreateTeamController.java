@@ -1,5 +1,6 @@
 package client.gui.controller;
 
+import client.entity.Team;
 import client.gui.data.Data;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class CreateTeamController extends Controller {
     @FXML
@@ -69,13 +71,25 @@ public class CreateTeamController extends Controller {
         var data = Data.getInstance();
         var leader = data.getParticipant();
         var participants = participantsList.getItems().stream()
-                        .map(MenuItem::getText).toList();
+                        .map(MenuItem::getText).collect(Collectors.toList());
         var title = teamTitle.getText();
         
         if(!checkTitle(title)) return;
-            
-        Sender.createTeam(title, leader, participants);
+    
+        var team = new Team();
+    
+        team.setTitle(title);
+        team.setTeamLeaderId(leader.getId());
+        participants.add(leader.getOwner().getUsername());
+        team.addParticipants(participants);
+        
+        var response = Sender.createTeam(team);
         hideTeamError();
+        
+        if(response.isError()) {
+//            showError();
+            return;
+        }
         
         showStage(event, "general_info.fxml", source);
     }

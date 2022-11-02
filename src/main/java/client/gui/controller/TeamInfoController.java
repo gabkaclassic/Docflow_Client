@@ -1,5 +1,7 @@
 package client.gui.controller;
 
+import client.sender.Sender;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -46,11 +48,29 @@ public class TeamInfoController extends Controller {
             processes.getItems().add(item);
         }
     
-        currentTeam.getParticipants().stream()
-                .map(MenuItem::new)
-                .forEach(participants.getItems()::add);
+        var isTeamLeader = data.getParticipant().getId() == currentTeam.getTeamLeaderId();
+        
+        currentTeam.getParticipants().stream().forEach(p -> {
+            var item = new MenuItem(p);
+            
+            if(isTeamLeader)
+                item.setOnAction(e -> {
+                    try {
+                        removeParticipant(p, currentTeam.getTitle());
+                        participants.getItems().remove(item);
+                    } catch (JsonProcessingException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+            
+            participants.getItems().add(item);
+        });
     }
     
+    private void removeParticipant(String username, String teamId) throws JsonProcessingException {
+        
+        Sender.refuseInvite(username, teamId);
+    }
     public void back(ActionEvent event) throws IOException {
         
         showStage(event, data.getPreviousScene(), source);

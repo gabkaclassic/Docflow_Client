@@ -1,7 +1,6 @@
 package client.sender;
 
 import client.entity.Team;
-import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Step;
 import client.response.ExistResponse;
@@ -55,21 +54,15 @@ public class Sender {
         return mapper.readValue(send(HttpMethod.POST,"user/registry", params), Response.class);
     }
     
-    public static void createTeam(String teamTitle, Participant leader, List<String> participants) throws JsonProcessingException {
-    
-        var writer = mapper.writer().withDefaultPrettyPrinter();
-        var team = new Team();
-        
-        team.setTitle(teamTitle);
-        team.setTeamLeaderId(leader.getId());
-        participants.add(leader.getOwner().getUsername());
-        team.addParticipants(participants);
+    public static Response createTeam(Team team) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
-        send(HttpMethod.POST, "create/team", params);
-        invites(participants, teamTitle);
+        var response = send(HttpMethod.POST, "create/team", params);
+        invites(team.getParticipants(), team.getTitle());
+        
+        return mapper.readValue(response, Response.class);
     }
     
     private static String send(HttpMethod method, String url, LinkedMultiValueMap params) {
@@ -193,8 +186,15 @@ public class Sender {
     public static ExistResponse processExists(String title) throws JsonProcessingException {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("title", title);
-        var result = send(HttpMethod.GET, "exist/process", params);
     
-        return mapper.readValue(result, ExistResponse.class);
+        return mapper.readValue(send(HttpMethod.GET, "exist/process", params), ExistResponse.class);
+    }
+    public static Response refuseInvite(String username, String teamId) throws JsonProcessingException {
+    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("username", username);
+        params.add("teamId", teamId);
+    
+        return mapper.readValue(send(HttpMethod.POST, "invite/refuse", params), Response.class);
     }
 }

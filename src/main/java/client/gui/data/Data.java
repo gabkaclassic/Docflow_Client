@@ -3,7 +3,9 @@ package client.gui.data;
 import client.entity.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
+import client.sender.Sender;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,4 +33,11 @@ public class Data {
         return instance;
     }
     
+    public void refresh() throws IOException {
+        
+        var response = Sender.getUserInfo();
+        participant = response.getParticipant();
+        teams = response.getTeams();
+        processes = response.getProcesses();
+    }
 }

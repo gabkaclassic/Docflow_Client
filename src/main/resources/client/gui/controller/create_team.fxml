@@ -30,12 +30,12 @@
          </items>
       </SplitMenuButton>
       <Button layoutX="45.0" layoutY="256.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to team" />
-      <Label fx:id="userError" layoutX="45.0" layoutY="226.0" prefHeight="18.0" prefWidth="210.0" text="Team with this title already exists" textFill="#e51010">
+      <Label fx:id="userError" layoutX="204.0" layoutY="96.0" prefHeight="18.0" prefWidth="210.0" text="Team with this title already exists" textFill="#e51010">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="teamError" layoutX="195.0" layoutY="109.0" prefHeight="18.0" prefWidth="210.0" text="Account with this username doesn't exists" textFill="#e51010">
+      <Label fx:id="teamError" layoutX="45.0" layoutY="226.0" prefHeight="18.0" prefWidth="210.0" text="Account with this username doesn't exists" textFill="#e51010">
          <font>
             <Font size="11.0" />
          </font>

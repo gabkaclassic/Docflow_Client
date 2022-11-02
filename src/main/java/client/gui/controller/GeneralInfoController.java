@@ -29,16 +29,14 @@ public class GeneralInfoController extends Controller{
     @FXML
     public void initialize() throws IOException {
     
+        data.refresh();
+        
         if(data.getPreviousScene() == null)
             back.setVisible(false);
         
-//        var response = Sender.GetUserInfo();
         teams.getItems().clear();
         processes.getItems().clear();
-//
-//        data.setParticipant(response.getParticipant());
-//        data.setTeams(response.getTeams());
-//        data.setProcesses(response.getProcesses());
+
     
         for(var team: data.getTeams()) {
         
@@ -47,7 +45,7 @@ public class GeneralInfoController extends Controller{
             item.setOnAction(event -> {
                 data.setCurrentTeam(team);
                 try {
-                    showStage(teams, "team_info.fxml");
+                    this.showStage(teams, "team_info.fxml");
                     
                 } catch (IOException e) {
                     throw new RuntimeException(e);
