@@ -3,6 +3,7 @@ package client.entity.process;
 import client.entity.Team;
 import client.entity.user.User;
 import client.entity.deserializer.ParticipantDeserializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class Participant implements Serializable {
         teams.add(team);
     }
     
+    @JsonIgnore
     public String getUsername() {
         return owner.getUsername();
     }

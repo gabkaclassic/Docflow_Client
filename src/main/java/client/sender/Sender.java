@@ -136,11 +136,11 @@ public class Sender {
         send(HttpMethod.POST,"invite", params);
     }
     
-    public static void updateStep(Step step) throws JsonProcessingException {
+    public static Response updateStep(Step step) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("step", writer.writeValueAsString(step));
-        var response = mapper.readValue(send(HttpMethod.POST, "step/update", params), Response.class);
+        return mapper.readValue(send(HttpMethod.POST, "step/update", params), Response.class);
     }
     
     public static void invites(List<String> usernames, String title) throws JsonProcessingException {

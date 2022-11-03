@@ -5,6 +5,7 @@ import client.entity.process.Process;
 import client.entity.process.Rules;
 import client.entity.process.Step;
 import client.entity.process.document.Document;
+import client.entity.user.User;
 import client.file.FileManager;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,9 +13,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ProcessInfoController extends Controller {
     @FXML
@@ -40,6 +45,20 @@ public class ProcessInfoController extends Controller {
     private Button acceptButton;
     
     @FXML
+    private TextFlow comments;
+    
+    @FXML
+    private TextFlow resourcesFlow;
+    
+    @FXML
+    private TextArea commentText;
+    
+    @FXML
+    private TextField resourceText;
+    @FXML
+    private TextArea descriptionText;
+    
+    @FXML
     private CheckBox open;
     private Process process;
     private Step step;
@@ -48,35 +67,20 @@ public class ProcessInfoController extends Controller {
     
     private Rules permission;
     
-    private FileManager fileManager = new FileManager();
+    private Document currentDocument;
+    private final FileManager fileManager = new FileManager();
     
+    private final Pattern pattern = Pattern.compile("((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)");
     private String source = "process_info.fxml";
     
     @FXML
     public void initialize() {
-        
-//        process = data.getCurrentProcess();
-//        step = process.getCurrentStep();
-//        participant = data.getParticipant();
-//        permission = step.getRules().get(participant.getId());
     
-        process = new Process();
-        process.setTitle("sal;kjasfl");
-        step = new Step();
-        step.setNumber(1);
-        var s = new Step();
-        s.setId(2);
-        s.setNumber(2);
-        step.setId(1);
-        process.setSteps(List.of(step, s));
-        process.setCurrentStep(step);
-        permission = Rules.CONTROL;
-        
-        var doc = new Document();
-        doc.setTitle("Title");
-        doc.setFormat(".txt");
-        doc.setFile("Croak".getBytes());
-        step.addDocument(doc);
+        process = data.getCurrentProcess();
+        step = process.getCurrentStep();
+        participant = data.getParticipant();
+        permission = step.getRules().get(participant.getId());
+
         
         if(process.finished())
             acceptButton.setText("Process completion");
@@ -115,7 +119,7 @@ public class ProcessInfoController extends Controller {
         var saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                fileManager.updateDocument(event, document, process.getTitle());
+                updateDocument(event, document);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -128,9 +132,16 @@ public class ProcessInfoController extends Controller {
                 throw new RuntimeException(e);
             }
         });
+        var selectButton = new Button("Select");
+        selectButton.setOnAction(event -> {
+            currentDocument = document;
+            defineComments();
+            defineResources();
+        });
     
         var bar = new ButtonBar();
         bar.getButtons().add(openButton);
+        bar.getButtons().add(selectButton);
         if(permission.getLevel() > Rules.READ.getLevel())
             bar.getButtons().add(saveButton);
     
@@ -141,6 +152,37 @@ public class ProcessInfoController extends Controller {
         pane.setContent(anchor);
         documents.getPanes().add(pane);
     }
+    
+    private void updateDocument(ActionEvent event, Document document) throws IOException {
+    
+        document.addComments(currentDocument.getComments());
+        document.addResources(currentDocument.getResources());
+        
+        fileManager.updateDocument(event, document, process.getTitle());
+    }
+    
+    private void defineComments() {
+        
+        comments.getChildren().clear();
+        
+        comments.getChildren().add(
+                new Text(
+                        String.join("\n", currentDocument.getComments())
+                )
+        );
+    }
+    
+    private void defineResources() {
+    
+        resourcesFlow.getChildren().clear();
+        
+        resourcesFlow.getChildren().add(
+                new Text(
+                        String.join("\n---------------------\n", currentDocument.getResources())
+                )
+        );
+    }
+    
     public void addDocument(ActionEvent event) throws IOException {
         
         var document = new Document();
@@ -160,10 +202,19 @@ public class ProcessInfoController extends Controller {
     
     public void saveAll(ActionEvent event) throws IOException {
         
-        step.setDocuments(fileManager.updateDocuments(process.getTitle()));
+        fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         updateDocuments();
-        Sender.updateStep(step);
+        var response = Sender.updateStep(step);
+        
+        if(response.isError()) {
+//            showError();
+        }
+        
+        data.refresh();
+        initialize();
     }
+    
+    
     
     public void nextStep(ActionEvent event) throws JsonProcessingException {
     
@@ -176,6 +227,49 @@ public class ProcessInfoController extends Controller {
         step = response.getStep();
         
         initialize();
+    }
+    
+    public void addComment(ActionEvent event) {
+        
+        var comText = commentText.getText();
+        
+        if(!checkText(comText)) {
+//            showError();
+            return;
+        }
+        
+        currentDocument.addComment(comText, participant);
+        commentText.clear();
+        
+        defineComments();
+    }
+    
+    public void addResource(ActionEvent event) {
+        
+        var resText = resourceText.getText();
+        var description = descriptionText.getText();
+        
+        if(!checkUrl(resText) || !checkText(description)) {
+//            showError();
+            return;
+        }
+        
+        currentDocument.addResource(resText, description);
+        resourceText.clear();
+        descriptionText.clear();
+        
+        defineResources();
+    }
+    
+    private boolean checkText(String text) {
+        
+        return text != null
+                && !text.isBlank();
+    }
+    
+    private boolean checkUrl(String url) {
+        
+        return checkText(url) && pattern.matcher(url).find();
     }
     
     public void previousStep(ActionEvent event) throws JsonProcessingException {

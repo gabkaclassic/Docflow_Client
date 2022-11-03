@@ -1,5 +1,6 @@
 package client.file;
 
+import client.entity.process.Step;
 import client.entity.process.document.Document;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -30,32 +31,23 @@ public class FileManager {
         }
     }
     
-    public Set<Document> updateDocuments(String processTitle) throws IOException {
+    public void updateDocuments(String processTitle, Set<Document> documents) throws IOException {
         
-        var directory = new File(getFilename(processTitle));
-        var documents = new HashSet<Document>();
+        for(var document: documents) {
+    
+            var file = new File(getFilename(document, processTitle));
+            
+            if(file.exists()) {
+    
+                try (var in = new FileInputStream(file)) {
         
-        for(var file: Objects.requireNonNull(directory.listFiles())) {
+                    document.setFile(in.readAllBytes());
+                } catch (IOException e) {
+                    throw e;
+                }
     
-            var name = file.getName();
-            var title = name.substring(0, name.lastIndexOf('.'));
-            
-            var document = new Document();
-    
-            document.setTitle(title);
-            document.setFormat(name.substring(name.lastIndexOf('.')));
-            
-            try (var in = new FileInputStream(file)) {
-                
-                document.setFile(in.readAllBytes());
-            } catch (IOException e) {
-                throw e;
             }
-            
-            documents.add(document);
         }
-        
-        return documents;
     }
     
     public void updateDocument(ActionEvent event, Document document, String processTitle) throws IOException {

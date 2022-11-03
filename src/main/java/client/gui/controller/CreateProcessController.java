@@ -65,23 +65,7 @@ public class CreateProcessController extends Controller {
     private Team team;
     public void initialize() {
     
-        var u2 = new User();
-        u2.setUsername("some2");
         creator = data.getParticipant();
-        creator = new Participant();
-        creator.setOwner(u2);
-        var p = new Participant();
-        p.setOwner(u2);
-        var team = new Team();
-        var team1 = new Team();
-        team1.setTitle("lksldjf");
-        team1.addParticipant(creator.getUsername());
-        team.addParticipant(creator.getUsername());
-        team.addParticipant(p.getUsername());
-        team.setTitle("bla bla");
-        creator.addTeam(team);
-        creator.addTeam(team1);
-        creator.addTeam(new Team());
         
         creator.getTeams().stream()
                 .map(Team::getTitle)
@@ -252,7 +236,7 @@ public class CreateProcessController extends Controller {
     private void refreshDocumentsList(Step step) {
         documentsList.getItems().clear();
         step.getDocuments().stream()
-                .sorted(Comparator.comparing(Document::getTitle))
+                .sorted(Comparator.comparing(d -> d.getTitle()))
                 .forEach(d -> {
                     var item = new MenuItem(String.format("%s (%s)", d.getTitle(), d.getFormat()));
                     item.setOnAction(e -> documentsList.getItems().remove(item));
@@ -265,7 +249,7 @@ public class CreateProcessController extends Controller {
         return title != null
                 && !title.isBlank()
                 && documents.stream()
-                .map(Document::getTitle)
+                .map(d -> d.getTitle())
                 .noneMatch(t -> t.equals(title));
     }
 }

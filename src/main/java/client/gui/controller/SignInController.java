@@ -31,8 +31,6 @@ public class SignInController extends Controller {
         showStage(event, "login.fxml", source);
     }
     public void signIn(ActionEvent event) throws IOException {
-    
-        
         
         try {
             var response = Sender.login(login.getText(), password.getText());
