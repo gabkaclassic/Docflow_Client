@@ -66,7 +66,7 @@ public class GeneralInfoController extends Controller{
             var item = new MenuItem(process.getTitle());
     
             item.setOnAction(event -> {
-//                data.setCurrentProcess(process);
+                data.setCurrentProcess(process);
                 data.setCurrentProcess(proc);
                 
                 try {

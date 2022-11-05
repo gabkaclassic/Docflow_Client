@@ -3,6 +3,8 @@ package client.sender;
 import client.entity.Team;
 import client.entity.process.Process;
 import client.entity.process.Step;
+import client.entity.process.document.Document;
+import client.entity.process.document.DocumentId;
 import client.response.ExistResponse;
 import client.response.InfoResponse;
 import client.response.Response;
@@ -196,5 +198,14 @@ public class Sender {
         params.add("teamId", teamId);
     
         return mapper.readValue(send(HttpMethod.POST, "invite/refuse", params), Response.class);
+    }
+    
+    public static ExistResponse documentExists(Document document) throws JsonProcessingException {
+    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("processId", String.valueOf(document.getId().getProcessId()));
+        params.add("title", document.getTitle());
+        
+        return mapper.readValue(send(HttpMethod.GET, "exist/document", params), ExistResponse.class);
     }
 }

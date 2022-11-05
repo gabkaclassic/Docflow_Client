@@ -5,7 +5,6 @@ import client.entity.process.Process;
 import client.entity.process.Rules;
 import client.entity.process.Step;
 import client.entity.process.document.Document;
-import client.entity.user.User;
 import client.file.FileManager;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +18,6 @@ import javafx.scene.text.TextFlow;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ProcessInfoController extends Controller {
     @FXML
@@ -71,7 +69,7 @@ public class ProcessInfoController extends Controller {
     private final FileManager fileManager = new FileManager();
     
     private final Pattern pattern = Pattern.compile("((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)");
-    private String source = "process_info.fxml";
+    private final String source = "process_info.fxml";
     
     @FXML
     public void initialize() {
@@ -80,7 +78,6 @@ public class ProcessInfoController extends Controller {
         step = process.getCurrentStep();
         participant = data.getParticipant();
         permission = step.getRules().get(participant.getId());
-
         
         if(process.finished())
             acceptButton.setText("Process completion");
@@ -159,6 +156,8 @@ public class ProcessInfoController extends Controller {
         document.addResources(currentDocument.getResources());
         
         fileManager.updateDocument(event, document, process.getTitle());
+        
+        Sender.updateStep(step);
     }
     
     private void defineComments() {
@@ -188,7 +187,16 @@ public class ProcessInfoController extends Controller {
         var document = new Document();
         document.setTitle(documentTitle.getText());
         document.setFormat(documentExtension.getText());
+        document.setProcessId(process.getId());
+        
+        if(checkDocument(document)) {
+        
+//            showError();
+            return;
+        }
+        
         step.addDocument(document);
+        Sender.updateStep(step);
         
         fileManager.saveDocument(document, process.getTitle());
         if(open.isSelected())
@@ -261,6 +269,10 @@ public class ProcessInfoController extends Controller {
         defineResources();
     }
     
+    private boolean checkDocument(Document document) throws JsonProcessingException {
+        
+        return Sender.documentExists(document).isExist();
+    }
     private boolean checkText(String text) {
         
         return text != null
