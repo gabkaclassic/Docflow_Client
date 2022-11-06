@@ -7,8 +7,9 @@
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="749.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
    <children>
       <Label layoutX="127.0" layoutY="97.0" text="Process title:" />
       <TextField fx:id="processTitle" layoutX="205.0" layoutY="93.0" />
@@ -44,7 +45,10 @@
       <Label layoutX="65.0" layoutY="474.0" text="Document extension:" />
       <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" layoutX="143.0" layoutY="178.0" prefWidth="150.0" />
       <Label layoutX="203.0" layoutY="148.0" text="Team" />
-      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="83.0" text="Back" />
+      <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
       <TextField fx:id="stepNumber" layoutX="466.0" layoutY="233.0" prefHeight="25.0" prefWidth="42.0" />
       <Label layoutX="399.0" layoutY="237.0" text="Number:" />
       <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="412.0" layoutY="290.0" prefWidth="150.0" />

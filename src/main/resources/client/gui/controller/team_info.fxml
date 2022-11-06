@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="625.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.TeamInfoController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.TeamInfoController">
    <children>
       <Label fx:id="teamTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="293.0" prefHeight="58.0" prefWidth="212.0" text="asdf">
          <font>
