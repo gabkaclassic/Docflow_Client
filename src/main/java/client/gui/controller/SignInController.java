@@ -4,6 +4,7 @@ import client.response.InfoResponse;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -18,23 +19,29 @@ public class SignInController extends Controller {
     
     @FXML
     private Label error;
+    @FXML
+    private CheckBox  checkBox;
+    @FXML
+    private TextField shownPassword;
     
     private final String source = "sign_in.fxml";
+    private final String errorStyle = String.format("-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;");
     @FXML
     public void initialize() {
         
         hideError();
     }
     
-    public void switchToLogin(ActionEvent event) throws IOException {
-        
-        showStage(event, "login.fxml", source);
-    }
+//    public void switchToLogin(ActionEvent event) throws IOException {
+//
+//        showStage(event, "login.fxml", source);
+//    }
     public void signIn(ActionEvent event) throws IOException {
-        
+
         try {
             var response = Sender.login(login.getText(), password.getText());
             if(response.isError()) {
+                login.setStyle(errorStyle);
                 showError(response.getMessage());
                 return;
             }
@@ -55,6 +62,18 @@ public class SignInController extends Controller {
     }
     private void hideError() {
         error.setVisible(false);
+    }
+    @FXML
+    private void changeVisibility(ActionEvent event){
+        if(checkBox.isSelected()){
+            shownPassword.setText(password.getText());
+            shownPassword.setVisible(true);
+            password.setVisible(false);
+            return;
+        }
+        password.setText(shownPassword.getText());
+        password.setVisible(true);
+        shownPassword.setVisible(false);
     }
     
     public void back(ActionEvent event) throws IOException {

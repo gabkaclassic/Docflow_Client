@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -19,5 +21,8 @@
             <Font size="11.0" />
          </font>
       </Label>
+      <CheckBox fx:id="checkBox" layoutX="413.0" layoutY="228.0" mnemonicParsing="false" onAction="#changeVisibility" text="Show Password" />
+      <TextField fx:id="shownPassword" layoutX="255.0" layoutY="224.0" visible="false" />
+      <ProgressBar fx:id="progressBar" layoutX="240.0" layoutY="399.0" prefHeight="17.0" prefWidth="177.0" visible="false" />
    </children>
 </AnchorPane>

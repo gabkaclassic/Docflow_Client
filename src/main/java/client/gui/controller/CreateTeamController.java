@@ -26,14 +26,19 @@ public class CreateTeamController extends Controller {
     private Label teamError;
     @FXML
     private Label userError;
+    @FXML
+    private  Label creationError;
     
     private final String source = "create_team.fxml";
+    private final String alreadyExistTeamError = "Team with this title already exists";
+    private final String blankFieldError = "The text field can't be blank";
+    private final String dontExistAccountError = "Account with this username doesn't exists";
     @FXML
     public void initialize() {
         
         hideTeamError();
         hideUserError();
-        
+        hideCreationError();
         participantsList.getItems().clear();
     
         username.setOnKeyPressed(event -> {
@@ -67,7 +72,7 @@ public class CreateTeamController extends Controller {
     }
     
     public void createTeam(ActionEvent event) throws IOException{
-        
+
         var data = Data.getInstance();
         var leader = data.getParticipant();
         var participants = participantsList.getItems().stream()
@@ -87,7 +92,7 @@ public class CreateTeamController extends Controller {
         hideTeamError();
         
         if(response.isError()) {
-//            showError();
+            showCreationError(response.getMessage());
             return;
         }
         
@@ -119,7 +124,10 @@ public class CreateTeamController extends Controller {
         
         teamError.setVisible(true);
     }
-    
+    private void showCreationError(String ErrorMessage){
+        creationError.setVisible(true);
+    }
+
     private void hideUserError() {
         
         userError.setVisible(false);
@@ -129,27 +137,44 @@ public class CreateTeamController extends Controller {
         
         teamError.setVisible(false);
     }
-    
+    private void hideCreationError(){
+        creationError.setVisible(false);
+    }
     private boolean checkUsername(String username) throws JsonProcessingException {
-    
-        boolean valid = username != null && !username.isBlank() && Sender.userExists(username).isExist();
-        
-        if(!valid)
+        boolean valid = username != null && !username.isBlank();
+        if(!valid){
+            userError.setText(blankFieldError);
             showUserError();
+            return false;
+
+        }
+        valid = Sender.userExists(username).isExist();
+        
+        if(!valid){
+            userError.setText(dontExistAccountError);
+            showUserError();
+        }
         
         return valid;
     }
     
     public boolean checkTitle(String title) throws JsonProcessingException {
-    
-        boolean valid = title != null && !title.isBlank() && !Sender.teamExists(title).isExist();
+        boolean valid = title != null && !title.isBlank();
+        if(!valid){
+            userError.setText(blankFieldError);
+            showUserError();
+            return false;
+
+        }
+        valid = !Sender.teamExists(title).isExist();
         
-        if(!valid)
+        if(!valid){
+            teamError.setText(alreadyExistTeamError);
             showTeamError();
-        
+
+        }
         return valid;
     }
-    
     public void back(ActionEvent event) throws IOException {
         
         showStage(event, data.getPreviousScene(), source);

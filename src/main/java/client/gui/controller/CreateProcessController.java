@@ -11,10 +11,7 @@ import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -52,6 +49,15 @@ public class CreateProcessController extends Controller {
     
     @FXML
     private SplitMenuButton documentsList;
+
+    @FXML
+    private Label documentNameError;
+
+    @FXML
+    private Label processTitleError;
+    @FXML
+    private Label numberValueError;
+
     
     private final String source = "create_process.fxml";
     private Participant creator;
@@ -63,8 +69,15 @@ public class CreateProcessController extends Controller {
     private Set<Document> documents = new HashSet<>();
     
     private Team team;
+
+    public CreateProcessController() {
+    }
+
     public void initialize() {
-    
+
+        documentNameError.setVisible(false);
+        processTitleError.setVisible(false);
+        numberValueError.setVisible(false);
         creator = data.getParticipant();
         
         creator.getTeams().stream()
@@ -94,7 +107,7 @@ public class CreateProcessController extends Controller {
     public void createProcess(ActionEvent event) throws IOException {
     
         if(!checkTitle(processTitle.getText())) {
-//            showError();
+            showProcessTitleError();
             return;
         }
         
@@ -123,7 +136,7 @@ public class CreateProcessController extends Controller {
                 throw new NumberFormatException();
         }
         catch (NumberFormatException e) {
-//            showError();
+            showNumberValueError();
             return;
         }
         
@@ -166,7 +179,7 @@ public class CreateProcessController extends Controller {
         var title = documentTitle.getText();
         var extension = documentExtension.getText();
         if(!checkDocument(title)) {
-//            showError();
+            showDocumentNameError();
             return;
         }
         if(!extension.startsWith("."))
@@ -210,7 +223,6 @@ public class CreateProcessController extends Controller {
         
         showStage(event, data.getPreviousScene(), source);
     }
-    
     private void refreshStepsList() {
         stepsList.getItems().clear();
         steps.stream().sorted(Comparator.comparingInt(Step::getNumber)).forEach(s -> {
@@ -251,5 +263,14 @@ public class CreateProcessController extends Controller {
                 && documents.stream()
                 .map(d -> d.getTitle())
                 .noneMatch(t -> t.equals(title));
+    }
+    private void showDocumentNameError(){
+        documentNameError.setVisible(true);
+    }
+    private void showProcessTitleError(){
+        processTitleError.setVisible(true);
+    }
+    private void showNumberValueError(){
+        numberValueError.setVisible(true);
     }
 }

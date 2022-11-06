@@ -41,5 +41,6 @@
          </font>
       </Label>
       <Button layoutY="-1.0" minWidth="53.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="58.0" text="Back" />
+      <Label fx:id="creationError" layoutX="282.0" layoutY="320.0" text="Label" textFill="#e40f07" />
    </children>
 </AnchorPane>
