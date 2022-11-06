@@ -22,6 +22,13 @@
             <url>https://repo1.maven.org/maven2/</url>
             <layout>default</layout>
         </repository>
+
+        <repository>
+            <id>snapshots</id>
+            <name>libs-snapshot</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+
     </repositories>
 
     <properties>
@@ -30,6 +37,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>io.github.typhon0</groupId>
+            <artifactId>AnimateFX</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

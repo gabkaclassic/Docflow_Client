@@ -16,7 +16,7 @@ module client.gui {
     requires spring.security.core;
     requires reactor.core;
     requires java.datatransfer;
-    
+    requires AnimateFX;
     opens client.gui to javafx.fxml;
     exports client.response to com.fasterxml.jackson.databind;
     exports client.entity.process to com.fasterxml.jackson.databind;
