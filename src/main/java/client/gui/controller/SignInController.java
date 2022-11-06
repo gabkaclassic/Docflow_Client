@@ -4,10 +4,7 @@ import client.response.InfoResponse;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 
@@ -23,12 +20,13 @@ public class SignInController extends Controller {
     private CheckBox  checkBox;
     @FXML
     private TextField shownPassword;
+    @FXML
+    private ProgressIndicator progressIndicator;
     
     private final String source = "sign_in.fxml";
     private final String errorStyle = String.format("-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;");
     @FXML
     public void initialize() {
-        
         hideError();
     }
     
@@ -38,7 +36,11 @@ public class SignInController extends Controller {
 //    }
     public void signIn(ActionEvent event) throws IOException {
 
+
+
+        progressIndicator.setVisible(true);
         try {
+            Thread.sleep(1000);
             var response = Sender.login(login.getText(), password.getText());
             if(response.isError()) {
                 login.setStyle(errorStyle);
@@ -48,6 +50,7 @@ public class SignInController extends Controller {
             data.setParticipant(response.getParticipant());
             data.setTeams(response.getTeams());
             data.setProcesses(response.getProcesses());
+            progressIndicator.setVisible(false);
             showStage(event, "general_info.fxml", source);
         }
         catch (Exception e) {

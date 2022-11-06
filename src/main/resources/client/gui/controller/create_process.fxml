@@ -20,7 +20,7 @@
       <Button layoutX="164.0" layoutY="614.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="25.0" prefWidth="82.0" text="Save step" />
       <Button layoutX="377.0" layoutY="701.0" mnemonicParsing="false" onAction="#createProcess" text="Create process" />
       <TextField fx:id="stepTitle" layoutX="205.0" layoutY="233.0" />
-      <Label layoutX="110.0" layoutY="245.0" text="Step title:" />
+      <Label layoutX="118.0" layoutY="237.0" text="Step title:" />
       <Button layoutX="280.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Delete step" />
       <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="619.0" layoutY="290.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
          <items>

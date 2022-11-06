@@ -114,6 +114,11 @@ public class Sender {
         
         return mapper.readValue(send, InfoResponse.class);
     }
+    public static Response logout(String username) throws JsonProcessingException {
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("username", username);
+        return mapper.readValue(send(HttpMethod.GET, "user/logout", params), Response.class);
+    }
     
     public static InfoResponse getUserInfo() throws IOException {
         var params = new LinkedMultiValueMap();
@@ -168,7 +173,6 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "exist/user", params), ExistResponse.class);
     }
-    
     public static StepResponse approve(Process process) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();

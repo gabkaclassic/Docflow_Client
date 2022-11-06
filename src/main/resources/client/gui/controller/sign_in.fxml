@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -22,5 +23,6 @@
       </Label>
       <CheckBox fx:id="checkBox" layoutX="384.0" layoutY="204.0" mnemonicParsing="false" onAction="#changeVisibility" text="Show Password" />
       <TextField fx:id="shownPassword" layoutX="226.0" layoutY="200.0" visible="false" />
+      <ProgressIndicator fx:id="progressIndicator" layoutX="280.0" layoutY="311.0" prefHeight="31.0" prefWidth="41.0" visible="false" />
    </children>
 </AnchorPane>

@@ -24,6 +24,8 @@ public class GeneralInfoController extends Controller{
     private SplitMenuButton processes;
     @FXML
     private Button back;
+    @FXML
+    private Button logout;
     
     private final String source = "general_info.fxml";
     @FXML
@@ -96,6 +98,11 @@ public class GeneralInfoController extends Controller{
             showStage(event, data.getPreviousScene(), source);
         else
             showStage(event, source, source);
+    }
+    public void logout(ActionEvent event) throws IOException{
+
+        Sender.logout(data.getParticipant().getUsername());
+        showStage(event, "sign_in.fxml", source);
     }
     
     private void showStage(Node node, String to) throws IOException {
