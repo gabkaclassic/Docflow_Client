@@ -80,7 +80,7 @@ public class ProcessInfoController extends Controller {
         permission = step.getRules().get(participant.getId());
         
         if(process.finished())
-            acceptButton.setText("Process completion");
+            acceptButton.setText("Progress completion");
         
         if(process.started())
             refuseButton.setVisible(false);

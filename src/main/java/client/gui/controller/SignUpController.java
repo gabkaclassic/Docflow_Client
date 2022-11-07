@@ -78,6 +78,6 @@ public class SignUpController extends Controller{
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, "login.fxml", source);
     }
 }

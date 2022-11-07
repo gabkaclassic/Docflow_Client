@@ -1,12 +1,20 @@
 package client.gui.controller;
 
 import client.response.InfoResponse;
+import client.response.Response;
 import client.sender.Sender;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+
 import javafx.scene.control.*;
 
+
 import java.io.IOException;
+import java.lang.ProcessHandle.Info;
 
 public class SignInController extends Controller {
     @FXML
@@ -15,9 +23,11 @@ public class SignInController extends Controller {
     private PasswordField password;
     
     @FXML
+    private ProgressIndicator indicator;
+    @FXML
     private Label error;
     @FXML
-    private CheckBox  checkBox;
+    private CheckBox checkBox;
     @FXML
     private TextField shownPassword;
     @FXML
@@ -30,18 +40,21 @@ public class SignInController extends Controller {
         hideError();
     }
     
-//    public void switchToLogin(ActionEvent event) throws IOException {
-//
-//        showStage(event, "login.fxml", source);
-//    }
-    public void signIn(ActionEvent event) throws IOException {
 
-
-
-        progressIndicator.setVisible(true);
+    public void switchToLogin(ActionEvent event) throws IOException {
+        
+        showStage(event, "login.fxml", source);
+    }
+    public void signIn(ActionEvent event) {
+        
         try {
-            Thread.sleep(1000);
-            var response = Sender.login(login.getText(), password.getText());
+            
+            var progress = new Progress<>(() -> Sender.login(login.getText(), password.getText()));
+            indicator.visibleProperty().bind(progress.runningProperty());
+            progress.start();
+            var response = progress.getValue();
+
+
             if(response.isError()) {
                 login.setStyle(errorStyle);
                 showError(response.getMessage());
@@ -81,6 +94,7 @@ public class SignInController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, "login.fxml", source);
     }
 }
+

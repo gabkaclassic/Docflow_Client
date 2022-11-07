@@ -5,6 +5,7 @@ import client.entity.process.Process;
 import client.entity.process.Step;
 import client.entity.process.document.Document;
 import client.entity.process.document.DocumentId;
+import client.gui.controller.ProcessInfoController;
 import client.response.ExistResponse;
 import client.response.InfoResponse;
 import client.response.Response;
