@@ -20,7 +20,7 @@ import java.util.List;
 @JsonDeserialize(using = ParticipantDeserializer.class)
 public class Participant implements Serializable {
     
-    private long id;
+    private Long id;
     
     @ToString.Exclude
     private User owner;

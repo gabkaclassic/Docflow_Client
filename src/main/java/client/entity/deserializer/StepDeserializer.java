@@ -1,8 +1,8 @@
 package client.entity.deserializer;
 
-import client.entity.process.Participant;
 import client.entity.process.Rules;
 import client.entity.process.Step;
+import client.entity.process.StepId;
 import client.entity.process.document.Document;
 import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;
@@ -32,15 +32,14 @@ public class StepDeserializer extends StdDeserializer<Step> {
         
         JsonNode node = jp.getCodec().readTree(jp);
         var step = new Step();
-        step.setId(node.get("id").asLong());
+        step.setId(JSONUtils.getObject(node, "id", StepId.class));
         step.setTitle(node.get("title").textValue());
         step.setNumber(node.get("number").asInt());
         var map = (Map) JSONUtils.getObject(node, "rules", Map.class);
         for (var o : map.keySet())
             step.getRules().put(String.valueOf(o), Rules.valueOf(String.valueOf(map.get(o))));
         
-        step.setDocuments(JSONUtils.splitObjects(node, "documents", Document.class)
-                .map(Document.class::cast)
+        step.setDocuments(JSONUtils.splitObjects(node, "documents", client.entity.process.document.Document.class)
                 .collect(Collectors.toSet())
         );
         

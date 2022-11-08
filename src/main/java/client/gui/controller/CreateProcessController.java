@@ -17,11 +17,11 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CreateProcessController extends Controller {
-
-
     @FXML
     private TextField processTitle;
     
@@ -106,39 +106,60 @@ public class CreateProcessController extends Controller {
         var process = new Process();
         process.setTitle(processTitle.getText());
         process.setSteps(stepList);
-        process.setCurrentStep(steps.stream().min(Comparator.comparingInt(Step::getNumber)).get());
+        process.setCurrentStep(process.getSteps().stream().map(Step::getNumber).min(Integer::compareTo).get());
         
-        Sender.createProcess(process);
+//        var response = Sender.createProcess(process);
+//        var processes = new ArrayList<Process>();
+//        processes.addAll(team.getProcesses());
+//        processes.add(process);
+//        team.setProcesses(processes);
+        var response = Sender.updateTeam(team, process);
+        
+        
         showStage(event, "general_info.fxml", source);
     }
     
     public void saveStep() {
     
         int number;
+        String title;
         
         try {
             number = Integer.parseInt(stepNumber.getText());
+            title = stepTitle.getText();
             
             if(number <= 0)
                 throw new NumberFormatException();
+            
+            if(title == null || title.isBlank())
+                throw new InvalidParameterException();
+        }
+        catch (InvalidParameterException e) {
+//            showError();
+            return;
         }
         catch (NumberFormatException e) {
 //            showError();
             return;
         }
+    
+    
+        var step = steps.stream()
+                .filter(s -> s.getNumber() == number)
+                .findFirst().orElse(new Step());
         
         steps.stream()
-                .filter(s -> s.getNumber() >= number)
+                .filter(s -> s.getNumber() >= number && !s.getTitle().equals(step.getTitle()))
                 .forEach(s -> s.setNumber(s.getNumber()+1));
         
-        var step = steps.stream()
-                .filter(s -> s.getNumber() == Integer.parseInt(stepNumber.getText()))
-                .findFirst().orElse(new Step());
         step.setTitle(stepTitle.getText());
         step.getRules().putAll(rules);
         step.getDocuments().addAll(documents);
         step.setNumber(number);
         
+        steps = steps.stream()
+                .filter(s -> !s.getTitle().equals(title))
+                .collect(Collectors.toSet());
         steps.add(step);
         refreshStepsList();
         
@@ -248,8 +269,8 @@ public class CreateProcessController extends Controller {
         
         return title != null
                 && !title.isBlank()
-                && documents.stream()
-                .map(d -> d.getTitle())
+                && steps.stream().flatMap(s -> s.getDocuments().stream())
+                .map(Document::getTitle)
                 .noneMatch(t -> t.equals(title));
     }
 }

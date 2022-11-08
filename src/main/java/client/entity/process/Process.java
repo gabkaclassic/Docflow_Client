@@ -10,35 +10,43 @@ import java.util.List;
 @JsonDeserialize(using = ProcessDeserializer.class)
 public class Process {
     
-
-    private Long id;
+    private String id;
     
     private String title;
+    
     private List<Step> steps;
-
-    private Step currentStep;
+    
+    private Integer currentStep;
     
     public void nextStep() {
         
-        currentStep = steps.stream()
-                    .filter(step -> step.getNumber() == currentStep.getNumber() + 1)
-                    .findFirst().orElse(null);
+        var curr = steps.stream()
+                .filter(step -> step.getNumber() == currentStep)
+                .findFirst().orElse(null);
+        var next = steps.stream()
+                .filter(step -> step.getNumber() == currentStep + 1)
+                .findFirst().orElse(null);
+        
+        if(next == null)
+            return;
+        
+        next.addDocuments(curr.getDocuments());
+        currentStep = next.getNumber();
     }
-    
     public void previousStep() {
         currentStep = steps.stream()
-                .filter(step -> step.getNumber() == currentStep.getNumber() - 1)
-                .findFirst().orElse(null);
+                .map(Step::getNumber)
+                .filter(n -> n == currentStep - 1)
+                .findFirst().orElse(currentStep);
     }
     
     public boolean started() {
         return steps.stream()
-                .noneMatch(step -> step.getNumber() == currentStep.getNumber() - 1);
+                .noneMatch(step -> step.getNumber() == currentStep - 1);
     }
-    
     public boolean finished() {
         
         return steps.stream()
-                .noneMatch(step -> step.getNumber() == currentStep.getNumber() + 1);
+                .noneMatch(step -> step.getNumber() == currentStep + 1);
     }
 }

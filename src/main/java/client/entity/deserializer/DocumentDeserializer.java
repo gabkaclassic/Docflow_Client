@@ -24,11 +24,11 @@ public class DocumentDeserializer extends StdDeserializer<Document> {
     }
     
     @Override
-    public Document deserialize(JsonParser jp, DeserializationContext ctxt)
+    public client.entity.process.document.Document deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException {
         
         JsonNode node = jp.getCodec().readTree(jp);
-        var document = new Document();
+        var document = new client.entity.process.document.Document();
         document.setId(JSONUtils.getObject(node, "id", DocumentId.class));
         document.setFile(JSONUtils.getObject(node, "file", byte[].class));
         document.setFormat(node.get("format").textValue());

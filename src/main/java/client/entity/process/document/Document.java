@@ -1,9 +1,9 @@
 package client.entity.process.document;
 
+import client.entity.deserializer.DocumentDeserializer;
 import client.entity.process.Participant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.ext.DOMDeserializer.DocumentDeserializer;
 import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class Document {
         this.resources.addAll(resources);
     }
     
-    public void setProcessId(Long id) {
+    public void setProcessId(String id) {
         this.id.setProcessId(id);
     }
 }

@@ -66,6 +66,7 @@ public class SignInController extends Controller {
             e.printStackTrace();
             showError("Unknown connection error");
         }
+        indicator.setVisible(false);
     }
     
     private void finishSignIn(InfoResponse response, ActionEvent event) throws IOException {

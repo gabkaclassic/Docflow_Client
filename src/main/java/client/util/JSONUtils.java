@@ -6,19 +6,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class JSONUtils {
     
     private static final ObjectMapper mapper = new ObjectMapper();
-    
+    private static final Pattern patternClose = Pattern.compile("\\}");
+    private static final Pattern patternOpen = Pattern.compile("\\{");
     public static <T> Stream<T> splitObjects(JsonNode node, String title, Class<T> cl) {
         
-        var objects = node.get(title).toPrettyString().replace("null", "[]");
+        var objects = node.get(title).toPrettyString();
         objects = objects.substring(objects.indexOf("[") + 1, objects.lastIndexOf("]"));
         return Arrays.stream(objects.split("\n},"))
                 .map(s -> {
-                    if (!s.trim().endsWith("}") && !s.isBlank())
+                    if (!s.isBlank()
+                            && patternClose.matcher(s).results().count() < patternOpen.matcher(s).results().count()
+                    )
                         s += "}";
                     return s;
                 })

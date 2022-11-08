@@ -17,6 +17,7 @@ import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ProcessInfoController extends Controller {
@@ -75,9 +76,11 @@ public class ProcessInfoController extends Controller {
     public void initialize() {
     
         process = data.getCurrentProcess();
-        step = process.getCurrentStep();
+        step = process.getSteps().stream()
+                .filter(s -> Objects.equals(s.getNumber(), process.getCurrentStep()))
+                .findFirst().get();
         participant = data.getParticipant();
-        permission = step.getRules().get(participant.getId());
+        permission = step.getRules().get(participant.getUsername());
         
         if(process.finished())
             acceptButton.setText("Progress completion");
@@ -85,7 +88,7 @@ public class ProcessInfoController extends Controller {
         if(process.started())
             refuseButton.setVisible(false);
             
-        if(!permission.equals(Rules.CONTROL)) {
+        if(permission != null && !permission.equals(Rules.CONTROL)) {
             refuseButton.setVisible(false);
             acceptButton.setVisible(false);
         }

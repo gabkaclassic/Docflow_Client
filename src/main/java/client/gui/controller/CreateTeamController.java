@@ -132,7 +132,10 @@ public class CreateTeamController extends Controller {
     
     private boolean checkUsername(String username) throws JsonProcessingException {
     
-        boolean valid = username != null && !username.isBlank() && Sender.userExists(username).isExist();
+        boolean valid = username != null
+                && !username.isBlank()
+                && !username.equals(data.getParticipant().getUsername())
+                && Sender.userExists(username).isExist();
         
         if(!valid)
             showUserError();

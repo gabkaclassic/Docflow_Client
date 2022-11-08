@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class TeamDeserializer extends StdDeserializer<Team> {
     
@@ -34,7 +35,7 @@ public class TeamDeserializer extends StdDeserializer<Team> {
         team.setTeamLeaderId(node.get("teamLeaderId").asLong());
         team.setParticipants(JSONUtils.splitObjects(node, "participants", String.class)
                 .map(String.class::cast)
-                .toList()
+                .collect(Collectors.toSet())
         );
         team.setProcesses(JSONUtils.splitObjects(node, "processes", Process.class)
                 .map(Process.class::cast)

@@ -37,7 +37,9 @@ public class Data {
         
         var response = Sender.getUserInfo();
         participant = response.getParticipant();
-        teams = response.getTeams();
-        processes = response.getProcesses();
+        teams = participant.getTeams();
+        processes = teams.stream()
+                .flatMap(t -> t.getProcesses().stream())
+                .toList();
     }
 }

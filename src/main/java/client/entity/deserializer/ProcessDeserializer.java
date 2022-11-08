@@ -30,8 +30,9 @@ public class ProcessDeserializer extends StdDeserializer<Process> {
         JsonNode node = jp.getCodec().readTree(jp);
         var process = new Process();
         
-        process.setId(node.get("id").asLong());
-        process.setCurrentStep((Step) JSONUtils.getObject(node, "currentStep", Step.class));
+        process.setId(node.get("id").textValue());
+        process.setTitle(node.get("title").textValue());
+        process.setCurrentStep(node.get("currentStep").asInt());
         
         process.setSteps(JSONUtils.splitObjects(node, "steps", Step.class)
                 .map(Step.class::cast)

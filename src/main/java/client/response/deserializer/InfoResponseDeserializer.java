@@ -32,7 +32,7 @@ public class InfoResponseDeserializer extends StdDeserializer<InfoResponse> {
         JsonNode node = jp.getCodec().readTree(jp);
     
             return InfoResponse.builder()
-                .participant((Participant) JSONUtils.getObject(node, "participant", Participant.class))
+                .participant(JSONUtils.getObject(node, "participant", Participant.class))
                 .processes(JSONUtils.splitObjects(node, "processes", Process.class)
                         .map(Process.class::cast)
                         .toList()

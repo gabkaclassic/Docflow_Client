@@ -27,6 +27,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 public class Sender {
@@ -143,10 +144,19 @@ public class Sender {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("step", writer.writeValueAsString(step));
-        return mapper.readValue(send(HttpMethod.POST, "step/update", params), Response.class);
+        return mapper.readValue(send(HttpMethod.POST, "update/step", params), Response.class);
     }
     
-    public static void invites(List<String> usernames, String title) throws JsonProcessingException {
+    public static Response updateTeam(Team team, Process process) throws JsonProcessingException {
+    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("team", writer.writeValueAsString(team));
+        params.add("process", writer.writeValueAsString(process));
+        
+        return mapper.readValue(send(HttpMethod.POST, "update/team/addProcess", params), Response.class);
+    }
+    
+    public static void invites(Set<String> usernames, String title) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("usernames", writer.writeValueAsString(usernames));

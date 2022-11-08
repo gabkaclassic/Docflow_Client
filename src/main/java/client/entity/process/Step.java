@@ -4,28 +4,51 @@ import client.entity.deserializer.StepDeserializer;
 import client.entity.process.document.Document;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.*;
 
-@NoArgsConstructor
 @Data
 @JsonDeserialize(using = StepDeserializer.class)
 public class Step {
     
-    private long id;
-
-    private int number;
-
-    private String title;
-  
+    private StepId id;
+    
+    private Integer number;
+    
     private Set<Document> documents = new HashSet<>();
-
+    
     private Map<String, Rules> rules = new HashMap<>();
     
-    public boolean addDocument(Document document){
+    public Step() {
         
-        return documents.add(document);
+        id = new StepId();
+    }
+    public void addDocument(Document document) {
+        
+        this.documents.add(document);
+    }
+    public void addDocuments(Set<Document> documents) {
+        
+        this.documents.addAll(documents);
     }
     
+    public String getProcessId() {
+        
+        return id.getProcessId();
+    }
+    
+    public String getTitle() {
+        
+        return id.getTitle();
+    }
+    
+    public void setProcessId(String processId) {
+        
+        id.setProcessId(processId);
+    }
+    
+    public void setTitle(String title) {
+        
+        id.setTitle(title);
+    }
 }
 
