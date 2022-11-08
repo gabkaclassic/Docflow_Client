@@ -1,5 +1,6 @@
 package client.entity.deserializer;
 
+import client.entity.Team;
 import client.entity.process.Participant;
 import client.entity.user.User;
 import client.util.JSONUtils;
@@ -32,7 +33,8 @@ public class ParticipantDeserializer extends StdDeserializer<Participant> {
         var participant = new Participant();
         
         participant.setId(node.get("id").asLong());
-        participant.setOwner((User) JSONUtils.getObject(node, "owner", User.class));
+        participant.setOwner(JSONUtils.getObject(node, "owner", User.class));
+        participant.setTeams(JSONUtils.splitObjects(node,"teams", Team.class).toList());
         
         return participant;
     }

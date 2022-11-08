@@ -57,19 +57,12 @@ public class GeneralInfoController extends Controller{
             teams.getItems().add(item);
         }
         
-        
-        var proc = new Process();
-        proc.setTitle("sal;kjasfl");
-        data.setProcesses(List.of(proc));
-        
-        
         for(var process: data.getProcesses()) {
         
             var item = new MenuItem(process.getTitle());
     
             item.setOnAction(event -> {
                 data.setCurrentProcess(process);
-                data.setCurrentProcess(proc);
                 
                 try {
                     showStage(processes, "process_info.fxml");

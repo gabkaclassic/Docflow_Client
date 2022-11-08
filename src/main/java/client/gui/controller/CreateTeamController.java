@@ -2,14 +2,12 @@ package client.gui.controller;
 
 import client.entity.Team;
 import client.gui.data.Data;
+import client.response.Response;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
@@ -28,6 +26,8 @@ public class CreateTeamController extends Controller {
     private Label userError;
     @FXML
     private  Label creationError;
+    @FXML
+    private ProgressIndicator indicator;
     
     private final String source = "create_team.fxml";
     private final String alreadyExistTeamError = "Team with this title already exists";
@@ -74,29 +74,72 @@ public class CreateTeamController extends Controller {
     
     public void createTeam(ActionEvent event) throws IOException{
 
-        var data = Data.getInstance();
-        var leader = data.getParticipant();
-        var participants = participantsList.getItems().stream()
-                        .map(MenuItem::getText).collect(Collectors.toList());
-        var title = teamTitle.getText();
+
+
+        if(!checkTitle(teamTitle.getText())) return;
+        indicator.setVisible(true);
+        var progress = new Progress<>(() -> {
+            indicator.setVisible(true);
+            var data = Data.getInstance();
+            var leader = data.getParticipant();
+            var participants = participantsList.getItems().stream()
+                    .map(MenuItem::getText).collect(Collectors.toList());
+            var title = teamTitle.getText();
+            var team = new Team();
+
+            team.setTitle(title);
+            team.setTeamLeaderId(leader.getId());
+            participants.add(leader.getOwner().getUsername());
+            team.addParticipants(participants);
+
+            var result = Sender.createTeam(team);
+            hideTeamError();
+            indicator.setVisible(false);
+            return result;
+        });
+        indicator.progressProperty().bind(progress.progressProperty());
+        progress.setOnSucceeded(workerStateEvent -> {
+            try {
+                finishCreateTeam(progress.get(), event);
+
+            } catch (IOException e) {
+                indicator.setVisible(false);
+                throw new RuntimeException(e);
+            }
+        });
+        new Thread(progress).start();
+
+//        var data = Data.getInstance();
+//        var leader = data.getParticipant();
+//        var participants = participantsList.getItems().stream()
+//                        .map(MenuItem::getText).collect(Collectors.toList());
+//        var title = teamTitle.getText();
+//
+//        if(!checkTitle(title)) return;
+//
+//        var team = new Team();
+//
+//        team.setTitle(title);
+//        team.setTeamLeaderId(leader.getId());
+//        participants.add(leader.getOwner().getUsername());
+//        team.addParticipants(participants);
+//
+//        var response = Sender.createTeam(team);
+//        hideTeamError();
         
-        if(!checkTitle(title)) return;
-    
-        var team = new Team();
-    
-        team.setTitle(title);
-        team.setTeamLeaderId(leader.getId());
-        participants.add(leader.getOwner().getUsername());
-        team.addParticipants(participants);
-        
-        var response = Sender.createTeam(team);
-        hideTeamError();
-        
-        if(response.isError()) {
+//        if(response.isError()) {
+//            showCreationError(response.getMessage());
+//            return;
+//        }
+//
+//        showStage(event, "general_info.fxml", source);
+    }
+    private void finishCreateTeam(Response response, ActionEvent event) throws IOException{
+        if (response.isError()){
+            indicator.setVisible(false);
             showCreationError(response.getMessage());
             return;
         }
-        
         showStage(event, "general_info.fxml", source);
     }
     
@@ -168,8 +211,8 @@ public class CreateTeamController extends Controller {
     public boolean checkTitle(String title) throws JsonProcessingException {
         boolean valid = title != null && !title.isBlank();
         if(!valid){
-            userError.setText(blankFieldError);
-            showUserError();
+            teamError.setText(blankFieldError);
+            showTeamError();
             return false;
 
         }
