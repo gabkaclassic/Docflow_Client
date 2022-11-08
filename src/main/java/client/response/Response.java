@@ -28,6 +28,6 @@ public class Response {
     protected String message;
     
     public boolean isError() {
-        return status.equals(STATUS_ERROR);
+        return status == null || status.equals(STATUS_ERROR);
     }
 }

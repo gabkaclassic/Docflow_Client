@@ -1,24 +1,28 @@
 package client.gui.controller;
 
-import javafx.concurrent.Service;
+import client.response.Response;
 import javafx.concurrent.Task;
-import lombok.AllArgsConstructor;
 
 import java.util.concurrent.Callable;
 
-@AllArgsConstructor
-class Progress <T> extends Service<T> {
+class Progress <T extends Response> extends Task<T> {
+    private T response;
     
-    private Callable<T> run;
+    private final Callable<T> task;
     
-    protected Task<T> createTask() {
+    public Progress(Callable<T> task) {
+    
+        this.task = task;
+    }
+    public T call() throws Exception {
         
-        return new Task<>() {
-            
-            protected T call() throws Exception {
-                
-                return run.call();
-            }
-        };
+        response = task.call();
+        
+        return response;
+    }
+    
+    public T get() {
+        
+        return response;
     }
 }

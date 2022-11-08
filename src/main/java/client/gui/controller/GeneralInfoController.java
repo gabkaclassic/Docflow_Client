@@ -1,7 +1,6 @@
 package client.gui.controller;
 
 import client.entity.process.Process;
-import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,19 +54,12 @@ public class GeneralInfoController extends Controller{
             teams.getItems().add(item);
         }
         
-        
-        var proc = new Process();
-        proc.setTitle("sal;kjasfl");
-        data.setProcesses(List.of(proc));
-        
-        
         for(var process: data.getProcesses()) {
         
             var item = new MenuItem(process.getTitle());
     
             item.setOnAction(event -> {
                 data.setCurrentProcess(process);
-                data.setCurrentProcess(proc);
                 
                 try {
                     showStage(processes, "process_info.fxml");

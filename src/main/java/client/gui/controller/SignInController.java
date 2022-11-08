@@ -1,13 +1,9 @@
 package client.gui.controller;
 
 import client.response.InfoResponse;
-import client.response.Response;
 import client.sender.Sender;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -15,7 +11,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.lang.ProcessHandle.Info;
 
 public class SignInController extends Controller {
     @FXML
@@ -43,24 +38,49 @@ public class SignInController extends Controller {
         
         try {
             
-            var progress = new Progress<>(() -> Sender.login(login.getText(), password.getText()));
-            indicator.visibleProperty().bind(progress.runningProperty());
-            progress.start();
-            var response = progress.getValue();
+            indicator.setVisible(true);
+            var progress = new Progress<>(() -> {
+    
+                indicator.setVisible(true);
+                var result = Sender.login(login.getText(), password.getText());
+                indicator.setVisible(false);
+                
+                return result;
+            });
+
+            indicator.progressProperty().bind(progress.progressProperty());
             
-            if(response.isError()) {
-                showError(response.getMessage());
-                return;
-            }
-            data.setParticipant(response.getParticipant());
-            data.setTeams(response.getTeams());
-            data.setProcesses(response.getProcesses());
-            showStage(event, "general_info.fxml", source);
+            progress.setOnSucceeded(workerStateEvent -> {
+                try {
+                    finishSignIn(progress.get(), event);
+                } catch (IOException e) {
+                    indicator.setVisible(false);
+                    throw new RuntimeException(e);
+                }
+            });
+            
+            new Thread(progress).start();
         }
         catch (Exception e) {
+            indicator.setVisible(false);
             e.printStackTrace();
             showError("Unknown connection error");
         }
+    }
+    
+    private void finishSignIn(InfoResponse response, ActionEvent event) throws IOException {
+    
+        if(response.isError()) {
+            indicator.setVisible(false);
+            showError(response.getMessage());
+            return;
+        }
+    
+        data.setParticipant(response.getParticipant());
+        data.setTeams(response.getTeams());
+        data.setProcesses(response.getProcesses());
+        indicator.setVisible(false);
+        showStage(event, "general_info.fxml", source);
     }
     private void showError(String message) {
         
@@ -76,4 +96,3 @@ public class SignInController extends Controller {
         showStage(event, data.getPreviousScene(), source);
     }
 }
-
