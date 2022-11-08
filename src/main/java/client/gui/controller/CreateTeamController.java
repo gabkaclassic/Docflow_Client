@@ -33,6 +33,7 @@ public class CreateTeamController extends Controller {
     private final String alreadyExistTeamError = "Team with this title already exists";
     private final String blankFieldError = "The text field can't be blank";
     private final String dontExistAccountError = "Account with this username doesn't exists";
+    private final  String selfAddingError = "You can't try your self as participant";
     @FXML
     public void initialize() {
         
@@ -147,6 +148,12 @@ public class CreateTeamController extends Controller {
             showUserError();
             return false;
 
+        }
+        valid = !(username.equals(data.getParticipant().getUsername()));
+        if (!valid){
+            userError.setText(selfAddingError);
+            showUserError();
+            return false;
         }
         valid = Sender.userExists(username).isExist();
         

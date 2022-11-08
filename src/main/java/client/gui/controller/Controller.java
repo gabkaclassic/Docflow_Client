@@ -21,11 +21,15 @@ public class Controller {
     protected void showStage(ActionEvent event, String resource, String current) throws IOException {
         
         data.setPreviousScene(current);
+
         
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
         var stage = (Stage)(((Node)event.getSource()).getScene().getWindow());
         var scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    protected void closeProgram(){
+
     }
 }

@@ -37,7 +37,8 @@ public class SignUpController extends Controller{
     public void registrationUser(ActionEvent event) throws IOException {
         
         try {
-            var response = Sender.registration(login.getText(), password.getText());
+            var response = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText():password.getText());
+//            var response = Sender.registration(login.getText(), password.getText());
     
             if(response.isError()) {
                 password.setStyle(errorStyle);

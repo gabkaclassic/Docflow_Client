@@ -49,10 +49,11 @@ public class SignInController extends Controller {
         
         try {
             
-            var progress = new Progress<>(() -> Sender.login(login.getText(), password.getText()));
-            indicator.visibleProperty().bind(progress.runningProperty());
-            progress.start();
-            var response = progress.getValue();
+//            var progress = new Progress<>(() -> Sender.login(login.getText(), password.getText()));
+//            indicator.visibleProperty().bind(progress.runningProperty());
+//            progress.start();
+            var response = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText(): password.getText());
+//            var response = Sender.login(login.getText(), password.getText());
 
 
             if(response.isError()) {
@@ -63,7 +64,7 @@ public class SignInController extends Controller {
             data.setParticipant(response.getParticipant());
             data.setTeams(response.getTeams());
             data.setProcesses(response.getProcesses());
-            progressIndicator.setVisible(false);
+            //progressIndicator.setVisible(false);
             showStage(event, "general_info.fxml", source);
         }
         catch (Exception e) {
