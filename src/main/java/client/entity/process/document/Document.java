@@ -57,8 +57,8 @@ public class Document {
         this.resources.addAll(resources);
     }
     
-    public void setProcessId(String id) {
-        this.id.setProcessId(id);
+    public void setStepTitle(String title) {
+        this.id.setStepTitle(title);
     }
 }
 

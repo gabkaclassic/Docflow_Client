@@ -6,7 +6,6 @@ import client.entity.process.Process;
 import client.entity.process.Rules;
 import client.entity.process.Step;
 import client.entity.process.document.Document;
-import client.entity.user.User;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
@@ -64,9 +63,9 @@ public class CreateProcessController extends Controller {
     
     private Set<Step> steps = new HashSet<>();
     
-    private Map<String, Rules> rules = new HashMap<>();
+    private final Map<String, Rules> rules = new HashMap<>();
     
-    private Set<Document> documents = new HashSet<>();
+    private final Set<Document> documents = new HashSet<>();
     
     private Team team;
 
@@ -101,7 +100,7 @@ public class CreateProcessController extends Controller {
     private void selectTeam(String value) {
         
         team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().get();
-        team.getParticipants().stream().forEach(participantsChoice.getItems()::add);
+        team.getParticipants().forEach(participantsChoice.getItems()::add);
     }
     
     public void createProcess(ActionEvent event) throws IOException {
@@ -120,14 +119,8 @@ public class CreateProcessController extends Controller {
         process.setTitle(processTitle.getText());
         process.setSteps(stepList);
         process.setCurrentStep(process.getSteps().stream().map(Step::getNumber).min(Integer::compareTo).get());
-        
-//        var response = Sender.createProcess(process);
-//        var processes = new ArrayList<Process>();
-//        processes.addAll(team.getProcesses());
-//        processes.add(process);
-//        team.setProcesses(processes);
-        var response = Sender.updateTeam(team, process);
-        
+
+        var response = Sender.updateTeam(team, process);  // TO DO
         
         showStage(event, "general_info.fxml", source);
     }
@@ -169,6 +162,7 @@ public class CreateProcessController extends Controller {
         step.getRules().putAll(rules);
         step.getDocuments().addAll(documents);
         step.setNumber(number);
+        step.getDocuments().forEach(document -> document.setStepTitle(title));
         
         steps = steps.stream()
                 .filter(s -> !s.getTitle().equals(title))
@@ -232,12 +226,7 @@ public class CreateProcessController extends Controller {
     
     public boolean checkTitle(String title) throws JsonProcessingException {
         
-        boolean valid = title != null && !title.isBlank() && !Sender.processExists(title).isExist();
-        
-//        if(!valid)
-//            showError();
-        
-        return valid;
+        return title != null && !title.isBlank() && !Sender.processExists(title).isExist();
     }
     
     public void back(ActionEvent event) throws IOException {
@@ -269,7 +258,7 @@ public class CreateProcessController extends Controller {
     private void refreshDocumentsList(Step step) {
         documentsList.getItems().clear();
         step.getDocuments().stream()
-                .sorted(Comparator.comparing(d -> d.getTitle()))
+                .sorted(Comparator.comparing(Document::getTitle))
                 .forEach(d -> {
                     var item = new MenuItem(String.format("%s (%s)", d.getTitle(), d.getFormat()));
                     item.setOnAction(e -> documentsList.getItems().remove(item));

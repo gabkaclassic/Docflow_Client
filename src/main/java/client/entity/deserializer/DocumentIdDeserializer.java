@@ -27,7 +27,7 @@ public class DocumentIdDeserializer extends StdDeserializer<DocumentId> {
         
         JsonNode node = jp.getCodec().readTree(jp);
         
-        return new DocumentId(node.get("title").textValue(), node.get("processId").textValue());
+        return new DocumentId(node.get("stepTitle").textValue(), node.get("title").textValue());
     }
     
 }

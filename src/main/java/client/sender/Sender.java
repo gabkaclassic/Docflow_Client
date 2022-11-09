@@ -57,7 +57,7 @@ public class Sender {
     
     public static Response createTeam(Team team) throws JsonProcessingException {
         
-        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
         var response = send(HttpMethod.POST, "create/team", params);
@@ -185,15 +185,15 @@ public class Sender {
     public static StepResponse approve(Process process) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
-        params.add("process", writer.writeValueAsString(process));
+        params.add("processId", process.getId());
         
         return mapper.readValue(send(HttpMethod.GET, "step/approve", params), StepResponse.class);
     }
     
-    public static StepResponse refuse(Process process) throws JsonProcessingException {
+    public static StepResponse refuse(String processId) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
-        params.add("process", writer.writeValueAsString(process));
+        params.add("processId", processId);
         
         return mapper.readValue(send(HttpMethod.GET, "step/refuse", params), StepResponse.class);
     }
@@ -216,9 +216,17 @@ public class Sender {
     public static ExistResponse documentExists(Document document) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
-        params.add("processId", String.valueOf(document.getId().getProcessId()));
+        params.add("stepTitle", String.valueOf(document.getId().getStepTitle()));
         params.add("title", document.getTitle());
         
         return mapper.readValue(send(HttpMethod.GET, "exist/document", params), ExistResponse.class);
+    }
+    
+    public static Response updateDocuments(Set<Document> documents) throws JsonProcessingException {
+    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("documents", writer.writeValueAsString(documents));
+        
+        return mapper.readValue(send(HttpMethod.POST, "update/documents", params), Response.class);
     }
 }

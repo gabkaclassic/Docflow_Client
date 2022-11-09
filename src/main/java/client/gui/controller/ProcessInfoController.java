@@ -69,7 +69,9 @@ public class ProcessInfoController extends Controller {
     private Document currentDocument;
     private final FileManager fileManager = new FileManager();
     
-    private final Pattern pattern = Pattern.compile("((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)");
+    private final Pattern pattern = Pattern.compile(
+            "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)"
+    );
     private final String source = "process_info.fxml";
     
     @FXML
@@ -160,7 +162,7 @@ public class ProcessInfoController extends Controller {
         
         fileManager.updateDocument(event, document, process.getTitle());
         
-        Sender.updateStep(step);
+        Sender.updateDocuments(step.getDocuments());
     }
     
     private void defineComments() {
@@ -190,7 +192,7 @@ public class ProcessInfoController extends Controller {
         var document = new Document();
         document.setTitle(documentTitle.getText());
         document.setFormat(documentExtension.getText());
-        document.setProcessId(process.getId());
+        document.setStepTitle(step.getTitle());
         
         if(checkDocument(document)) {
         
@@ -199,7 +201,7 @@ public class ProcessInfoController extends Controller {
         }
         
         step.addDocument(document);
-        Sender.updateStep(step);
+        Sender.updateDocuments(step.getDocuments());
         
         fileManager.saveDocument(document, process.getTitle());
         if(open.isSelected())
@@ -215,28 +217,13 @@ public class ProcessInfoController extends Controller {
         
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         updateDocuments();
-        var response = Sender.updateStep(step);
+        var response = Sender.updateDocuments(step.getDocuments());
         
         if(response.isError()) {
 //            showError();
         }
         
         data.refresh();
-        initialize();
-    }
-    
-    
-    
-    public void nextStep(ActionEvent event) throws JsonProcessingException {
-    
-        if(process.finished()) {  // TO DO
-        
-        }
-        
-        process.nextStep();
-        var response = Sender.approve(process);
-        step = response.getStep();
-        
         initialize();
     }
     
@@ -287,10 +274,27 @@ public class ProcessInfoController extends Controller {
         return checkText(url) && pattern.matcher(url).find();
     }
     
+    public void nextStep(ActionEvent event) throws IOException {
+        
+        if(process.finished()) {  // TO DO
+        
+        }
+        saveAll(event);
+        
+        process.nextStep();
+        var response = Sender.approve(process);
+        process.nextStep();
+        
+        step = response.getStep();
+        
+        initialize();
+    }
     public void previousStep(ActionEvent event) throws JsonProcessingException {
         
         process.previousStep();
-        var response = Sender.refuse(process);
+        var response = Sender.refuse(process.getId());
+        
+        process.previousStep();
         step = response.getStep();
         
         initialize();

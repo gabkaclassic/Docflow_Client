@@ -54,6 +54,7 @@ public class SignInController extends Controller {
                     result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
                 }
                 catch (Exception e) {
+                    showError("Unknown connection error");
                     e.printStackTrace();
                 }
                 finally {
@@ -70,6 +71,8 @@ public class SignInController extends Controller {
                 try {
                     finishSignIn(progress.get(), event);
                 } catch (Exception e) {
+    
+                    showError("Unknown connection error");
                     throw new RuntimeException(e);
                 }
                 finally {
