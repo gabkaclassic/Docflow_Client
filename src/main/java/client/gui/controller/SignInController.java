@@ -48,8 +48,18 @@ public class SignInController extends Controller {
             var progress = new Progress<>(() -> {
     
                 indicator.setVisible(true);
-                var result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText(): password.getText());
-                indicator.setVisible(false);
+                
+                InfoResponse result = null;
+                try {
+                    result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    indicator.setVisible(false);
+                }
+                
                 
                 return result;
             });
@@ -59,9 +69,11 @@ public class SignInController extends Controller {
             progress.setOnSucceeded(workerStateEvent -> {
                 try {
                     finishSignIn(progress.get(), event);
-                } catch (IOException e) {
-                    indicator.setVisible(false);
+                } catch (Exception e) {
                     throw new RuntimeException(e);
+                }
+                finally {
+                    indicator.setVisible(false);
                 }
             });
             
@@ -69,15 +81,16 @@ public class SignInController extends Controller {
 
         }
         catch (Exception e) {
-            indicator.setVisible(false);
             e.printStackTrace();
             showError("Unknown connection error");
         }
-        indicator.setVisible(false);
+        finally {
+            indicator.setVisible(false);
+        }
     }
     
     private void finishSignIn(InfoResponse response, ActionEvent event) throws IOException {
-    
+        
         if(response.isError()) {
             indicator.setVisible(false);
             showError(response.getMessage());

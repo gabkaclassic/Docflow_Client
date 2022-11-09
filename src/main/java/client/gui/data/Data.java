@@ -42,4 +42,11 @@ public class Data {
                 .flatMap(t -> t.getProcesses().stream())
                 .toList();
     }
+    
+    public void clear() {
+        
+        participant = null;
+        teams = null;
+        processes = null;
+    }
 }

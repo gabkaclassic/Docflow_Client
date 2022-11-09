@@ -94,7 +94,15 @@ public class GeneralInfoController extends Controller{
     }
     public void logout(ActionEvent event) throws IOException{
 
-        Sender.logout(data.getParticipant().getUsername());
+        try {
+            Sender.logout(data.getParticipant().getUsername());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            data.clear();
+        }
         showStage(event, "sign_in.fxml", source);
     }
     

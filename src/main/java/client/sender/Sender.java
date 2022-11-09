@@ -4,8 +4,6 @@ import client.entity.Team;
 import client.entity.process.Process;
 import client.entity.process.Step;
 import client.entity.process.document.Document;
-import client.entity.process.document.DocumentId;
-import client.gui.controller.ProcessInfoController;
 import client.response.ExistResponse;
 import client.response.InfoResponse;
 import client.response.Response;
@@ -26,7 +24,6 @@ import org.springframework.web.reactive.function.client.WebClient.UriSpec;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -60,7 +57,7 @@ public class Sender {
     
     public static Response createTeam(Team team) throws JsonProcessingException {
         
-        var params = new LinkedMultiValueMap();
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
         var response = send(HttpMethod.POST, "create/team", params);
@@ -69,7 +66,7 @@ public class Sender {
         return mapper.readValue(response, Response.class);
     }
     
-    private static String send(HttpMethod method, String url, LinkedMultiValueMap params) {
+    private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
         
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
@@ -119,11 +116,12 @@ public class Sender {
     public static Response logout(String username) throws JsonProcessingException {
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
+        
         return mapper.readValue(send(HttpMethod.GET, "user/logout", params), Response.class);
     }
     
     public static InfoResponse getUserInfo() throws IOException {
-        var params = new LinkedMultiValueMap();
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         String send = send(HttpMethod.GET, "/info", params);
     
         return mapper.readValue(send, InfoResponse.class);

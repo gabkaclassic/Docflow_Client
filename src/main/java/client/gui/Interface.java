@@ -32,8 +32,8 @@ public class Interface extends Application {
         stage.show();
     }
     private void closeProject() throws JsonProcessingException {
-        var data =Data.getInstance();
-        if(data.getParticipant()!=null){
+        var data = Data.getInstance();
+        if(data.getParticipant()!= null) {
             Sender.logout(data.getParticipant().getUsername());
         }
     }
