@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,7 +12,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateTeamController">
    <children>
       <TextField fx:id="teamTitle" alignment="TOP_LEFT" layoutX="224.0" layoutY="70.0" promptText="Team title" />
-      <Button layoutX="254.0" layoutY="344.0" mnemonicParsing="false" onAction="#createTeam" text=" Create team" />
+      <Button layoutX="254.0" layoutY="326.0" mnemonicParsing="false" onAction="#createTeam" text=" Create team" />
       <Label layoutX="247.0" layoutY="20.0" text="Team title">
          <font>
             <Font size="24.0" />
@@ -30,16 +31,18 @@
          </items>
       </SplitMenuButton>
       <Button layoutX="45.0" layoutY="256.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to team" />
-      <Label fx:id="userError" layoutX="204.0" layoutY="96.0" prefHeight="18.0" prefWidth="210.0" text="Team with this title already exists" textFill="#e51010">
+      <Label fx:id="userError" layoutX="45.0" layoutY="232.0" prefHeight="18.0" prefWidth="210.0" text="Label" textFill="#e51010">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="teamError" layoutX="45.0" layoutY="226.0" prefHeight="18.0" prefWidth="210.0" text="Account with this username doesn't exists" textFill="#e51010">
+      <Label fx:id="teamError" layoutX="191.0" layoutY="103.0" prefHeight="18.0" prefWidth="210.0" text="Label" textFill="#e51010">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
       <Button layoutY="-1.0" minWidth="53.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="58.0" text="Back" />
+      <Label fx:id="creationError" layoutX="282.0" layoutY="303.0" text="Label" textFill="#e40f07" />
+      <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
    </children>
 </AnchorPane>

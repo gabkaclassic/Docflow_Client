@@ -3,9 +3,7 @@ package client.gui.controller;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 
@@ -16,23 +14,35 @@ public class SignUpController extends Controller{
     private PasswordField password;
     @FXML
     private Label error;
+    @FXML
+    private CheckBox checkBox;
+    @FXML
+    private TextField shownPassword;
+    @FXML
+    private ProgressBar progressBar;
+
     
     private final String source = "sign_up.fxml";
+
+    private final String errorStyle = String.format("-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;");
     @FXML
     public void initialize() {
         
         hideError();
     }
-    public void switchToLogin(ActionEvent event) throws IOException {
-        
-        showStage(event, "login.fxml", source);
-    }
+//     public void switchToLogin(ActionEvent event) throws IOException {
+//
+//        showStage(event, "login.fxml", source);
+//    }
     public void registrationUser(ActionEvent event) throws IOException {
         
         try {
-            var response = Sender.registration(login.getText(), password.getText());
+            var response = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText():password.getText());
+//            var response = Sender.registration(login.getText(), password.getText());
     
             if(response.isError()) {
+                password.setStyle(errorStyle);
+                shownPassword.setStyle(errorStyle);
                 error.setText(response.getMessage());
                 showError();
                 return;
@@ -45,6 +55,19 @@ public class SignUpController extends Controller{
         }
         
     }
+
+    @FXML
+    private void changeVisibility(ActionEvent event){
+        if(checkBox.isSelected()){
+            shownPassword.setText(password.getText());
+            shownPassword.setVisible(true);
+            password.setVisible(false);
+            return;
+        }
+        password.setText(shownPassword.getText());
+        password.setVisible(true);
+        shownPassword.setVisible(false);
+    }
     
     private void showError() {
         
@@ -56,6 +79,6 @@ public class SignUpController extends Controller{
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, "login.fxml", source);
     }
 }

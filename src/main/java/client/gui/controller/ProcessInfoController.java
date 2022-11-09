@@ -74,7 +74,7 @@ public class ProcessInfoController extends Controller {
     
     @FXML
     public void initialize() {
-    
+        
         process = data.getCurrentProcess();
         step = process.getSteps().stream()
                 .filter(s -> Objects.equals(s.getNumber(), process.getCurrentStep()))
