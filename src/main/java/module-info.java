@@ -16,6 +16,7 @@ module client.gui {
     requires spring.security.core;
     requires reactor.core;
     requires java.datatransfer;
+    requires org.slf4j;
     requires AnimateFX;
 
     

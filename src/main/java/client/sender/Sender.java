@@ -11,6 +11,7 @@ import client.response.StepResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.function.Function;
 
+@Slf4j
 public class Sender {
     
     private static final String BASE_URL = System.getenv("BASE_URL");
@@ -85,7 +87,7 @@ public class Sender {
             headersSpec = client.get()
                     .uri(uriBuilder -> uriBuilder
                             .path(url)
-                            .queryParams(params)
+                            .replaceQueryParams(params)
                             .build()
                     );
         }
@@ -182,20 +184,20 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "exist/user", params), ExistResponse.class);
     }
-    public static StepResponse approve(Process process) throws JsonProcessingException {
+    public static Response approve(Process process) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("processId", process.getId());
         
-        return mapper.readValue(send(HttpMethod.GET, "step/approve", params), StepResponse.class);
+        return mapper.readValue(send(HttpMethod.GET, "step/approve", params), Response.class);
     }
     
-    public static StepResponse refuse(String processId) throws JsonProcessingException {
+    public static Response refuse(Process process) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
-        params.add("processId", processId);
+        params.add("processId", process.getId());
         
-        return mapper.readValue(send(HttpMethod.GET, "step/refuse", params), StepResponse.class);
+        return mapper.readValue(send(HttpMethod.GET, "step/refuse", params), Response.class);
     }
     
     public static ExistResponse processExists(String title) throws JsonProcessingException {
@@ -228,5 +230,14 @@ public class Sender {
         params.add("documents", writer.writeValueAsString(documents));
         
         return mapper.readValue(send(HttpMethod.POST, "update/documents", params), Response.class);
+    }
+    
+    public static StepResponse getStepInfo(Step step) throws JsonProcessingException {
+    
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("title", step.getTitle());
+        params.add("processId", step.getProcessId());
+        
+        return mapper.readValue(send(HttpMethod.GET, "step", params), StepResponse.class);
     }
 }

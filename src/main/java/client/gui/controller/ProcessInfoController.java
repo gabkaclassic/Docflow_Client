@@ -14,12 +14,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class ProcessInfoController extends Controller {
     @FXML
     private Label processTitle;
@@ -86,7 +89,7 @@ public class ProcessInfoController extends Controller {
         
         if(process.finished())
             acceptButton.setText("Progress completion");
-        
+        refuseButton.setVisible(true);
         if(process.started())
             refuseButton.setVisible(false);
             
@@ -281,21 +284,42 @@ public class ProcessInfoController extends Controller {
         }
         saveAll(event);
         
-        process.nextStep();
+        var step = process.nextStep();
         var response = Sender.approve(process);
-        process.nextStep();
         
-        step = response.getStep();
+        if(response.isError()) {
+//            showError();
+            return;
+        }
+        var stepResponse = Sender.getStepInfo(step);
+        if(stepResponse.isError()) {
+//            showError();
+            return;
+        }
+        
+        this.step = stepResponse.getStep();
         
         initialize();
     }
     public void previousStep(ActionEvent event) throws JsonProcessingException {
+    
+        var step = process.previousStep();
+        var response = Sender.refuse(process);
         
-        process.previousStep();
-        var response = Sender.refuse(process.getId());
+        if(response.isError()) {
+    
+//            showError();
+            return;
+        }
+        var stepResponse = Sender.getStepInfo(step);
         
-        process.previousStep();
-        step = response.getStep();
+        if(stepResponse.isError()) {
+    
+//            showError();
+            return;
+        }
+ 
+        this.step = stepResponse.getStep();
         
         initialize();
     }
