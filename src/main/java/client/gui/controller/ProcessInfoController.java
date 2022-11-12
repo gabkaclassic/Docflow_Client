@@ -304,12 +304,15 @@ public class ProcessInfoController extends Controller {
 //            showError();
             return;
         }
-        
-        try {
     
-            this.process = info.getProcesses().stream()
-                    .filter(p -> p.getId().equals(process.getId()))
-                    .findFirst().orElseThrow();
+        var processResponse = Sender.getProcessInfo(process);
+        if(processResponse.isError()) {
+//            showError();
+            return;
+        }
+        try {
+        
+            data.setCurrentProcess(processResponse.getProcess());
         }
         catch (NoSuchElementException e) {
             log.warn("No such process error", e);
@@ -327,16 +330,14 @@ public class ProcessInfoController extends Controller {
 //            showError();
             return;
         }
-        var info = Sender.getUserInfo();
-        if(info.isError()) {
+        var processResponse = Sender.getProcessInfo(process);
+        if(processResponse.isError()) {
 //            showError();
             return;
         }
         try {
-        
-            this.process = info.getProcesses().stream()
-                    .filter(p -> p.getId().equals(process.getId()))
-                    .findFirst().orElseThrow();
+    
+            data.setCurrentProcess(processResponse.getProcess());
         }
         catch (NoSuchElementException e) {
             log.warn("No such process error", e);

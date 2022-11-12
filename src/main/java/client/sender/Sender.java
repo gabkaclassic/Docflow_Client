@@ -4,10 +4,7 @@ import client.entity.Team;
 import client.entity.process.Process;
 import client.entity.process.Step;
 import client.entity.process.document.Document;
-import client.response.ExistResponse;
-import client.response.InfoResponse;
-import client.response.Response;
-import client.response.StepResponse;
+import client.response.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -236,5 +233,12 @@ public class Sender {
         params.add("processId", step.getProcessId());
         
         return mapper.readValue(send(HttpMethod.GET, "step", params), StepResponse.class);
+    }
+    
+    public static ProcessResponse getProcessInfo(Process process) throws JsonProcessingException {
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("processId", process.getId());
+    
+        return mapper.readValue(send(HttpMethod.GET, "info/process", params), ProcessResponse.class);
     }
 }
