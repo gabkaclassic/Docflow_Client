@@ -3,10 +3,15 @@ package client.gui.controller;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 public class SignUpController extends Controller{
     @FXML
     private TextField login;
@@ -18,27 +23,19 @@ public class SignUpController extends Controller{
     private CheckBox checkBox;
     @FXML
     private TextField shownPassword;
-    @FXML
-    private ProgressBar progressBar;
-
     
-    private final String source = "sign_up.fxml";
+    private final static String source = "sign_up.fxml";
 
-    private final String errorStyle = String.format("-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;");
+    private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
         
         hideError();
     }
-//     public void switchToLogin(ActionEvent event) throws IOException {
-//
-//        showStage(event, "login.fxml", source);
-//    }
-    public void registrationUser(ActionEvent event) throws IOException {
+    public void registrationUser(ActionEvent event) {
         
         try {
             var response = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText():password.getText());
-//            var response = Sender.registration(login.getText(), password.getText());
     
             if(response.isError()) {
                 password.setStyle(errorStyle);
@@ -49,8 +46,8 @@ public class SignUpController extends Controller{
             }
             showStage(event, "login.fxml", source);
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (IOException e) {
+            log.warn("Registration error", e);
             showError();
         }
         

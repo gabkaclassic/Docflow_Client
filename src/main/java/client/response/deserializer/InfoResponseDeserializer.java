@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 
 public class InfoResponseDeserializer extends StdDeserializer<InfoResponse> {
-    
-    
     public InfoResponseDeserializer() {
         
         this(null);

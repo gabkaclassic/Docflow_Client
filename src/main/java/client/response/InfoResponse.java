@@ -1,7 +1,8 @@
 package client.response;
-import client.entity.process.Process;
+
 import client.entity.Team;
 import client.entity.process.Participant;
+import client.entity.process.Process;
 import client.response.deserializer.InfoResponseDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;

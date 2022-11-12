@@ -12,10 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Objects;
 
+@Slf4j
 public class TeamInfoController extends Controller {
     
     @FXML
@@ -47,7 +49,7 @@ public class TeamInfoController extends Controller {
                 try {
                     showStage(teamTitle, "process_info.fxml");
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    log.debug("Error of transition to process info scene", e);
                 }
             });
             
@@ -64,8 +66,8 @@ public class TeamInfoController extends Controller {
                     try {
                         removeParticipant(p, currentTeam.getTitle());
                         participants.getItems().remove(item);
-                    } catch (JsonProcessingException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (JsonProcessingException exception) {
+                        log.debug("Remove participant error", exception);
                     }
                 });
             

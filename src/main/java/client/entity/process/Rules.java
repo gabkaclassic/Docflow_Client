@@ -10,8 +10,8 @@ public enum Rules {
     CONTROL("Edit and saving documents, confirmation of the transition to the next step", 3);
     
     
-    private String view;
-    private int level;
+    private final String view;
+    private final int level;
     
     Rules(String view, int level) {
     

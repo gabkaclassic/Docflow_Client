@@ -1,17 +1,15 @@
 package client.entity;
 
-import client.entity.process.Participant;
+import client.entity.deserializer.TeamDeserializer;
 import client.entity.process.Process;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.*;
-
-import client.entity.deserializer.TeamDeserializer;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @JsonDeserialize(using = TeamDeserializer.class)
@@ -25,21 +23,6 @@ public class Team implements Serializable {
     
 
     private Long teamLeaderId;
-    
-    public void addParticipant(String participant) {
-        
-        participants.add(participant);
-    }
-    
-    public void removeParticipant(String username) {
-        
-        participants.remove(username);
-    }
-    
-    public void addProcess(Process process) {
-        
-        processes.add(process);
-    }
     
     public void addParticipants(List<String> participants) {
         

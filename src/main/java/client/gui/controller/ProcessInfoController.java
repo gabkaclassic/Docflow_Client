@@ -14,13 +14,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+;
 
 @Slf4j
 public class ProcessInfoController extends Controller {
@@ -75,15 +76,23 @@ public class ProcessInfoController extends Controller {
     private final Pattern pattern = Pattern.compile(
             "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)"
     );
-    private final String source = "process_info.fxml";
+    private static final String source = "process_info.fxml";
     
     @FXML
     public void initialize() {
         
         process = data.getCurrentProcess();
-        step = process.getSteps().stream()
-                .filter(s -> Objects.equals(s.getNumber(), process.getCurrentStep()))
-                .findFirst().get();
+        
+        try {
+            step = process.getSteps().stream()
+                    .filter(s -> Objects.equals(s.getNumber(), process.getCurrentStep()))
+                    .findFirst().orElseThrow();
+        }
+        catch(NoSuchElementException e) {
+            log.debug("No such step error", e);
+//            showError();
+        }
+        
         participant = data.getParticipant();
         permission = step.getRules().get(participant.getUsername());
         
@@ -106,7 +115,7 @@ public class ProcessInfoController extends Controller {
             try {
                 fileManager.saveDocument(document, process.getTitle());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.warn("Save document error", e);
             }
         });
         
@@ -126,7 +135,7 @@ public class ProcessInfoController extends Controller {
             try {
                 updateDocument(event, document);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.warn("Update document error", e);
             }
         });
         var openButton = new Button("Open");
@@ -134,7 +143,7 @@ public class ProcessInfoController extends Controller {
             try {
                 fileManager.openDocument(document, process.getTitle());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.warn("Open document error", e);
             }
         });
         var selectButton = new Button("Select");
@@ -254,7 +263,6 @@ public class ProcessInfoController extends Controller {
 //            showError();
             return;
         }
-        
         currentDocument.addResource(resText, description);
         resourceText.clear();
         descriptionText.clear();

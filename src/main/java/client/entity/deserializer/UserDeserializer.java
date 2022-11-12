@@ -1,8 +1,6 @@
 package client.entity.deserializer;
 
-import client.entity.process.Participant;
 import client.entity.user.User;
-import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;

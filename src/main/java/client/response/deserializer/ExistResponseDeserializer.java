@@ -10,7 +10,6 @@ import java.io.IOException;
 
 public class ExistResponseDeserializer extends StdDeserializer<ExistResponse> {
     
-    
     public ExistResponseDeserializer() {
         
         this(null);

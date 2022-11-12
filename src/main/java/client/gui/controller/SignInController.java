@@ -2,15 +2,14 @@ package client.gui.controller;
 
 import client.response.InfoResponse;
 import client.sender.Sender;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.*;
-
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 public class SignInController extends Controller {
     @FXML
     private TextField login;
@@ -25,11 +24,9 @@ public class SignInController extends Controller {
     private CheckBox checkBox;
     @FXML
     private TextField shownPassword;
-    @FXML
-    private ProgressIndicator progressIndicator;
     
-    private final String source = "sign_in.fxml";
-    private final String errorStyle = String.format("-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;");
+    private final static String source = "sign_in.fxml";
+    private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
         hideError();
@@ -53,9 +50,9 @@ public class SignInController extends Controller {
                 try {
                     result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
                 }
-                catch (Exception e) {
+                catch (IOException e) {
+                    log.warn("Login error", e);
                     showError("Unknown connection error");
-                    e.printStackTrace();
                 }
                 finally {
                     indicator.setVisible(false);
@@ -70,10 +67,10 @@ public class SignInController extends Controller {
             progress.setOnSucceeded(workerStateEvent -> {
                 try {
                     finishSignIn(progress.get(), event);
-                } catch (Exception e) {
+                } catch (IOException e) {
     
+                    log.warn("Login error", e);
                     showError("Unknown connection error");
-                    throw new RuntimeException(e);
                 }
                 finally {
                     indicator.setVisible(false);
@@ -82,12 +79,7 @@ public class SignInController extends Controller {
             
             new Thread(progress).start();
 
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            showError("Unknown connection error");
-        }
-        finally {
+        } finally {
             indicator.setVisible(false);
         }
     }

@@ -1,17 +1,20 @@
 package client.file;
 
-import client.entity.process.Step;
 import client.entity.process.document.Document;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
-import java.io.*;
-import java.util.*;
-import java.util.List;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Set;
 
+@Slf4j
 public class FileManager {
     
     private static final String WORKDIR = "documents";
@@ -27,7 +30,7 @@ public class FileManager {
             var data = document.getFile() == null ? new byte[1] : document.getFile();
             out.write(data);
         } catch (IOException e) {
-            throw e;
+            log.debug("Save document error", e);
         }
     }
     
@@ -43,7 +46,7 @@ public class FileManager {
         
                     document.setFile(in.readAllBytes());
                 } catch (IOException e) {
-                    throw e;
+                    log.debug("Update documents error", e);
                 }
     
             }
@@ -68,7 +71,7 @@ public class FileManager {
             document.setFile(data);
             out.write(data);
         } catch (IOException e) {
-            throw e;
+            log.debug("Update document error", e);
         }
     }
     

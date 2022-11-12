@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -27,8 +28,5 @@ public class Controller {
         var scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-    protected void closeProgram(){
-
     }
 }

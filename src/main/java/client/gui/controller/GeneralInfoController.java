@@ -1,6 +1,5 @@
 package client.gui.controller;
 
-import client.entity.process.Process;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,11 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 public class GeneralInfoController extends Controller{
     @FXML
     private SplitMenuButton teams;
@@ -24,10 +24,8 @@ public class GeneralInfoController extends Controller{
     private SplitMenuButton processes;
     @FXML
     private Button back;
-    @FXML
-    private Button logout;
     
-    private final String source = "general_info.fxml";
+    private static final String source = "general_info.fxml";
     @FXML
     public void initialize() throws IOException {
     
@@ -50,7 +48,7 @@ public class GeneralInfoController extends Controller{
                     this.showStage(teams, "team_info.fxml");
                     
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    log.warn("Error of transition to team info scene", e);
                 }
             });
         
@@ -67,7 +65,7 @@ public class GeneralInfoController extends Controller{
                 try {
                     showStage(processes, "process_info.fxml");
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    log.warn("Error of transition to process info scene", e);
                 }
             });
         
@@ -98,7 +96,8 @@ public class GeneralInfoController extends Controller{
             Sender.logout(data.getParticipant().getUsername());
         }
         catch (Exception e) {
-            e.printStackTrace();
+    
+            log.warn("Logout error", e);
         }
         finally {
             data.clear();

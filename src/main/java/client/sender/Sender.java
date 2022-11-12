@@ -70,6 +70,8 @@ public class Sender {
     
     private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
         
+        log.trace(String.format("Send request: (%s : %s)", method.name(), BASE_URL + url));
+        
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
                 .defaultCookie("SESSION", session)
@@ -97,8 +99,11 @@ public class Sender {
             response = headersSpec.exchangeToMono(request).block();
         }
         catch (Exception exception) {
+            log.info("Retrying request");
             response = headersSpec.exchangeToMono(request).block();
         }
+        
+        log.debug("Response: ", response);
         
         return response;
     }
@@ -108,12 +113,14 @@ public class Sender {
         params.add("username", username);
         params.add("password", password);
     
-        String send = send(HttpMethod.POST, "user/login", params);
+        String response = send(HttpMethod.POST, "user/login", params);
         
-        if(send == null)
+        if(response == null) {
+            log.debug("User info after login is null");
             return getUserInfo();
+        }
         
-        return mapper.readValue(send, InfoResponse.class);
+        return mapper.readValue(response, InfoResponse.class);
     }
     public static Response logout(String username) throws JsonProcessingException {
         var params = new LinkedMultiValueMap<String, String>();
@@ -127,14 +134,6 @@ public class Sender {
         String send = send(HttpMethod.GET, "/info", params);
     
         return mapper.readValue(send, InfoResponse.class);
-    }
-    
-    public static Response createProcess(Process process) throws JsonProcessingException {
-    
-        var params = new LinkedMultiValueMap<String, String>();
-        params.add("process", writer.writeValueAsString(process));
-        
-        return mapper.readValue(send(HttpMethod.POST, "create/process", params), Response.class);
     }
     
     public static void invite(String username, String title) {
@@ -151,8 +150,7 @@ public class Sender {
         params.add("step", writer.writeValueAsString(step));
         return mapper.readValue(send(HttpMethod.POST, "update/step", params), Response.class);
     }
-    
-    public static Response updateTeam(Team team, Process process) throws JsonProcessingException {
+    public static Response createProcess(Team team, Process process) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("team", writer.writeValueAsString(team));
@@ -206,13 +204,12 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "exist/process", params), ExistResponse.class);
     }
-    public static Response refuseInvite(String username, String teamId) throws JsonProcessingException {
+    public static void refuseInvite(String username, String teamId) {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", teamId);
-    
-        return mapper.readValue(send(HttpMethod.POST, "invite/refuse", params), Response.class);
+        send(HttpMethod.POST, "invite/refuse", params);
     }
     
     public static ExistResponse documentExists(Document document) throws JsonProcessingException {

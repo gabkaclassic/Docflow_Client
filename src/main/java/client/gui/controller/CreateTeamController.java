@@ -9,10 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class CreateTeamController extends Controller {
     @FXML
     private TextField teamTitle;
@@ -29,7 +31,7 @@ public class CreateTeamController extends Controller {
     @FXML
     private ProgressIndicator indicator;
     
-    private final String source = "create_team.fxml";
+    private final static String source = "create_team.fxml";
     private final String alreadyExistTeamError = "Team with this title already exists";
     private final String blankFieldError = "The text field can't be blank";
     private final String dontExistAccountError = "Account with this username doesn't exists";
@@ -47,7 +49,7 @@ public class CreateTeamController extends Controller {
                     try {
                         addParticipant(new ActionEvent());
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                        log.debug(e.getMessage());
                     }
                 }
         });
@@ -57,7 +59,7 @@ public class CreateTeamController extends Controller {
                 try {
                     checkTitle(teamTitle.getText());
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
+                    log.debug(e.getMessage());
                 }
             }
         });
@@ -66,15 +68,13 @@ public class CreateTeamController extends Controller {
                 try {
                     checkTitle(teamTitle.getText());
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
+                    log.debug(e.getMessage());
                 }
         });
         
     }
     
     public void createTeam(ActionEvent event) throws IOException{
-
-
 
         if(!checkTitle(teamTitle.getText())) return;
         indicator.setVisible(true);
@@ -104,47 +104,17 @@ public class CreateTeamController extends Controller {
 
             } catch (IOException e) {
                 indicator.setVisible(false);
-                throw new RuntimeException(e);
+                log.warn("Create team error", e);
             }
         });
         new Thread(progress).start();
-
-//        var data = Data.getInstance();
-//        var leader = data.getParticipant();
-//        var participants = participantsList.getItems().stream()
-//                        .map(MenuItem::getText).collect(Collectors.toList());
-//        var title = teamTitle.getText();
-//
-//        if(!checkTitle(title)) return;
-//
-//        var team = new Team();
-//
-//        team.setTitle(title);
-//        team.setTeamLeaderId(leader.getId());
-//        participants.add(leader.getOwner().getUsername());
-//        team.addParticipants(participants);
-//
-//        var response = Sender.createTeam(team);
-//        hideTeamError();
-        
-//        if(response.isError()) {
-//            showCreationError(response.getMessage());
-//            return;
-//        }
-//
-//        showStage(event, "general_info.fxml", source);
     }
-    private void finishCreateTeam(Response response, ActionEvent event) throws IOException{
+    private void finishCreateTeam(Response response, ActionEvent event) throws IOException {
         if (response.isError()){
             indicator.setVisible(false);
             showCreationError(response.getMessage());
             return;
         }
-        showStage(event, "general_info.fxml", source);
-    }
-    
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-    
         showStage(event, "general_info.fxml", source);
     }
     

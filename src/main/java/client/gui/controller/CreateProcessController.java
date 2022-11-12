@@ -11,12 +11,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class CreateProcessController extends Controller {
     @FXML
     private TextField processTitle;
@@ -56,9 +58,8 @@ public class CreateProcessController extends Controller {
     private Label processTitleError;
     @FXML
     private Label numberValueError;
-
     
-    private final String source = "create_process.fxml";
+    private final static String source = "create_process.fxml";
     private Participant creator;
     
     private Set<Step> steps = new HashSet<>();
@@ -68,9 +69,6 @@ public class CreateProcessController extends Controller {
     private final Set<Document> documents = new HashSet<>();
     
     private Team team;
-
-    public CreateProcessController() {
-    }
 
     public void initialize() {
 
@@ -99,7 +97,14 @@ public class CreateProcessController extends Controller {
     
     private void selectTeam(String value) {
         
-        team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().get();
+        try {
+            team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().orElseThrow();
+        }
+        catch (NoSuchElementException e) {
+            log.debug("No such team error", e);
+//            showError();
+        }
+        
         team.getParticipants().forEach(participantsChoice.getItems()::add);
     }
     
@@ -108,6 +113,10 @@ public class CreateProcessController extends Controller {
         if(!checkTitle(processTitle.getText())) {
             showProcessTitleError();
             return;
+        }
+        
+        if(steps.size() == 0) {
+//            showError();
         }
         
         var stepList = steps.stream().sorted(Comparator.comparingInt(Step::getNumber)).toList();
@@ -120,7 +129,7 @@ public class CreateProcessController extends Controller {
         process.setSteps(stepList);
         process.setCurrentStep(process.getSteps().stream().map(Step::getNumber).min(Integer::compareTo).get());
 
-        var response = Sender.updateTeam(team, process);  // TO DO
+        var response = Sender.createProcess(team, process);  // TO DO
         
         showStage(event, "general_info.fxml", source);
     }
@@ -141,15 +150,16 @@ public class CreateProcessController extends Controller {
                 throw new InvalidParameterException();
         }
         catch (InvalidParameterException e) {
+            log.info("Invalid input data error", e);
 //            showError();
             return;
         }
         catch (NumberFormatException e) {
+            log.info("Invalid input data error", e);
             showNumberValueError();
             return;
         }
-    
-    
+        
         var step = steps.stream()
                 .filter(s -> s.getNumber() == number)
                 .findFirst().orElse(new Step());
@@ -176,7 +186,14 @@ public class CreateProcessController extends Controller {
         stepTitle.clear();
         documentsList.getItems().clear();
         participantsList.getItems().clear();
-        stepNumber.setText(String.valueOf(steps.stream().mapToInt(Step::getNumber).max().getAsInt() + 1));
+        
+        try {
+            stepNumber.setText(String.valueOf(steps.stream().mapToInt(Step::getNumber).max().orElseThrow() + 1));
+        }
+        catch (NoSuchElementException e) {
+            log.warn("No such step error", e);
+//            showError();
+        }
     }
     
     private void selectStep(Step step) {

@@ -41,11 +41,6 @@ public class Step {
         return id.getTitle();
     }
     
-    public void setProcessId(String processId) {
-        
-        id.setProcessId(processId);
-    }
-    
     public void setTitle(String title) {
         
         id.setTitle(title);
