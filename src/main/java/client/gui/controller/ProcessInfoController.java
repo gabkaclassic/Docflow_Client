@@ -299,17 +299,25 @@ public class ProcessInfoController extends Controller {
 //            showError();
             return;
         }
-        var stepResponse = Sender.getStepInfo(step);
-        if(stepResponse.isError()) {
+        var info = Sender.getUserInfo();
+        if(info.isError()) {
 //            showError();
             return;
         }
         
-        this.step = stepResponse.getStep();
+        try {
+    
+            this.process = info.getProcesses().stream()
+                    .filter(p -> p.getId().equals(process.getId()))
+                    .findFirst().orElseThrow();
+        }
+        catch (NoSuchElementException e) {
+            log.warn("No such process error", e);
+        }
         
         initialize();
     }
-    public void previousStep(ActionEvent event) throws JsonProcessingException {
+    public void previousStep(ActionEvent event) throws IOException {
     
         var step = process.previousStep();
         var response = Sender.refuse(process);
@@ -319,15 +327,20 @@ public class ProcessInfoController extends Controller {
 //            showError();
             return;
         }
-        var stepResponse = Sender.getStepInfo(step);
-        
-        if(stepResponse.isError()) {
-    
+        var info = Sender.getUserInfo();
+        if(info.isError()) {
 //            showError();
             return;
         }
- 
-        this.step = stepResponse.getStep();
+        try {
+        
+            this.process = info.getProcesses().stream()
+                    .filter(p -> p.getId().equals(process.getId()))
+                    .findFirst().orElseThrow();
+        }
+        catch (NoSuchElementException e) {
+            log.warn("No such process error", e);
+        }
         
         initialize();
     }
