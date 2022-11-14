@@ -79,7 +79,7 @@ public class ProcessInfoController extends Controller {
     private static final String source = "process_info.fxml";
     
     @FXML
-    public void initialize() {
+    public void initialize() throws JsonProcessingException {
         
         process = data.getCurrentProcess();
         
@@ -121,14 +121,16 @@ public class ProcessInfoController extends Controller {
         
         updateDocuments();
     }
-    private void updateDocuments() {
+    private void updateDocuments() throws JsonProcessingException {
         
         documents.getPanes().clear();
-        
-        step.getDocuments().forEach(this::addDocument);
+    
+        for (Document document : step.getDocuments()) {
+            addDocument(document);
+        }
     }
     
-    private void addDocument(Document document) {
+    private void addDocument(Document document) throws JsonProcessingException {
     
         var saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
@@ -233,13 +235,12 @@ public class ProcessInfoController extends Controller {
     public void saveAll(ActionEvent event) throws IOException {
         
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
-        updateDocuments();
-        var response = Sender.updateDocuments(step.getDocuments());
-        
+        var response = Sender.updateStep(step);
+    
         if(response.isError()) {
 //            showError();
         }
-        
+    
         data.refresh();
         initialize();
     }
