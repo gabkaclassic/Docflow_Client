@@ -1,5 +1,6 @@
 package client.gui;
 
+import client.file.FileManager;
 import client.gui.data.Data;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,16 +29,25 @@ public class Interface extends Application {
             event.consume();
             try {
                 closeProject();
-            } catch (JsonProcessingException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             stage.close();
         });
         stage.show();
     }
-    private void closeProject() throws JsonProcessingException {
+    private void closeProject() throws IOException {
         var data = Data.getInstance();
+        var fileManager = new FileManager();
+        
         if(data.getParticipant() != null) {
+    
+            for(var process: data.getProcesses()) {
+                var step = process.currentStep();
+                fileManager.updateDocuments(process.getTitle(), step.getDocuments());
+                Sender.updateDocuments(step.getDocuments());
+            }
+            
             Sender.logout(data.getParticipant().getUsername());
         }
     }

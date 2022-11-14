@@ -46,6 +46,13 @@ public class Process {
                 .findFirst().orElse(null);
     }
     
+    public Step currentStep() {
+        
+        return steps.stream()
+                .filter(s -> Objects.equals(s.getNumber(), currentStep))
+                .findFirst().orElse(null);
+    }
+    
     public boolean started() {
         return steps.stream()
                 .noneMatch(step -> step.getNumber() == currentStep - 1);

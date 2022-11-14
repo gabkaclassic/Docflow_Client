@@ -203,7 +203,12 @@ public class ProcessInfoController extends Controller {
         
         var document = new Document();
         document.setTitle(documentTitle.getText());
-        document.setFormat(documentExtension.getText());
+        
+        var extension = documentExtension.getText();
+        if(!extension.startsWith("."))
+            extension = "." + extension;
+        document.setFormat(extension);
+        
         document.setStepTitle(step.getTitle());
         
         if(checkDocument(document)) {
