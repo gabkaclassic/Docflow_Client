@@ -4,10 +4,11 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
    <children>
-      <SplitMenuButton fx:id="teams" layoutX="85.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="178.0" text="Teams">
+      <SplitMenuButton fx:id="teams" layoutX="303.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Teams">
         <items>
           <MenuItem mnemonicParsing="false">
                <graphic>
@@ -15,16 +16,43 @@
                </graphic></MenuItem>
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
+         <font>
+            <Font size="20.0" />
+         </font>
       </SplitMenuButton>
-      <SplitMenuButton fx:id="processes" layoutX="383.0" layoutY="97.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="167.0" text="Proccess">
+      <SplitMenuButton fx:id="processes" layoutX="735.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Proccess">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
+         <font>
+            <Font size="20.0" />
+         </font>
       </SplitMenuButton>
+<<<<<<< HEAD
       <Button layoutX="274.0" layoutY="97.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="37.0" prefWidth="84.0" text="Add Team" />
       <Button fx:id="back" layoutY="-4.0" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="83.0" text="Back" />
       <Button layoutX="565.0" layoutY="97.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="37.0" prefWidth="84.0" text="Add process" />
       <Button fx:id="logout" layoutX="607.0" layoutY="2.0" mnemonicParsing="false" onAction="#logout" text="logout" />
+=======
+      <Button layoutX="535.0" layoutY="330.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="55.0" prefWidth="120.0" stylesheets="@button.css" text="Add Team" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button layoutX="967.0" layoutY="330.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="55.0" prefWidth="120.0" stylesheets="@button.css" text="Add process" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <MenuButton layoutX="303.0" layoutY="600.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="140.0" text="MenuButton">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+>>>>>>> devMaks
    </children>
 </AnchorPane>

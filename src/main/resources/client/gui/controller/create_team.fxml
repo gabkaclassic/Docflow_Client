@@ -9,40 +9,82 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateTeamController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateTeamController">
    <children>
+<<<<<<< HEAD
       <TextField fx:id="teamTitle" alignment="TOP_LEFT" layoutX="224.0" layoutY="70.0" promptText="Team title" />
       <Button layoutX="254.0" layoutY="326.0" mnemonicParsing="false" onAction="#createTeam" text=" Create team" />
       <Label layoutX="247.0" layoutY="20.0" text="Team title">
+=======
+      <TextField fx:id="teamTitle" layoutX="352.0" layoutY="387.0" prefHeight="45.0" prefWidth="377.0" promptText="Team title">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Button layoutX="352.0" layoutY="600.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="55.0" prefWidth="377.0" stylesheets="@button.css" text=" Create team" textFill="WHITE">
+>>>>>>> devMaks
          <font>
             <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="username" alignment="TOP_LEFT" layoutX="45.0" layoutY="200.0" prefHeight="26.0" prefWidth="210.0" promptText="Participant's account nick" />
-      <Label layoutX="187.0" layoutY="139.0" text="Invites of participants">
+         </font></Button>
+      <Label layoutX="350.0" layoutY="241.0" prefHeight="54.0" prefWidth="370.0" text="Create new team">
          <font>
-            <Font size="24.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="309.0" layoutY="200.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
+      <TextField fx:id="username" layoutX="352.0" layoutY="511.0" prefHeight="45.0" prefWidth="240.0" promptText="Participant's account nick">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Label layoutX="352.0" layoutY="348.0" prefHeight="24.0" prefWidth="151.0" text="Add team name">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <SplitMenuButton fx:id="participantsList" layoutX="824.0" layoutY="387.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Participants list">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
          </items>
+         <font>
+            <Font size="18.0" />
+         </font>
       </SplitMenuButton>
+<<<<<<< HEAD
       <Button layoutX="45.0" layoutY="256.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to team" />
       <Label fx:id="userError" layoutX="45.0" layoutY="232.0" prefHeight="18.0" prefWidth="210.0" text="Label" textFill="#e51010">
+=======
+      <Button layoutX="612.0" layoutY="511.0" minWidth="0.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="45.0" prefWidth="117.0" stylesheets="@add.css" text="Add" textFill="WHITE">
+>>>>>>> devMaks
          <font>
-            <Font size="11.0" />
+            <Font size="18.0" />
+         </font></Button>
+      <Label fx:id="userError" layoutX="352.0" layoutY="440.0" prefHeight="18.0" prefWidth="210.0" text="Team with this title already exists" textFill="#e51010">
+         <font>
+            <Font size="14.0" />
          </font>
       </Label>
+<<<<<<< HEAD
       <Label fx:id="teamError" layoutX="191.0" layoutY="103.0" prefHeight="18.0" prefWidth="210.0" text="Label" textFill="#e51010">
+=======
+      <Label fx:id="teamError" layoutX="352.0" layoutY="568.0" prefHeight="18.0" prefWidth="210.0" text="Account with this username doesn't exists" textFill="#e51010">
          <font>
-            <Font size="11.0" />
+            <Font size="14.0" />
          </font>
       </Label>
+      <Button layoutX="25.0" layoutY="25.0" minWidth="53.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label layoutX="352.0" layoutY="480.0" prefHeight="24.0" prefWidth="110.0" text="Add people">
+>>>>>>> devMaks
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+<<<<<<< HEAD
       <Button layoutY="-1.0" minWidth="53.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="58.0" text="Back" />
       <Label fx:id="creationError" layoutX="282.0" layoutY="303.0" text="Label" textFill="#e40f07" />
       <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
+=======
+>>>>>>> devMaks
    </children>
 </AnchorPane>

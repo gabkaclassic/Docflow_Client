@@ -9,16 +9,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignInController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignInController">
    <children>
-      <PasswordField fx:id="password" layoutX="226.0" layoutY="200.0" promptText="password" />
-      <Label alignment="CENTER" layoutX="157.0" layoutY="63.0" prefHeight="43.0" prefWidth="287.0" text="Enter Your login and password" />
-      <Button mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="58.0" text="Back" />
-      <Button layoutX="274.0" layoutY="276.0" mnemonicParsing="false" onAction="#signIn" text="Sign in" />
-      <TextField fx:id="login" layoutX="226.0" layoutY="137.0" promptText="login" />
-      <Label fx:id="error" alignment="CENTER" layoutX="157.0" layoutY="235.0" prefHeight="25.0" prefWidth="287.0" text="login error" textFill="#ff0404">
+      <PasswordField fx:id="password" layoutX="551.0" layoutY="451.0" prefHeight="75.0" prefWidth="311.0" promptText="    Password">
          <font>
-            <Font size="11.0" />
+            <Font size="18.0" />
+         </font></PasswordField>
+      <Label alignment="CENTER" layoutX="427.0" layoutY="256.0" prefHeight="48.0" prefWidth="587.0" text="Enter Your login and password">
+         <font>
+            <Font size="40.0" />
+         </font></Label>
+      <Button layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button layoutX="551.0" layoutY="600.0" mnemonicParsing="false" onAction="#signIn" prefHeight="75.0" prefWidth="311.0" stylesheets="@button.css" text="Sign in" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <TextField fx:id="login" layoutX="551.0" layoutY="361.0" prefHeight="75.0" prefWidth="311.0" promptText="    Login">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <Label fx:id="error" alignment="CENTER" layoutX="551.0" layoutY="556.0" prefHeight="25.0" prefWidth="287.0" text="login error" textFill="#ff0404">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
 
