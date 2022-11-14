@@ -69,7 +69,7 @@ public class CreateProcessController extends Controller {
     private final Set<Document> documents = new HashSet<>();
     
     private Team team;
-
+    
     public void initialize() {
 
         documentNameError.setVisible(false);
@@ -102,6 +102,7 @@ public class CreateProcessController extends Controller {
         }
         catch (NoSuchElementException e) {
             log.debug("No such team error", e);
+            
 //            showError();
         }
         

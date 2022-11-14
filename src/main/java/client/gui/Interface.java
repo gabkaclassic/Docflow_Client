@@ -3,11 +3,11 @@ package client.gui;
 import client.file.FileManager;
 import client.gui.data.Data;
 import client.sender.Sender;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -16,6 +16,8 @@ import java.io.IOException;
 public class Interface extends Application {
     
     private static final String HOME_SCENE = "controller/login.fxml";
+    
+    private static final FileManager fileManager = new FileManager();
     
     @Override
     public void start(Stage stage) throws IOException {
@@ -37,18 +39,20 @@ public class Interface extends Application {
         stage.show();
     }
     private void closeProject() throws IOException {
+        
         var data = Data.getInstance();
-        var fileManager = new FileManager();
         
         if(data.getParticipant() != null) {
     
             for(var process: data.getProcesses()) {
                 var step = process.currentStep();
+                Sender.updateStep(step);
                 fileManager.updateDocuments(process.getTitle(), step.getDocuments());
                 Sender.updateDocuments(step.getDocuments());
             }
             
             Sender.logout(data.getParticipant().getUsername());
+            data.clear();
         }
     }
     

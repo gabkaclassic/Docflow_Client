@@ -1,5 +1,7 @@
 package client.gui.controller;
 
+import client.file.FileManager;
+import client.gui.data.Data;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,8 +38,7 @@ public class GeneralInfoController extends Controller{
         
         teams.getItems().clear();
         processes.getItems().clear();
-
-    
+        
         for(var team: data.getTeams()) {
         
             var item = new MenuItem(team.getTitle());
@@ -93,7 +94,12 @@ public class GeneralInfoController extends Controller{
     public void logout(ActionEvent event) throws IOException{
 
         try {
-            Sender.logout(data.getParticipant().getUsername());
+            var data = Data.getInstance();
+    
+            if(data.getParticipant() != null) {
+        
+                Sender.logout(data.getParticipant().getUsername());
+            }
         }
         catch (Exception e) {
     

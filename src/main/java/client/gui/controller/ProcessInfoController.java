@@ -21,8 +21,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-;
-
 @Slf4j
 public class ProcessInfoController extends Controller {
     @FXML
@@ -353,6 +351,11 @@ public class ProcessInfoController extends Controller {
     }
     
     public void back(ActionEvent event) throws IOException {
+    
+        Sender.updateStep(step);
+        fileManager.updateDocuments(process.getTitle(), step.getDocuments());
+        Sender.updateDocuments(step.getDocuments());
+        
         
         showStage(event, data.getPreviousScene(), source);
     }
