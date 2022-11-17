@@ -100,7 +100,8 @@ public class CreateProcessController extends Controller {
     }
     
     public void createProcess(ActionEvent event) throws IOException {
-    
+
+        processTitleError.setVisible(false);
         if(!checkTitle(processTitle.getText())) {
 //            showError();
             return;
@@ -226,7 +227,8 @@ public class CreateProcessController extends Controller {
     }
     
     public void addDocument() {
-        
+
+        documentNameError.setVisible(false);
         var document = new Document();
         var title = documentTitle.getText();
         var extension = documentExtension.getText();

@@ -76,6 +76,9 @@ public class CreateTeamController extends Controller {
     
     public void createTeam(ActionEvent event) throws IOException{
 
+        hideTeamError();
+        hideUserError();
+        hideCreationError();
         if(!checkTitle(teamTitle.getText())) return;
         indicator.setVisible(true);
         var progress = new Progress<>(() -> {
