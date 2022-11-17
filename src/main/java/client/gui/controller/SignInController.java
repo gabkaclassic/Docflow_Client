@@ -26,7 +26,6 @@ public class SignInController extends Controller {
     private TextField shownPassword;
     
     private final static String source = "sign_in.fxml";
-    private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
         hideError();
@@ -52,6 +51,7 @@ public class SignInController extends Controller {
                 }
                 catch (IOException e) {
                     log.warn("Login error", e);
+                    e.printStackTrace();
                     showError("Unknown connection error");
                 }
                 finally {
@@ -68,7 +68,7 @@ public class SignInController extends Controller {
                 try {
                     finishSignIn(progress.get(), event);
                 } catch (IOException e) {
-    
+                    e.printStackTrace();
                     log.warn("Login error", e);
                     showError("Unknown connection error");
                 }

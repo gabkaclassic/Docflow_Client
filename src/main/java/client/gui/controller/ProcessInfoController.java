@@ -94,6 +94,7 @@ public class ProcessInfoController extends Controller {
         participant = data.getParticipant();
         permission = step.getRules().get(participant.getUsername());
         
+        acceptButton.setText("Accept changes");
         if(process.finished())
             acceptButton.setText("Progress completion");
         refuseButton.setVisible(true);
@@ -128,7 +129,7 @@ public class ProcessInfoController extends Controller {
         }
     }
     
-    private void addDocument(Document document) throws JsonProcessingException {
+    private void addDocument(Document document) {
     
         var saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
@@ -296,7 +297,7 @@ public class ProcessInfoController extends Controller {
         }
         saveAll(event);
         
-        var step = process.nextStep();
+        process.nextStep();
         var response = Sender.approve(process);
         
         if(response.isError()) {
@@ -326,7 +327,7 @@ public class ProcessInfoController extends Controller {
     }
     public void previousStep(ActionEvent event) throws IOException {
     
-        var step = process.previousStep();
+        process.previousStep();
         var response = Sender.refuse(process);
         
         if(response.isError()) {
