@@ -291,11 +291,20 @@ public class ProcessInfoController extends Controller {
     }
     
     public void nextStep(ActionEvent event) throws IOException {
-        
-        if(process.finished()) {  // TO DO
-        
-        }
+    
         saveAll(event);
+        
+        if(process.finished()) {
+        
+            fileManager.saveResult(event, process);
+            var result = fileManager.removeProcessPath(process);
+            var response = Sender.finishProcess(process);
+            
+            if(result && response != null && !response.isError())
+                showStage(event, "general_info.fxml", source);
+            else
+                return;
+        }
         
         process.nextStep();
         var response = Sender.approve(process);

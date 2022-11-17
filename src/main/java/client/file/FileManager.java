@@ -1,23 +1,29 @@
 package client.file;
 
+import client.entity.process.Process;
 import client.entity.process.document.Document;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
 public class FileManager {
     
-    private static final String WORKDIR = "documents";
+    private static final String WORKDIR = System.getenv("WORKDIR");
     private static final String SEPARATOR = System.getProperty("file.separator");
     
     public void saveDocument(Document document, String processTitle) throws IOException {
@@ -34,7 +40,7 @@ public class FileManager {
         }
     }
     
-    public void updateDocuments(String processTitle, Set<Document> documents) throws IOException {
+    public void updateDocuments(String processTitle, Set<Document> documents) {
         
         for(var document: documents) {
     
@@ -102,4 +108,36 @@ public class FileManager {
         return String.join(SEPARATOR, WORKDIR, processTitle);
     }
     
+    public boolean saveResult(ActionEvent event, Process process) {
+    
+        var directory = new File(getFilename(process.getTitle()));
+        
+        if(!directory.exists() || !directory.isDirectory()) {
+            log.warn("Save result error", Thread.currentThread().getStackTrace());
+            return false;
+        }
+    
+        var directoryChooser = new DirectoryChooser();
+        var resultDirectory = directoryChooser.showDialog((((Node)event.getSource()).getScene().getWindow()));
+        directoryChooser.setTitle("Select directory for saving result");
+        
+        while(resultDirectory == null)
+            resultDirectory = directoryChooser.showDialog((((Node)event.getSource()).getScene().getWindow()));
+        
+        for(var doc: Objects.requireNonNull(directory.listFiles()))
+            doc.renameTo(new File(resultDirectory.getAbsolutePath() + SEPARATOR + doc.getName()));
+        
+        return true;
+    }
+    
+    public boolean removeProcessPath(Process process) {
+        
+        var directory = new File(getFilename(process.getTitle()));
+        if(!directory.exists() || !directory.isDirectory()) {
+            log.warn("Save result error", Thread.currentThread().getStackTrace());
+            return false;
+        }
+        
+        return directory.delete();
+    }
 }
