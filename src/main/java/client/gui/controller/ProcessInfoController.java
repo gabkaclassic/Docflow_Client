@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.extern.slf4j.Slf4j;
 
+import java.awt.font.TextLayout;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -31,6 +32,14 @@ public class ProcessInfoController extends Controller {
     @FXML
     private Label permissions;
 
+    @FXML
+    private Button createDocument;
+    
+    @FXML
+    private Label filenameLabel;
+    
+    @FXML
+    private Label extensionLabel;
     @FXML
     private Accordion documents;
     
@@ -93,6 +102,16 @@ public class ProcessInfoController extends Controller {
         
         participant = data.getParticipant();
         permission = step.getRules().get(participant.getUsername());
+        
+        if(permission.equals(Rules.READ)) {
+            
+            documentTitle.setVisible(false);
+            documentExtension.setVisible(false);
+            open.setVisible(false);
+            filenameLabel.setVisible(false);
+            extensionLabel.setVisible(false);
+        }
+        
         
         acceptButton.setText("Accept changes");
         if(process.finished())
