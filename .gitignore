@@ -12,3 +12,6 @@ src/test
 *.iml
 *.Ds
 documents
+*.log
+logs
+test

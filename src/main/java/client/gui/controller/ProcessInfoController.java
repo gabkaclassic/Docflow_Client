@@ -16,12 +16,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.extern.slf4j.Slf4j;
 
+import java.awt.font.TextLayout;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Pattern;
-
-;
 
 @Slf4j
 public class ProcessInfoController extends Controller {
@@ -33,6 +32,14 @@ public class ProcessInfoController extends Controller {
     @FXML
     private Label permissions;
 
+    @FXML
+    private Button createDocument;
+    
+    @FXML
+    private Label filenameLabel;
+    
+    @FXML
+    private Label extensionLabel;
     @FXML
     private Accordion documents;
     
@@ -79,7 +86,7 @@ public class ProcessInfoController extends Controller {
     private static final String source = "process_info.fxml";
     
     @FXML
-    public void initialize() {
+    public void initialize() throws JsonProcessingException {
         
         process = data.getCurrentProcess();
         
@@ -96,6 +103,17 @@ public class ProcessInfoController extends Controller {
         participant = data.getParticipant();
         permission = step.getRules().get(participant.getUsername());
         
+        if(permission.equals(Rules.READ)) {
+            
+            documentTitle.setVisible(false);
+            documentExtension.setVisible(false);
+            open.setVisible(false);
+            filenameLabel.setVisible(false);
+            extensionLabel.setVisible(false);
+        }
+        
+        
+        acceptButton.setText("Accept changes");
         if(process.finished())
             acceptButton.setText("Progress completion");
         refuseButton.setVisible(true);
@@ -121,11 +139,13 @@ public class ProcessInfoController extends Controller {
         
         updateDocuments();
     }
-    private void updateDocuments() {
+    private void updateDocuments() throws JsonProcessingException {
         
         documents.getPanes().clear();
-        
-        step.getDocuments().forEach(this::addDocument);
+    
+        for (Document document : step.getDocuments()) {
+            addDocument(document);
+        }
     }
     
     private void addDocument(Document document) {
@@ -203,7 +223,12 @@ public class ProcessInfoController extends Controller {
         
         var document = new Document();
         document.setTitle(documentTitle.getText());
-        document.setFormat(documentExtension.getText());
+        
+        var extension = documentExtension.getText();
+        if(!extension.startsWith("."))
+            extension = "." + extension;
+        document.setFormat(extension);
+        
         document.setStepTitle(step.getTitle());
         
         if(checkDocument(document)) {
@@ -228,13 +253,12 @@ public class ProcessInfoController extends Controller {
     public void saveAll(ActionEvent event) throws IOException {
         
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
-        updateDocuments();
-        var response = Sender.updateDocuments(step.getDocuments());
-        
+        var response = Sender.updateStep(step);
+    
         if(response.isError()) {
 //            showError();
         }
-        
+    
         data.refresh();
         initialize();
     }
@@ -286,13 +310,22 @@ public class ProcessInfoController extends Controller {
     }
     
     public void nextStep(ActionEvent event) throws IOException {
-        
-        if(process.finished()) {  // TO DO
-        
-        }
+    
         saveAll(event);
         
-        var step = process.nextStep();
+        if(process.finished()) {
+        
+            fileManager.saveResult(event, process);
+            var result = fileManager.removeProcessPath(process);
+            var response = Sender.finishProcess(process);
+            
+            if(result && response != null && !response.isError())
+                showStage(event, "general_info.fxml", source);
+            else
+                return;
+        }
+        
+        process.nextStep();
         var response = Sender.approve(process);
         
         if(response.isError()) {
@@ -322,7 +355,7 @@ public class ProcessInfoController extends Controller {
     }
     public void previousStep(ActionEvent event) throws IOException {
     
-        var step = process.previousStep();
+        process.previousStep();
         var response = Sender.refuse(process);
         
         if(response.isError()) {
@@ -347,6 +380,11 @@ public class ProcessInfoController extends Controller {
     }
     
     public void back(ActionEvent event) throws IOException {
+    
+        Sender.updateStep(step);
+        fileManager.updateDocuments(process.getTitle(), step.getDocuments());
+        Sender.updateDocuments(step.getDocuments());
+        
         
         showStage(event, data.getPreviousScene(), source);
     }

@@ -241,4 +241,11 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "info/process", params), ProcessResponse.class);
     }
+    
+    public static Response finishProcess(Process process) throws JsonProcessingException {
+        var params = new LinkedMultiValueMap<String, String>();
+        params.add("processId", process.getId());
+    
+        return mapper.readValue(send(HttpMethod.POST, "update/process/finish", params), Response.class);
+    }
 }

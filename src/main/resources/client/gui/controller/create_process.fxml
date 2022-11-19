@@ -7,53 +7,101 @@
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="749.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
    <children>
-      <Label layoutX="127.0" layoutY="97.0" text="Process title:" />
-      <TextField fx:id="processTitle" layoutX="205.0" layoutY="93.0" />
-      <SplitMenuButton fx:id="stepsList" layoutX="779.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Steps">
+      <Label layoutX="270.0" layoutY="140.0" text="Process title:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <TextField fx:id="processTitle" layoutX="270.0" layoutY="183.0" prefHeight="45.0" prefWidth="240.0" />
+      <SplitMenuButton fx:id="stepsList" layoutX="880.0" layoutY="174.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Steps">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
         </items>
+         <font>
+            <Font size="14.0" />
+         </font>
       </SplitMenuButton>
-      <Button layoutX="164.0" layoutY="614.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="25.0" prefWidth="82.0" text="Save step" />
-      <Button layoutX="377.0" layoutY="701.0" mnemonicParsing="false" onAction="#createProcess" text="Create process" />
-      <TextField fx:id="stepTitle" layoutX="205.0" layoutY="233.0" />
-      <Label layoutX="118.0" layoutY="237.0" text="Step title:" />
-      <Button layoutX="280.0" layoutY="614.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Delete step" />
-      <SplitMenuButton fx:id="participantsList" alignment="TOP_CENTER" layoutX="619.0" layoutY="290.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Participants list">
+      <Button layoutX="1160.0" layoutY="174.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="45.0" prefWidth="83.0" stylesheets="@button.css" text="Save" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="600.0" layoutY="922.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="60.0" prefWidth="260.0" stylesheets="@button.css" text="Create process" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <TextField fx:id="stepTitle" layoutX="270.0" layoutY="376.0" prefHeight="45.0" prefWidth="240.0" />
+      <Label layoutX="270.0" layoutY="334.0" text="Step title:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Button layoutX="1258.0" layoutY="174.0" mnemonicParsing="false" onAction="#removeStep" prefHeight="45.0" prefWidth="83.0" stylesheets="@button.css" text="Delete" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <SplitMenuButton fx:id="participantsList" layoutX="880.0" layoutY="433.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Participants list">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
          </items>
+         <font>
+            <Font size="14.0" />
+         </font>
       </SplitMenuButton>
-<!--      <Button layoutX="199.0" layoutY="345.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to step" />-->
-      <Label layoutX="110.0" layoutY="293.0" text="Participants:" />
-      <Label layoutX="20.0" layoutY="407.0" text="Documents:" />
-      <TextField fx:id="documentTitle" alignment="TOP_LEFT" layoutX="199.0" layoutY="403.0" prefHeight="26.0" prefWidth="210.0" />
-      <SplitMenuButton fx:id="documentsList" alignment="TOP_CENTER" layoutX="619.0" layoutY="404.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="210.0" text="Documents">
+      <Label layoutX="270.0" layoutY="598.0" prefHeight="24.0" prefWidth="99.0" text="Documents">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <TextField fx:id="documentTitle" layoutX="270.0" layoutY="632.0" prefHeight="45.0" prefWidth="240.0" promptText="Document title">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <SplitMenuButton fx:id="documentsList" layoutX="880.0" layoutY="632.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Documents">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
          </items>
+         <font>
+            <Font size="14.0" />
+         </font>
       </SplitMenuButton>
-<!--      <Button layoutX="199.0" layoutY="528.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to step" />-->
-      <TextField fx:id="documentExtension" alignment="TOP_LEFT" layoutX="194.0" layoutY="469.0" prefHeight="26.0" prefWidth="210.0" promptText=".&lt;any file format&gt;" />
-      <Label layoutX="102.0" layoutY="407.0" text="Document title:" />
-      <Label layoutX="65.0" layoutY="474.0" text="Document extension:" />
-      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" layoutX="143.0" layoutY="178.0" prefWidth="150.0" />
-      <Label layoutX="203.0" layoutY="148.0" text="Team" />
-      <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="83.0" text="Back" />
-      <TextField fx:id="stepNumber" layoutX="466.0" layoutY="233.0" prefHeight="25.0" prefWidth="42.0" />
-      <Label layoutX="399.0" layoutY="237.0" text="Number:" />
-      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="412.0" layoutY="290.0" prefWidth="150.0" />
-      <Label layoutX="466.0" layoutY="262.0" text="Rules:" />
-      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="224.0" layoutY="290.0" prefWidth="150.0" />
-      <Button layoutX="224.0" layoutY="338.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="25.0" prefWidth="82.0" text="Add to step" />
-      <Button layoutX="193.0" layoutY="536.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="25.0" prefWidth="106.0" text="Add document" />
-      <Label fx:id="documentNameError" layoutX="198.0" layoutY="438.0" text="Document with such name already exsist" textFill="#e80a0a" />
-      <Label fx:id="processTitleError" layoutX="198.0" layoutY="125.0" text="Process with such title already exsist" textFill="#f50c0c" />
-      <Label fx:id="numberValueError" layoutX="527.0" layoutY="237.0" text="The number must be more 0" textFill="#f20909" />
+      <TextField fx:id="documentExtension" layoutX="270.0" layoutY="697.0" prefHeight="45.0" prefWidth="240.0" promptText="Document extension">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" />
+      <Label layoutX="288.0" layoutY="254.0" text="Team">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <TextField fx:id="stepNumber" layoutX="584.0" layoutY="368.0" prefHeight="45.0" prefWidth="58.0" />
+      <Label layoutX="584.0" layoutY="334.0" text="Step:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="584.0" layoutY="433.0" prefHeight="45.0" prefWidth="181.0" />
+      <Label layoutX="602.0" layoutY="447.0" text="Rules:">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button layoutX="270.0" layoutY="503.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="45.0" prefWidth="240.0" stylesheets="@button.css" text="Add to step" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="270.0" layoutY="767.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="45.0" prefWidth="240.0" stylesheets="@button.css" text="Add document" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="433.0" prefHeight="45.0" prefWidth="240.0" />
+      <Label layoutX="288.0" layoutY="447.0" text="Participants:">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
    </children>
 </AnchorPane>

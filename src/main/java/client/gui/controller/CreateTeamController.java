@@ -82,6 +82,7 @@ public class CreateTeamController extends Controller {
         if(!checkTitle(teamTitle.getText())) return;
         indicator.setVisible(true);
         var progress = new Progress<>(() -> {
+            
             indicator.setVisible(true);
             var data = Data.getInstance();
             var leader = data.getParticipant();
@@ -141,7 +142,8 @@ public class CreateTeamController extends Controller {
         
         teamError.setVisible(true);
     }
-    private void showCreationError(String ErrorMessage){
+    private void showCreationError(String errorMessage) {
+        creationError.setText(errorMessage);
         creationError.setVisible(true);
     }
 

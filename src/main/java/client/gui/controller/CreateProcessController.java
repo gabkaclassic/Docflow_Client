@@ -50,14 +50,6 @@ public class CreateProcessController extends Controller {
     
     @FXML
     private SplitMenuButton documentsList;
-
-    @FXML
-    private Label documentNameError;
-
-    @FXML
-    private Label processTitleError;
-    @FXML
-    private Label numberValueError;
     
     private final static String source = "create_process.fxml";
     private Participant creator;
@@ -69,15 +61,13 @@ public class CreateProcessController extends Controller {
     private final Set<Document> documents = new HashSet<>();
     
     private Team team;
-
+    
     public void initialize() {
 
-        documentNameError.setVisible(false);
-        processTitleError.setVisible(false);
-        numberValueError.setVisible(false);
         creator = data.getParticipant();
         
         creator.getTeams().stream()
+                .filter(t -> t.getTeamLeaderId().equals(creator.getId()))
                 .map(Team::getTitle)
                 .forEach(teamsList.getItems()::add);
         participantsList.getItems().clear();
@@ -102,6 +92,7 @@ public class CreateProcessController extends Controller {
         }
         catch (NoSuchElementException e) {
             log.debug("No such team error", e);
+            
 //            showError();
         }
         
@@ -110,9 +101,9 @@ public class CreateProcessController extends Controller {
     
     public void createProcess(ActionEvent event) throws IOException {
 
-        processTitleError.setVisible(false);
+//        processTitleError.setVisible(false);
         if(!checkTitle(processTitle.getText())) {
-            showProcessTitleError();
+//            showError();
             return;
         }
         
@@ -132,6 +123,11 @@ public class CreateProcessController extends Controller {
 
         var response = Sender.createProcess(team, process);  // TO DO
         
+        if(response == null || response.isError()) {
+//            showError();
+            return;
+        }
+        
         showStage(event, "general_info.fxml", source);
     }
     
@@ -140,7 +136,13 @@ public class CreateProcessController extends Controller {
         int number;
         String title;
         
+        if(rules.isEmpty() || documents.isEmpty()) {
+//            showError();
+            return;
+        }
+        
         try {
+            
             number = Integer.parseInt(stepNumber.getText());
             title = stepTitle.getText();
             
@@ -150,17 +152,12 @@ public class CreateProcessController extends Controller {
             if(title == null || title.isBlank())
                 throw new InvalidParameterException();
         }
-        catch (InvalidParameterException e) {
+        catch (InvalidParameterException | NumberFormatException e) {
             log.info("Invalid input data error", e);
 //            showError();
             return;
         }
-        catch (NumberFormatException e) {
-            log.info("Invalid input data error", e);
-            showNumberValueError();
-            return;
-        }
-        
+    
         var step = steps.stream()
                 .filter(s -> s.getNumber() == number)
                 .findFirst().orElse(new Step());
@@ -206,14 +203,37 @@ public class CreateProcessController extends Controller {
         refreshParticipantsList(step);
     }
     
+    public void removeStep(ActionEvent e) {
+        
+        var title = stepTitle.getText();
+        
+        try {
+            var step = steps.stream()
+                    .filter(s -> s.getTitle().equals(title))
+                    .findFirst().orElseThrow();
+            steps.remove(step);
+            selectStep(
+                    steps.stream()
+                    .min(Comparator.comparing(Step::getNumber)).orElseThrow()
+            );
+        }
+        catch (NoSuchElementException exception) {
+            log.debug("No such step error", exception);
+//            showError();
+            return;
+        }
+        
+        refreshStepsList();
+    }
+    
     public void addDocument() {
 
-        documentNameError.setVisible(false);
+//        documentNameError.setVisible(false);
         var document = new Document();
         var title = documentTitle.getText();
         var extension = documentExtension.getText();
         if(!checkDocument(title)) {
-            showDocumentNameError();
+//            showError();
             return;
         }
         if(!extension.startsWith("."))
@@ -232,10 +252,18 @@ public class CreateProcessController extends Controller {
     }
     
     public void addParticipant(ActionEvent event) {
+    
+        var username = participantsChoice.getValue();
+        var rule = Rules.valueOf(rulesList.getValue());
         
+        if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
+            || rules.containsKey(username)) {
+//            showError();
+            return;
+        }
         
-        var participant = new MenuItem(String.format("%s (%s)", participantsChoice.getValue(), rulesList.getValue()));
-        rules.put(participantsChoice.getValue(), Rules.valueOf(rulesList.getValue()));
+        var participant = new MenuItem(String.format("%s (%s)", username, rule));
+        rules.put(username, rule);
         participant.setOnAction(e -> participantsList.getItems().remove(participant));
         participantsList.getItems().add(participant);
         
@@ -293,13 +321,5 @@ public class CreateProcessController extends Controller {
                 .map(Document::getTitle)
                 .noneMatch(t -> t.equals(title));
     }
-    private void showDocumentNameError(){
-        documentNameError.setVisible(true);
-    }
-    private void showProcessTitleError(){
-        processTitleError.setVisible(true);
-    }
-    private void showNumberValueError(){
-        numberValueError.setVisible(true);
-    }
+
 }

@@ -2,6 +2,7 @@ package client.gui.controller;
 
 import client.response.InfoResponse;
 import client.sender.Sender;
+import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,7 +16,6 @@ public class SignInController extends Controller {
     private TextField login;
     @FXML
     private PasswordField password;
-    
     @FXML
     private ProgressIndicator indicator;
     @FXML
@@ -26,13 +26,29 @@ public class SignInController extends Controller {
     private TextField shownPassword;
     
     private final static String source = "sign_in.fxml";
-    private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
+        
         hideError();
+       
+        password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
+        login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
     }
     
-
+    private void checkPassword(String password) {
+        
+        if(!DataUtils.checkPassword(password)) {
+//            showError();
+        }
+    }
+    
+    private void checkLogin(String login) {
+        
+        if(!DataUtils.checkLogin(login)) {
+//            showError();
+        }
+    }
+    
     public void switchToLogin(ActionEvent event) throws IOException {
         
         showStage(event, "login.fxml", source);
@@ -52,6 +68,7 @@ public class SignInController extends Controller {
                 }
                 catch (IOException e) {
                     log.warn("Login error", e);
+                    e.printStackTrace();
                     showError("Unknown connection error");
                 }
                 finally {
@@ -68,7 +85,7 @@ public class SignInController extends Controller {
                 try {
                     finishSignIn(progress.get(), event);
                 } catch (IOException e) {
-    
+                    e.printStackTrace();
                     log.warn("Login error", e);
                     showError("Unknown connection error");
                 }
