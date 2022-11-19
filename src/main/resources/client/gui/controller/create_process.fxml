@@ -11,11 +11,11 @@
 
 <AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
    <children>
-      <Label layoutX="270.0" layoutY="140.0" text="Process title:">
+      <Label layoutX="270.0" layoutY="140.0" text="Process:">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <TextField fx:id="processTitle" layoutX="270.0" layoutY="368.0" prefHeight="45.0" prefWidth="240.0" />
+      <TextField fx:id="processTitle" layoutX="270.0" layoutY="368.0" prefHeight="45.0" prefWidth="240.0" promptText="Step title" />
       <SplitMenuButton fx:id="stepsList" layoutX="880.0" layoutY="174.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Steps">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -32,8 +32,8 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <TextField fx:id="stepTitle" layoutX="270.0" layoutY="174.0" prefHeight="45.0" prefWidth="240.0" />
-      <Label layoutX="270.0" layoutY="334.0" text="Step title:">
+      <TextField fx:id="stepTitle" layoutX="270.0" layoutY="174.0" prefHeight="45.0" prefWidth="240.0" promptText="Process title" />
+      <Label layoutX="270.0" layoutY="334.0" text="Step:">
          <font>
             <Font size="20.0" />
          </font></Label>
@@ -72,8 +72,8 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" />
-      <Label layoutX="288.0" layoutY="254.0" text="Team">
+      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" accessibleText="Team:" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" />
+      <Label layoutX="219.0" layoutY="253.0" text="Team:">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -87,7 +87,7 @@
             <Font size="20.0" />
          </font></Label>
       <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="584.0" layoutY="433.0" prefHeight="45.0" prefWidth="181.0" />
-      <Label layoutX="602.0" layoutY="447.0" text="Rules:">
+      <Label layoutX="537.0" layoutY="447.0" text="Rules:">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -101,7 +101,7 @@
          </font></Button>
       <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="433.0" prefHeight="45.0" prefWidth="240.0" />
 <!--      <Button layoutX="199.0" layoutY="345.0" minWidth="53.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="30.0" prefWidth="90.0" text="Add to step" />-->
-      <Label layoutX="288.0" layoutY="447.0" text="Participants:">
+      <Label layoutX="188.0" layoutY="447.0" text="Participants:">
          <font>
             <Font size="14.0" />
          </font></Label>
