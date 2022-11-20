@@ -69,7 +69,7 @@ public class Process {
         var rule = currentStep().getRules().get(participant.getUsername());
         var id = getId();
         return rule != null
-                && participant.getTeams().stream()
+                || participant.getTeams().stream()
                 .filter(t -> t.getTeamLeaderId().equals(participant.getId()))
                 .flatMap(t -> t.getProcesses().stream())
                 .anyMatch(p -> p.getId().equals(id));
