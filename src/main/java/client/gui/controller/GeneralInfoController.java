@@ -56,7 +56,10 @@ public class GeneralInfoController extends Controller{
             teams.getItems().add(item);
         }
         
-        for(var process: data.getProcesses()) {
+        for(var process: data.getProcesses().stream()
+                .filter(p -> p.checkRules(data.getParticipant()))
+                .toList()
+        ) {
         
             var item = new MenuItem(process.getTitle());
     

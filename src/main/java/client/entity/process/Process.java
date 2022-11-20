@@ -62,4 +62,11 @@ public class Process {
         return steps.stream()
                 .noneMatch(step -> step.getNumber() == currentStep + 1);
     }
+    
+    public boolean checkRules(Participant participant) {
+        
+        var rule = currentStep().getRules().get(participant.getUsername());
+        
+        return rule != null && rule.getLevel() > Rules.READ.getLevel();
+    }
 }

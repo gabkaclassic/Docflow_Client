@@ -39,8 +39,6 @@ public class ProcessInfoController extends Controller {
     private Label filenameLabel;
     
     @FXML
-    private Label extensionLabel;
-    @FXML
     private Accordion documents;
     
     @FXML
@@ -109,7 +107,7 @@ public class ProcessInfoController extends Controller {
             documentExtension.setVisible(false);
             open.setVisible(false);
             filenameLabel.setVisible(false);
-            extensionLabel.setVisible(false);
+            createDocument.setVisible(false);
         }
         
         
