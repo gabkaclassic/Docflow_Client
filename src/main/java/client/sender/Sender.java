@@ -133,12 +133,12 @@ public class Sender {
         return mapper.readValue(send, InfoResponse.class);
     }
     
-    public static void invite(String username, String title) {
+    public static Response invite(String username, String title) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", title);
-        send(HttpMethod.POST,"invite", params);
+        return mapper.readValue(send(HttpMethod.POST,"invite", params), Response.class);
     }
     
     public static Response updateStep(Step step) throws JsonProcessingException {
@@ -201,12 +201,12 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "exist/process", params), ExistResponse.class);
     }
-    public static void refuseInvite(String username, String teamId) {
+    public static Response refuseInvite(String username, String teamId) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", teamId);
-        send(HttpMethod.POST, "invite/refuse", params);
+        return mapper.readValue(send(HttpMethod.POST, "invite/refuse", params), Response.class);
     }
     
     public static ExistResponse documentExists(Document document) throws JsonProcessingException {
