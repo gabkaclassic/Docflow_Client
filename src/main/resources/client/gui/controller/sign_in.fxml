@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignInController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignInController">
    <children>
       <PasswordField fx:id="password" layoutX="551.0" layoutY="451.0" prefHeight="75.0" prefWidth="311.0" promptText="    Password">
          <font>
@@ -37,9 +37,13 @@
          </font>
       </Label>
 
-      <ProgressIndicator fx:id="indicator" disable="true" layoutX="274.0" layoutY="314.0" prefHeight="59.0" prefWidth="53.0" />
-      <CheckBox fx:id="checkBox" layoutX="384.0" layoutY="204.0" mnemonicParsing="false" onAction="#changeVisibility" text="Show password" />
-      <TextField fx:id="shownPassword" layoutX="226.0" layoutY="200.0" promptText="password" visible="false" />
+      <ProgressIndicator fx:id="indicator" disable="true" layoutX="681.0" layoutY="707.0" prefHeight="59.0" prefWidth="53.0" visible="false" />
+      <CheckBox fx:id="checkBox" layoutX="877.0" layoutY="480.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="33.0" prefWidth="125.0" text="Show password" />
+      <TextField fx:id="shownPassword" layoutX="551.0" layoutY="451.0" prefHeight="75.0" prefWidth="311.0" promptText="    Password" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
 
    </children>
 </AnchorPane>
