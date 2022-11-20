@@ -42,10 +42,6 @@
             <Font size="14.0" />
          </font></Button>
       <SplitMenuButton fx:id="participantsList" layoutX="880.0" layoutY="433.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Participants list">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
          <font>
             <Font size="14.0" />
          </font>
@@ -59,10 +55,6 @@
             <Font size="14.0" />
          </font></TextField>
       <SplitMenuButton fx:id="documentsList" layoutX="880.0" layoutY="632.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Documents">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
          <font>
             <Font size="14.0" />
          </font>

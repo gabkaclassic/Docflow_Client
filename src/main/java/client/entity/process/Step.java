@@ -18,6 +18,21 @@ public class Step {
     
     private Map<String, Rules> rules = new HashMap<>();
     
+    public String getTitle() {
+        
+        return id.getTitle();
+    }
+    
+    public void setProcessId(String processId) {
+        
+        id.setProcessId(processId);
+    }
+    
+    public void setTitle(String title) {
+        
+        id.setTitle(title);
+    }
+    
     public Step() {
         
         id = new StepId();
@@ -34,16 +49,6 @@ public class Step {
     public String getProcessId() {
         
         return id.getProcessId();
-    }
-    
-    public String getTitle() {
-        
-        return id.getTitle();
-    }
-    
-    public void setTitle(String title) {
-        
-        id.setTitle(title);
     }
 }
 
