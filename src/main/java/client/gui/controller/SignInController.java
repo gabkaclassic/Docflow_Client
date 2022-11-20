@@ -64,7 +64,7 @@ public class SignInController extends Controller {
                 
                 InfoResponse result = null;
                 try {
-                    result = Sendergti.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
+                    result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
                 }
                 catch (IOException e) {
                     log.warn("Login error", e);

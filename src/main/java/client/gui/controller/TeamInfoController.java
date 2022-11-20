@@ -35,6 +35,9 @@ public class TeamInfoController extends Controller {
     
     @FXML
     private TextField usernameField;
+    @FXML
+    private Label inviteParticipantErrorFiled;
+
     
     private String currentParticipant;
     
@@ -81,10 +84,11 @@ public class TeamInfoController extends Controller {
     
     public void invite(ActionEvent e) throws IOException {
         
+        inviteParticipantErrorFiled.setVisible(false);
         var username = usernameField.getText();
         
         if(username == null || username.isBlank()) {
-//            showError();
+            showInviteParticipantError("This field can't be empty");
             return;
         }
         
@@ -109,6 +113,10 @@ public class TeamInfoController extends Controller {
         var scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    private void showInviteParticipantError(String error){
+        inviteParticipantErrorFiled.setText(error);
+        inviteParticipantErrorFiled.setVisible(true);
     }
     
     public void back(ActionEvent event) throws IOException {
