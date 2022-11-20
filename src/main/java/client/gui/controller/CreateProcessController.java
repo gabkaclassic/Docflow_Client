@@ -274,6 +274,16 @@ public class CreateProcessController extends Controller {
     
     public void addParticipant(ActionEvent event) {
     
+        if(participantsChoice.getValue().isBlank()) {
+//            showError();
+            return;
+        }
+        
+        if(rulesList.getValue().isBlank()) {
+//            showError();
+            return;
+        }
+        
         var username = participantsChoice.getValue();
         var rule = Rules.valueOf(rulesList.getValue());
         
