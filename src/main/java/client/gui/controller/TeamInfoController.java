@@ -96,6 +96,7 @@ public class TeamInfoController extends Controller {
         if(response.isError()) {
             showInviteParticipantError("Unsuccessful invite");
             return;
+
         }
         
         data.refresh();

@@ -111,5 +111,9 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <Label fx:id="createDocumentError" layoutX="905.0" layoutY="423.0" prefHeight="17.0" prefWidth="290.0" textFill="#eb1212" />
+      <Label fx:id="approveError" layoutX="673.0" layoutY="701.0" prefHeight="17.0" prefWidth="231.0" textFill="#e40d0d" visible="false" />
+      <Label fx:id="commentError" layoutX="86.0" layoutY="536.0" prefHeight="17.0" prefWidth="290.0" textFill="#d70b0b" visible="false" />
+      <Label fx:id="resourceError" layoutX="86.0" layoutY="838.0" prefHeight="17.0" prefWidth="290.0" textFill="#d71313" visible="false" />
    </children>
 </AnchorPane>
