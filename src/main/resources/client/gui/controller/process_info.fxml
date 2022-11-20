@@ -25,32 +25,48 @@
          </font>
       </Label>
       <Accordion fx:id="documents" layoutX="937.0" layoutY="201.0" />
-      <Label contentDisplay="CENTER" layoutX="968.0" layoutY="156.0" prefHeight="45.0" prefWidth="140.0" text="Your documents">
+      <Label contentDisplay="CENTER" layoutX="469.0" layoutY="150.0" prefHeight="24.0" prefWidth="170.0" text="Your documents:">
          <font>
-            <Font size="18.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="acceptButton" layoutX="860.0" layoutY="487.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="66.0" prefWidth="140.0" text="Accept changes" />
-      <Button fx:id="refuseButton" layoutX="681.0" layoutY="487.0" mnemonicParsing="false" onAction="#previousStep" prefHeight="66.0" prefWidth="179.0" text="Refuse (go to previous step)" />
-      <Button fx:id="saveButton" layoutX="541.0" layoutY="487.0" mnemonicParsing="false" onAction="#saveAll" prefHeight="66.0" prefWidth="140.0" text="Save all changes" />
-      <Label fx:id="permissions" alignment="TOP_LEFT" layoutX="14.0" layoutY="143.0" prefHeight="25.0" prefWidth="480.0" text="Your permissions: " textAlignment="CENTER">
+      <Button fx:id="acceptButton" layoutX="1229.0" layoutY="573.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Accept changes" textFill="WHITE">
          <font>
             <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="refuseButton" layoutX="1037.0" layoutY="573.0" mnemonicParsing="false" onAction="#previousStep" prefHeight="60.0" prefWidth="190.0" stylesheets="@button.css" text="Refuse (go to previous step)" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="saveButton" layoutX="915.0" layoutY="573.0" mnemonicParsing="false" onAction="#saveAll" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Save all changes" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Label fx:id="permissions" contentDisplay="CENTER" layoutX="86.0" layoutY="150.0" prefHeight="26.0" prefWidth="325.0" text="Your permissions: ">
+         <font>
+            <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="documentTitle" layoutX="637.0" layoutY="236.0" />
-      <TextField fx:id="documentExtension" layoutX="637.0" layoutY="276.0" />
-      <Button fx:id="createDocument" layoutX="585.0" layoutY="337.0" mnemonicParsing="false" onAction="#addDocument" text="Create document" />
-      <Label fx:id="filenameLabel" layoutX="560.0" layoutY="240.0" text="Filename:" />
-      <Label fx:id="extensionLabel" layoutX="560.0" layoutY="280.0" text="Extension:" />
-      <CheckBox fx:id="open" layoutX="770.0" layoutY="314.0" mnemonicParsing="false" text="Open after creating" />
+      <TextField fx:id="documentTitle" layoutX="915.0" layoutY="196.0" prefHeight="45.0" prefWidth="290.0" />
+      <TextField fx:id="documentExtension" layoutX="915.0" layoutY="252.0" prefHeight="45.0" prefWidth="290.0" />
+      <Button fx:id="createDocument" layoutX="915.0" layoutY="352.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="45.0" prefWidth="290.0" stylesheets="@button.css" text="Create document" textFill="WHITE" />
+      <Label layoutX="920.0" layoutY="210.0" text="Filename:" />
+      <Label layoutX="920.0" layoutY="266.0" text="Extension:" />
+      <CheckBox fx:id="open" layoutX="915.0" layoutY="312.0" mnemonicParsing="false" text="Open after creating">
+         <font>
+            <Font size="14.0" />
+         </font></CheckBox>
       <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
          <font>
             <Font size="18.0" />
          </font></Button>
       <BorderPane layoutX="86.0" layoutY="194.0" prefHeight="165.0" prefWidth="337.0">
          <top>
-            <Label fx:id="documentName" text="Comments" BorderPane.alignment="CENTER" />
+            <Label fx:id="documentName" text="Comments" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </top>
          <center>
             <ScrollPane BorderPane.alignment="CENTER">
@@ -61,10 +77,16 @@
          </center>
       </BorderPane>
       <TextArea fx:id="commentText" layoutX="85.0" layoutY="359.0" prefHeight="128.0" prefWidth="337.0" />
-      <Button layoutX="85.0" layoutY="487.0" mnemonicParsing="false" onAction="#addComment" text="Add comment" />
-      <BorderPane layoutX="76.0" layoutY="553.0" prefHeight="165.0" prefWidth="337.0">
+      <Button layoutX="86.0" layoutY="487.0" mnemonicParsing="false" onAction="#addComment" prefHeight="30.0" prefWidth="133.0" stylesheets="@button.css" text="Add comment" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <BorderPane layoutX="86.0" layoutY="553.0" prefHeight="165.0" prefWidth="337.0">
          <top>
-            <Label fx:id="documentName1" text="Resources" BorderPane.alignment="CENTER" />
+            <Label fx:id="documentName1" text="Resources" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
          </top>
          <center>
             <ScrollPane BorderPane.alignment="CENTER">
@@ -74,8 +96,22 @@
             </ScrollPane>
          </center>
       </BorderPane>
-      <TextArea fx:id="descriptionText" layoutX="214.0" layoutY="743.0" prefHeight="74.0" prefWidth="202.0" promptText="Description of resource" />
-      <Button layoutX="105.0" layoutY="718.0" mnemonicParsing="false" onAction="#addResource" text="Add resource" />
-      <TextField fx:id="resourceText" layoutX="214.0" layoutY="718.0" prefHeight="25.0" prefWidth="202.0" promptText="Resource (URL)" />
+      <TextArea fx:id="descriptionText" layoutX="221.0" layoutY="748.0" prefHeight="74.0" prefWidth="202.0" promptText="Description of resource">
+         <font>
+            <Font size="14.0" />
+         </font></TextArea>
+      <Button layoutX="86.0" layoutY="718.0" mnemonicParsing="false" onAction="#addResource" prefHeight="30.0" prefWidth="133.0" stylesheets="@button.css" text="Add resource" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <TextField fx:id="resourceText" layoutX="221.0" layoutY="718.0" prefHeight="30.0" prefWidth="202.0" promptText="Resource (URL)">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Label contentDisplay="CENTER" layoutX="915.0" layoutY="150.0" prefHeight="24.0" prefWidth="170.0" text="Create document:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
