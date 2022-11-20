@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
    <children>
       <SplitMenuButton fx:id="teams" layoutX="303.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Teams">
         <items>
@@ -20,7 +20,10 @@
             <Font size="20.0" />
          </font>
       </SplitMenuButton>
-       <Button fx:id="logout" layoutX="607.0" layoutY="2.0" mnemonicParsing="false" onAction="#logout" text="logout" />
+       <Button fx:id="logout" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="120.0" stylesheets="@back_button.css" text="Logout">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
       <SplitMenuButton fx:id="processes" layoutX="735.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Proccess">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -38,7 +41,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button layoutX="967.0" layoutY="330.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="55.0" prefWidth="120.0" stylesheets="@button.css" text="Add process" textFill="WHITE">
+      <Button layoutX="967.0" layoutY="330.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="55.0" prefWidth="145.0" stylesheets="@button.css" text="Add process" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font></Button>

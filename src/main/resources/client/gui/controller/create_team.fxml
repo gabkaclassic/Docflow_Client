@@ -69,8 +69,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-
-      <Button layoutY="-1.0" minWidth="53.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="58.0" text="Back" />
       <Label fx:id="creationError" layoutX="349.0" layoutY="680.0" prefHeight="17.0" prefWidth="377.0" text="Label" textFill="#e40f07" />
       <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
    </children>
