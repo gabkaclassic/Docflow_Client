@@ -91,6 +91,9 @@ public class TeamInfoController extends Controller {
             showInviteParticipantError("This field can't be empty");
             return;
         }
+        if(!Sender.userExists(username).isExist()){
+            showInviteParticipantError("No user with such user");
+        }
         
         Sender.invite(username, currentTeam.getTitle());
         data.refresh();

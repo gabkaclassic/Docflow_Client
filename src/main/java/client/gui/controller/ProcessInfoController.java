@@ -68,6 +68,14 @@ public class ProcessInfoController extends Controller {
     
     @FXML
     private CheckBox open;
+    @FXML
+    private Label createDocumentError;
+    @FXML
+    private Label approveError;
+    @FXML
+    private Label commentError;
+    @FXML
+    private Label resourceError;
     private Process process;
     private Step step;
     
@@ -219,6 +227,7 @@ public class ProcessInfoController extends Controller {
     
     public void addDocument(ActionEvent event) throws IOException {
         
+        createDocumentError.setVisible(false);
         var document = new Document();
         document.setTitle(documentTitle.getText());
         
@@ -230,8 +239,7 @@ public class ProcessInfoController extends Controller {
         document.setStepTitle(step.getTitle());
         
         if(checkDocument(document)) {
-        
-//            showError();
+            showDocumentCreateError("Document with such name already exist");
             return;
         }
         
@@ -249,12 +257,13 @@ public class ProcessInfoController extends Controller {
     }
     
     public void saveAll(ActionEvent event) throws IOException {
-        
+        approveError.setVisible(false);
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         var response = Sender.updateStep(step);
     
         if(response.isError()) {
-//            showError();
+            showApproveError(response.getMessage());
+            return;
         }
     
         data.refresh();
@@ -263,10 +272,11 @@ public class ProcessInfoController extends Controller {
     
     public void addComment(ActionEvent event) {
         
+        commentError.setVisible(false);
         var comText = commentText.getText();
         
         if(!checkText(comText)) {
-//            showError();
+            showCommentError("Comments can't be empty");
             return;
         }
         
@@ -277,12 +287,15 @@ public class ProcessInfoController extends Controller {
     }
     
     public void addResource(ActionEvent event) {
-        
+        resourceError.setVisible(false);
         var resText = resourceText.getText();
         var description = descriptionText.getText();
-        
-        if(!checkUrl(resText) || !checkText(description)) {
-//            showError();
+        if(!checkUrl(resText)){
+            showResourceError("incorrect url format");
+            return;
+        }
+        if(!checkText(description)) {
+            showResourceError("description can't be emty");
             return;
         }
         currentDocument.addResource(resText, description);
@@ -308,7 +321,8 @@ public class ProcessInfoController extends Controller {
     }
     
     public void nextStep(ActionEvent event) throws IOException {
-    
+
+        approveError.setVisible(false);
         saveAll(event);
         
         if(process.finished()) {
@@ -327,18 +341,18 @@ public class ProcessInfoController extends Controller {
         var response = Sender.approve(process);
         
         if(response.isError()) {
-//            showError();
+            showApproveError(response.getMessage());
             return;
         }
         var info = Sender.getUserInfo();
         if(info.isError()) {
-//            showError();
+            showApproveError(info.getMessage());
             return;
         }
     
         var processResponse = Sender.getProcessInfo(process);
         if(processResponse.isError()) {
-//            showError();
+            showApproveError(processResponse.getMessage());
             return;
         }
         try {
@@ -353,17 +367,17 @@ public class ProcessInfoController extends Controller {
     }
     public void previousStep(ActionEvent event) throws IOException {
     
+        approveError.setVisible(false);
         process.previousStep();
         var response = Sender.refuse(process);
         
         if(response.isError()) {
-    
-//            showError();
+            showApproveError(response.getMessage());
             return;
         }
         var processResponse = Sender.getProcessInfo(process);
         if(processResponse.isError()) {
-//            showError();
+            showApproveError(processResponse.getMessage());
             return;
         }
         try {
@@ -375,6 +389,22 @@ public class ProcessInfoController extends Controller {
         }
         
         initialize();
+    }
+    private void showDocumentCreateError(String error){
+        createDocumentError.setText(error);
+        createDocumentError.setVisible(true);
+    }
+    private void showApproveError(String error){
+        approveError.setText(error);
+        createDocumentError.setVisible(true);
+    }
+    private void showCommentError(String error){
+        commentError.setText(error);
+        createDocumentError.setVisible(true);
+    }
+    private void showResourceError(String error){
+        commentError.setText(error);
+        resourceError.setVisible(true);
     }
     
     public void back(ActionEvent event) throws IOException {
