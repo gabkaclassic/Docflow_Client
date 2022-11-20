@@ -173,6 +173,9 @@ public class CreateProcessController extends Controller {
             return;
         }
     
+    
+        rules.put(data.getParticipant().getUsername(), Rules.CONTROL);
+        
         var step = steps.stream()
                 .filter(s -> s.getNumber() == number)
                 .findFirst().orElse(new Step());
@@ -183,6 +186,7 @@ public class CreateProcessController extends Controller {
         
         step.setTitle(stepTitle.getText());
         step.getRules().putAll(rules);
+        
         step.getDocuments().addAll(documents);
         step.setNumber(number);
         step.getDocuments().forEach(document -> document.setStepTitle(title));
