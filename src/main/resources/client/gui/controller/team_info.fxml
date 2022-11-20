@@ -60,5 +60,6 @@
          </font>
       </Button>
       <TextField fx:id="usernameField" layoutX="264.0" layoutY="381.0" prefHeight="50.0" prefWidth="192.0" />
+      <Label fx:id="inviteParticipantErrorFiled" layoutX="264.0" layoutY="451.0" prefHeight="17.0" prefWidth="192.0" textFill="#eb0e0e" />
    </children>
 </AnchorPane>

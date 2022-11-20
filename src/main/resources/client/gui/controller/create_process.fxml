@@ -50,7 +50,7 @@
             <Font size="14.0" />
          </font>
       </SplitMenuButton>
-      <Label layoutX="270.0" layoutY="598.0" prefHeight="24.0" prefWidth="99.0" text="Documents">
+      <Label layoutX="270.0" layoutY="598.0" prefHeight="30.0" prefWidth="132.0" text="Documents">
          <font>
             <Font size="20.0" />
          </font></Label>
@@ -103,5 +103,9 @@
          <font>
             <Font size="14.0" />
          </font></Label>
+      <Label fx:id="createProcessErrorField" layoutX="640.0" layoutY="874.0" prefHeight="30.0" prefWidth="181.0" textFill="#f20000" />
+      <Label fx:id="addStepError" layoutX="893.0" layoutY="242.0" prefHeight="45.0" prefWidth="215.0" textFill="#e10909" />
+      <Label fx:id="addDocumentError" layoutX="278.0" layoutY="831.0" prefHeight="17.0" prefWidth="215.0" textFill="#da1515" />
+      <Label fx:id="addParticipantErrorField" layoutX="260.0" layoutY="574.0" prefHeight="17.0" prefWidth="240.0" textFill="#e40f0f" visible="false" />
    </children>
 </AnchorPane>

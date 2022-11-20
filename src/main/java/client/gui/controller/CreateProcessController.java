@@ -50,6 +50,14 @@ public class CreateProcessController extends Controller {
     
     @FXML
     private SplitMenuButton documentsList;
+    @FXML
+    private Label createProcessErrorField;
+    @FXML
+    private Label addStepError;
+    @FXML
+    private Label addDocumentError;
+    @FXML
+    private Label addParticipantErrorField;
     
     private final static String source = "create_process.fxml";
     private Participant creator;
@@ -86,7 +94,7 @@ public class CreateProcessController extends Controller {
     }
     
     private void selectTeam(String value) {
-        
+
         try {
             team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().orElseThrow();
         }
@@ -101,14 +109,20 @@ public class CreateProcessController extends Controller {
     
     public void createProcess(ActionEvent event) throws IOException {
 
-//        processTitleError.setVisible(false);
-        if(!checkTitle(processTitle.getText())) {
-//            showError();
+        createProcessErrorField.setVisible(false);
+        if(processTitle.getText()==null || processTitle.getText().isBlank()) {
+            showCreateProcessError("Process can't be blank");
+            return;
+        }
+        if (Sender.processExists(processTitle.getText()).isExist()){
+            showCreateProcessError("Process with such title already exist");
             return;
         }
         
         if(steps.size() == 0) {
-//            showError();
+            showCreateProcessError("Process can't have 0 steps");
+            return;
+
         }
         
         var stepList = steps.stream().sorted(Comparator.comparingInt(Step::getNumber)).toList();
@@ -124,7 +138,7 @@ public class CreateProcessController extends Controller {
         var response = Sender.createProcess(team, process);  // TO DO
         
         if(response == null || response.isError()) {
-//            showError();
+            showCreateProcessError(response.getMessage());
             return;
         }
         
@@ -133,11 +147,12 @@ public class CreateProcessController extends Controller {
     
     public void saveStep() {
     
+        addStepError.setVisible(false);
         int number;
         String title;
         
         if(rules.isEmpty() || documents.isEmpty()) {
-//            showError();
+            showAddStepError("Rules and documents shouldn't be empty");
             return;
         }
         
@@ -154,7 +169,7 @@ public class CreateProcessController extends Controller {
         }
         catch (InvalidParameterException | NumberFormatException e) {
             log.info("Invalid input data error", e);
-//            showError();
+            showAddStepError("Incorrect value in step number");
             return;
         }
     
@@ -228,12 +243,18 @@ public class CreateProcessController extends Controller {
     
     public void addDocument() {
 
-//        documentNameError.setVisible(false);
+        addDocumentError.setVisible(false);
         var document = new Document();
         var title = documentTitle.getText();
         var extension = documentExtension.getText();
-        if(!checkDocument(title)) {
-//            showError();
+        if(title == null || title.isBlank()) {
+            showAddDocumentError("Document name field can't be empty");
+            return;
+        }
+        if (!steps.stream().flatMap(s -> s.getDocuments().stream())
+                .map(Document::getTitle)
+                .noneMatch(t -> t.equals(title))){
+            showAddDocumentError("Document with such name");
             return;
         }
         if(!extension.startsWith("."))
@@ -256,9 +277,10 @@ public class CreateProcessController extends Controller {
         var username = participantsChoice.getValue();
         var rule = Rules.valueOf(rulesList.getValue());
         
+        addParticipantErrorField.setVisible(false);
         if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
             || rules.containsKey(username)) {
-//            showError();
+            showAddParticipantError("Participant can't have no rules");
             return;
         }
         
@@ -320,6 +342,27 @@ public class CreateProcessController extends Controller {
                 && steps.stream().flatMap(s -> s.getDocuments().stream())
                 .map(Document::getTitle)
                 .noneMatch(t -> t.equals(title));
+    }
+
+    private void  showAddStepError(String error){
+        addStepError.setText(error);
+        addStepError.setVisible(true);
+
+    }
+    private void  showCreateProcessError(String error){
+        addStepError.setText(error);
+        addStepError.setVisible(true);
+
+    }
+    private void  showAddDocumentError(String error){
+        addDocumentError.setText(error);
+        addDocumentError.setVisible(true);
+
+    }
+    private void  showAddParticipantError(String error){
+        addParticipantErrorField.setText(error);
+        addParticipantErrorField.setVisible(true);
+
     }
 
 }
