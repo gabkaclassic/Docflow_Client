@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Controller {
-    
     protected Data data;
     
     {
