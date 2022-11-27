@@ -13,6 +13,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Сущность "Пользователь"
+ * */
 @Getter
 @Setter
 @JsonDeserialize(using = UserDeserializer.class)
@@ -30,6 +33,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private Participant client;
     
+    /**
+     * Роли пользователя
+     * @see Roles
+     * */
     private Set<Roles> roles;
     
     public User() {

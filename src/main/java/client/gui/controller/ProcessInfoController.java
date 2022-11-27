@@ -3,7 +3,7 @@ package client.gui.controller;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.entity.process.document.Document;
 import client.file.FileManager;
 import client.sender.Sender;
@@ -21,6 +21,10 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Контроллер для отображения сцены работы над процессом
+ * @see Controller
+ * */
 @Slf4j
 public class ProcessInfoController extends Controller {
     @FXML

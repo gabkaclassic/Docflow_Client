@@ -21,6 +21,10 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Контроллер для отображения сцены с главной информацией о команде
+ * @see Controller
+ * */
 @Slf4j
 public class TeamInfoController extends Controller {
     

@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Тип ответа для получения информации о наличии сущности в БД
+ * @see Response
+ * */
 @Builder
 @Data
 @JsonDeserialize(using = ExistResponseDeserializer.class)
