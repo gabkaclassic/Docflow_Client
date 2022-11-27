@@ -10,6 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+/**
+ * Контроллер для отображения сцены аутентификации
+ * @see Controller
+ * */
 @Slf4j
 public class SignInController extends Controller {
     @FXML

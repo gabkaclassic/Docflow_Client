@@ -4,7 +4,7 @@ import client.entity.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.entity.process.document.Document;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +18,10 @@ import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Контроллер для сцены создания процесса
+ * @see Controller
+ * */
 @Slf4j
 public class CreateProcessController extends Controller {
     @FXML
@@ -172,8 +176,7 @@ public class CreateProcessController extends Controller {
             showAddStepError("Incorrect value in step number");
             return;
         }
-    
-    
+        
         rules.put(data.getParticipant().getUsername(), Rules.CONTROL);
         
         var step = steps.stream()
@@ -245,6 +248,9 @@ public class CreateProcessController extends Controller {
         refreshStepsList();
     }
     
+    /**
+     * Регистрация нового документа в процессе
+     * */
     public void addDocument() {
 
         addDocumentError.setVisible(false);

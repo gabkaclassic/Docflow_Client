@@ -13,6 +13,9 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Сущность "Участник"
+ * */
 @NoArgsConstructor
 @Getter
 @Setter

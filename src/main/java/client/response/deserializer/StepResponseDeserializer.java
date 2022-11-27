@@ -1,6 +1,6 @@
 package client.response.deserializer;
 
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.response.StepResponse;
 import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;

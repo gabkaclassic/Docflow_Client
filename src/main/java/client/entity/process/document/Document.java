@@ -8,10 +8,16 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сущность "Документ"
+ * */
 @Data
 @JsonDeserialize(using = DocumentDeserializer.class)
 public class Document {
-
+    
+    /**
+     * @see DocumentId
+     * */
     private DocumentId id;
     private List<String> comments = new ArrayList<>();
     

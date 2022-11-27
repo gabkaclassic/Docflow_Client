@@ -3,7 +3,7 @@ package client.gui.controller;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.entity.process.document.Document;
 import client.file.FileManager;
 import client.sender.Sender;
@@ -16,12 +16,15 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.extern.slf4j.Slf4j;
 
-import java.awt.font.TextLayout;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Контроллер для отображения сцены работы над процессом
+ * @see Controller
+ * */
 @Slf4j
 public class ProcessInfoController extends Controller {
     @FXML
@@ -145,7 +148,7 @@ public class ProcessInfoController extends Controller {
         
         updateDocuments();
     }
-    private void updateDocuments() throws JsonProcessingException {
+    private void updateDocuments() {
         
         documents.getPanes().clear();
     
@@ -199,12 +202,10 @@ public class ProcessInfoController extends Controller {
         document.addResources(currentDocument.getResources());
         
         fileManager.updateDocument(event, document, process.getTitle());
-        
-        Sender.updateDocuments(step.getDocuments());
+        Sender.updateStep(step);
     }
     
     private void defineComments() {
-        
         comments.getChildren().clear();
         
         comments.getChildren().add(
@@ -244,7 +245,7 @@ public class ProcessInfoController extends Controller {
         }
         
         step.addDocument(document);
-        Sender.updateDocuments(step.getDocuments());
+        Sender.updateStep(step);
         
         fileManager.saveDocument(document, process.getTitle());
         if(open.isSelected())
@@ -408,10 +409,9 @@ public class ProcessInfoController extends Controller {
     }
     
     public void back(ActionEvent event) throws IOException {
-    
-        Sender.updateStep(step);
+        
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
-        Sender.updateDocuments(step.getDocuments());
+        Sender.updateStep(step);
         
         
         showStage(event, data.getPreviousScene(), source);

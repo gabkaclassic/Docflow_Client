@@ -34,5 +34,6 @@ module client.gui {
     
     opens client.gui to javafx.fxml;
     opens client.gui.controller to javafx.fxml;
+    exports client.entity.process.step to com.fasterxml.jackson.databind;
     
 }

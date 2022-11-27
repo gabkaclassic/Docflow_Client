@@ -1,11 +1,16 @@
-package client.entity.process;
+package client.entity.process.step;
 
 import client.entity.deserializer.StepDeserializer;
+import client.entity.process.Rules;
 import client.entity.process.document.Document;
+import client.entity.process.step.StepId;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import java.util.*;
 
+/**
+ * Сущность "Шаг"
+ * */
 @Data
 @JsonDeserialize(using = StepDeserializer.class)
 public class Step {
@@ -16,16 +21,15 @@ public class Step {
     
     private Set<Document> documents = new HashSet<>();
     
+    /**
+     * Права для работы с документами на данном шаге
+     * @see Rules
+     * */
     private Map<String, Rules> rules = new HashMap<>();
     
     public String getTitle() {
         
         return id.getTitle();
-    }
-    
-    public void setProcessId(String processId) {
-        
-        id.setProcessId(processId);
     }
     
     public void setTitle(String title) {

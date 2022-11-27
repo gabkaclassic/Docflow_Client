@@ -1,11 +1,16 @@
 package client.response;
 
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.response.deserializer.StepResponseDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Тип ответа для получения информации о шаге
+ * @see Response
+ * @see Step
+ * */
 @Data
 @Builder
 @JsonDeserialize(using = StepResponseDeserializer.class)

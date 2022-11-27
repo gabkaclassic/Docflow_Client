@@ -1,4 +1,4 @@
-package client.entity.process;
+package client.entity.process.step;
 
 import client.entity.deserializer.StepIdDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * ID для сущности "Шаг", состоящее их наименования шага и ID процесса, в котором он был создан
+ * */
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode

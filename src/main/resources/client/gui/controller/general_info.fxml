@@ -20,7 +20,7 @@
             <Font size="20.0" />
          </font>
       </SplitMenuButton>
-       <Button fx:id="logout" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="120.0" stylesheets="@back_button.css" text="Logout">
+       <Button fx:id="logout" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="120.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Logout" textFill="#105aaa">
          <font>
             <Font size="18.0" />
          </font></Button>

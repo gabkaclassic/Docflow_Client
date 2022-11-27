@@ -14,6 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+/**
+ * Контроллер для сцены создания команды
+ * @see Controller
+ * */
 @Slf4j
 public class CreateTeamController extends Controller {
     @FXML
@@ -71,7 +75,6 @@ public class CreateTeamController extends Controller {
                     log.debug(e.getMessage());
                 }
         });
-        
     }
     
     public void createTeam(ActionEvent event) throws IOException{

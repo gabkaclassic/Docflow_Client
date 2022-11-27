@@ -1,13 +1,16 @@
 package client.entity.process;
 
-import client.entity.Team;
 import client.entity.deserializer.ProcessDeserializer;
+import client.entity.process.step.Step;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Сущность "Процесс"
+ * */
 @Data
 @JsonDeserialize(using = ProcessDeserializer.class)
 public class Process {

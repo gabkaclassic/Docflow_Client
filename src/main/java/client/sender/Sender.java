@@ -2,7 +2,7 @@ package client.sender;
 
 import client.entity.Team;
 import client.entity.process.Process;
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.entity.process.document.Document;
 import client.response.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.function.Function;
 
+/**
+ * Класс-реактивный-клиент для обмена информацией с сервером
+ * */
 @Slf4j
 public class Sender {
     
@@ -65,6 +68,9 @@ public class Sender {
         return mapper.readValue(response, Response.class);
     }
     
+    /**
+     * Общий шаблон всех запросов
+     * */
     private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
         
         log.trace(String.format("Send request: (%s : %s)", method.name(), BASE_URL + url));

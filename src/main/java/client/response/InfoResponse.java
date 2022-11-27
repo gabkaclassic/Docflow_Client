@@ -10,6 +10,11 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Тип ответа для получения всей информации, связанной с конкретным аккаунтом участника
+ * @see Response
+ * @see Participant
+ * */
 @Builder
 @Data
 @JsonDeserialize(using = InfoResponseDeserializer.class)

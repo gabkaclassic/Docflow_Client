@@ -2,6 +2,9 @@ package client.util;
 
 import java.util.regex.Pattern;
 
+/**
+ * Класс-утилита для проверки валидности данных пользователя
+ * */
 public class DataUtils {
     
     private static final int MIN_LOGIN_LENGTH = 2;

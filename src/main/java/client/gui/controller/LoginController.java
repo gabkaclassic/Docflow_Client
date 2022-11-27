@@ -6,6 +6,10 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
+/**
+ * Контроллер для сцены выбора между аутентификацией и регистрацией
+ * @see Controller
+ * */
 public class LoginController extends Controller {
     private static final String source = "login.fxml";
     

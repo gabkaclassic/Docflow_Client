@@ -2,6 +2,13 @@ package client.entity.process;
 
 import lombok.Getter;
 
+/**
+ * Права участника для работы с документом
+ * READ - только просмотр документов, возможность добавлять ресурсы и комментарии
+ * CHANGE - изменение документов, добавление новых, а также все возможности READ
+ * CONTROL - переход на новый шаг, возврат на предыдущий, завершение процесса, а также все возможности CHANGE
+ * @see client.entity.process.step.Step
+ * */
 @Getter
 public enum Rules {
     

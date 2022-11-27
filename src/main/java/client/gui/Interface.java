@@ -38,6 +38,10 @@ public class Interface extends Application {
         });
         stage.show();
     }
+    
+    /**
+     * Настройка сохранения данных при выходе пользователя из системы
+     * */
     private void closeProject() throws IOException {
         
         var data = Data.getInstance();

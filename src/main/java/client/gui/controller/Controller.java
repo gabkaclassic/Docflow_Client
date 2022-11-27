@@ -11,14 +11,31 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Класс-родитель для всех контроллеров
+ * @see CreateProcessController
+ * @see CreateTeamController
+ * @see GeneralInfoController
+ * @see LoginController
+ * @see ProcessInfoController
+ * @see SignInController
+ * @see SignUpController
+ * @see TeamInfoController
+ * */
 public class Controller {
     
+    /**
+     * Общие данные для контроллеров
+     * */
     protected Data data;
     
     {
         data = Data.getInstance();
     }
     
+    /**
+     * Переход на другую сцену (контроллер)
+     * */
     protected void showStage(ActionEvent event, String resource, String current) throws IOException {
         
         data.setPreviousScene(current);

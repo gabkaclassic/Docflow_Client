@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Родительский класс для всех типов ответов
+ * @see ExistResponse
+ * @see InfoResponse
+ * @see ProcessResponse
+ * @see StepResponse
+ * */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

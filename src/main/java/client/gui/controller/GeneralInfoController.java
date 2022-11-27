@@ -18,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Контроллер для сцены отображения главной информации, связанной с пользователем
+ * @see Controller
+ * */
 @Slf4j
 public class GeneralInfoController extends Controller{
     @FXML
