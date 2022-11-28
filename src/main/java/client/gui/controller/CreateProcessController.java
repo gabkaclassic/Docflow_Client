@@ -283,14 +283,14 @@ public class CreateProcessController extends Controller {
     }
     
     public void addParticipant(ActionEvent event) {
-    
-        if(participantsChoice.getValue().isBlank()) {
-//            showError();
+        addParticipantErrorField.setVisible(false);
+        if(participantsChoice.getValue()==null) {
+            showAddParticipantError("You have to choose participant");
             return;
         }
         
-        if(rulesList.getValue().isBlank()) {
-//            showError();
+        if(rulesList.getValue()==null) {
+            showAddParticipantError("You have to choose rules");
             return;
         }
         
@@ -298,12 +298,13 @@ public class CreateProcessController extends Controller {
         var rule = Rules.valueOf(rulesList.getValue());
         
         addParticipantErrorField.setVisible(false);
-        if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
-            || rules.containsKey(username)) {
-            showAddParticipantError("Participant can't have no rules");
-            return;
-        }
-        
+//        if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
+//            || rules.containsKey(username)) {
+//            showAddParticipantError("Participant can't have no rules");
+//            return;
+//        }
+//
+
         var participant = new MenuItem(String.format("%s (%s)", username, rule));
         rules.put(username, rule);
         participant.setOnAction(e -> participantsList.getItems().remove(participant));
