@@ -72,6 +72,8 @@ public class SignUpController extends Controller{
     }
     
     private boolean checkPassword(String password) {
+
+        //            showError();
         return DataUtils.checkPassword(password);
     }
     
