@@ -298,11 +298,11 @@ public class CreateProcessController extends Controller {
         var rule = Rules.valueOf(rulesList.getValue());
         
         addParticipantErrorField.setVisible(false);
-//        if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
-//            || rules.containsKey(username)) {
-//            showAddParticipantError("Participant can't have no rules");
-//            return;
-//        }
+        if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
+            || rules.containsKey(username)) {
+            showAddParticipantError("Participant with same rules already added");
+            return;
+        }
 //
 
         var participant = new MenuItem(String.format("%s (%s)", username, rule));

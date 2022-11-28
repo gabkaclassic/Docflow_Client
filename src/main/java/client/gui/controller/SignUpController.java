@@ -1,6 +1,7 @@
 package client.gui.controller;
 
 import client.sender.Sender;
+import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -33,6 +34,9 @@ public class SignUpController extends Controller{
     private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
+    
+        password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
+        login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
         
         hideError();
     }
@@ -56,7 +60,20 @@ public class SignUpController extends Controller{
         }
         
     }
-
+    
+    private void checkPassword(String password) {
+        
+        if(!DataUtils.checkPassword(password)) {
+//            showError();
+        }
+    }
+    
+    private void checkLogin(String login) {
+        
+        if(!DataUtils.checkLogin(login)) {
+//            showError();
+        }
+    }
     @FXML
     private void changeVisibility(ActionEvent event){
         if(checkBox.isSelected()){
