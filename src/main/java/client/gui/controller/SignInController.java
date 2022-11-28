@@ -16,6 +16,9 @@ import java.io.IOException;
  * */
 @Slf4j
 public class SignInController extends Controller {
+    
+    @FXML
+    private Label error;
     @FXML
     private TextField login;
     @FXML
@@ -23,34 +26,16 @@ public class SignInController extends Controller {
     @FXML
     private ProgressIndicator indicator;
     @FXML
-    private Label error;
-    @FXML
     private CheckBox checkBox;
     @FXML
     private TextField shownPassword;
     
     private final static String source = "sign_in.fxml";
+    
     @FXML
     public void initialize() {
         
         hideError();
-       
-        password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
-        login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
-    }
-    
-    private void checkPassword(String password) {
-        
-        if(!DataUtils.checkPassword(password)) {
-//            showError();
-        }
-    }
-    
-    private void checkLogin(String login) {
-        
-        if(!DataUtils.checkLogin(login)) {
-//            showError();
-        }
     }
     
     public void switchToLogin(ActionEvent event) throws IOException {

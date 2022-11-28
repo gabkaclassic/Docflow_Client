@@ -303,7 +303,6 @@ public class CreateProcessController extends Controller {
             showAddParticipantError("Participant with same rules already added");
             return;
         }
-//
 
         var participant = new MenuItem(String.format("%s (%s)", username, rule));
         rules.put(username, rule);

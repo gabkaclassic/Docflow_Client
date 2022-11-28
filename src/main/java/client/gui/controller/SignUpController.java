@@ -30,30 +30,20 @@ public class SignUpController extends Controller{
     private TextField shownPassword;
     
     private final static String source = "sign_up.fxml";
-
+    
     private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    private final String okStyle = "-fx-border-color: BLUE; -fx-border-width: 1; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
-        password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
+        
+        password.setOnKeyPressed(keyEvent -> checkPassword((checkBox.isSelected() ? shownPassword.getText() : this.password.getText())));
+        shownPassword.setOnKeyPressed(keyEvent -> checkPassword((checkBox.isSelected() ? shownPassword.getText() : this.password.getText())));
         login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
         
         hideError();
     }
     public void registrationUser(ActionEvent event) {
         try {
-            if(!checkLogin(login.getText())){
-                login.setStyle(errorStyle);
-                error.setText("Length of login must be between 2 and 64");
-                showError();
-                return;
-            }
-            if(!checkPassword(checkBox.isSelected() ? shownPassword.getText():password.getText())){
-                password.setStyle(errorStyle);
-                shownPassword.setStyle(errorStyle);
-                error.setText("Password must contain 8 characters, at least 1 special symbol and at least 1 integer");
-                showError();
-                return;
-            }
             var response = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText():password.getText());
     
             if(response.isError()) {
@@ -71,15 +61,37 @@ public class SignUpController extends Controller{
         
     }
     
-    private boolean checkPassword(String password) {
-
-        //            showError();
-        return DataUtils.checkPassword(password);
+    private void checkPassword(String password) {
+        
+        
+        error.setVisible(false);
+        
+        if(!DataUtils.checkPassword((checkBox.isSelected() ? shownPassword.getText() : this.password.getText()))) {
+            error.setText("Invalid password");
+            error.setVisible(true);
+            this.shownPassword.setStyle(errorStyle);
+            this.password.setStyle(errorStyle);
+        }
+        else {
+            error.setText("");
+            error.setVisible(false);
+            this.password.setStyle("");
+            this.shownPassword.setStyle(okStyle);
+        }
     }
     
-    private boolean checkLogin(String login) {
+    private void checkLogin(String login) {
         
-        return DataUtils.checkLogin(login);
+        if(!DataUtils.checkLogin(login)) {
+            error.setText("Invalid login");
+            error.setVisible(true);
+            this.login.setStyle(errorStyle);
+        }
+        else {
+            error.setText("");
+            error.setVisible(false);
+            this.login.setStyle(okStyle);
+        }
     }
     @FXML
     private void changeVisibility(ActionEvent event){
