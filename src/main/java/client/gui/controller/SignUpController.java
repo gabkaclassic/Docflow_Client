@@ -34,20 +34,30 @@ public class SignUpController extends Controller{
     private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     @FXML
     public void initialize() {
-    
         password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
         login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
         
         hideError();
     }
     public void registrationUser(ActionEvent event) {
-        
         try {
+            if(!checkLogin(login.getText())){
+                login.setStyle(errorStyle);
+                error.setText("Length of login must be between 2 and 64");
+                showError();
+                return;
+            }
+            if(!checkPassword(checkBox.isSelected() ? shownPassword.getText():password.getText())){
+                password.setStyle(errorStyle);
+                shownPassword.setStyle(errorStyle);
+                error.setText("Password must contain 8 characters, at least 1 special symbol and at least 1 integer");
+                showError();
+                return;
+            }
             var response = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText():password.getText());
     
             if(response.isError()) {
-                password.setStyle(errorStyle);
-                shownPassword.setStyle(errorStyle);
+                login.setStyle(errorStyle);
                 error.setText(response.getMessage());
                 showError();
                 return;
@@ -61,18 +71,13 @@ public class SignUpController extends Controller{
         
     }
     
-    private void checkPassword(String password) {
-        
-        if(!DataUtils.checkPassword(password)) {
-//            showError();
-        }
+    private boolean checkPassword(String password) {
+        return DataUtils.checkPassword(password);
     }
     
-    private void checkLogin(String login) {
+    private boolean checkLogin(String login) {
         
-        if(!DataUtils.checkLogin(login)) {
-//            showError();
-        }
+        return DataUtils.checkLogin(login);
     }
     @FXML
     private void changeVisibility(ActionEvent event){
