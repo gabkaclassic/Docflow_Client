@@ -1,6 +1,5 @@
 package client.gui.controller;
 
-import client.file.FileManager;
 import client.gui.data.Data;
 import client.sender.Sender;
 import javafx.event.ActionEvent;
@@ -10,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
@@ -28,6 +28,12 @@ public class GeneralInfoController extends Controller{
     private SplitMenuButton teams;
     @FXML
     private SplitMenuButton processes;
+    
+    @FXML
+    private Label noProcessesMessage;
+    
+    @FXML
+    private Label noTeamsMessage;
     @FXML
     private Button back;
     
@@ -79,6 +85,23 @@ public class GeneralInfoController extends Controller{
         
             processes.getItems().add(item);
         }
+        
+        processes.setOnContextMenuRequested(event -> {
+            
+            if(processes.getItems().isEmpty()) {
+                noProcessesMessage.setVisible(true);
+                noProcessesMessage.setText("There are no available processes");
+            }
+        });
+    
+        teams.setOnContextMenuRequested(event -> {
+        
+            if(teams.getItems().isEmpty()) {
+                noTeamsMessage.setVisible(true);
+                noTeamsMessage.setText("There are no available teams");
+            }
+        });
+        
     }
     
     public void createTeam(ActionEvent event) throws IOException{

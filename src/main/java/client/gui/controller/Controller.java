@@ -29,6 +29,9 @@ public class Controller {
      * */
     protected Data data;
     
+    protected final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    protected final String okStyle = "-fx-border-color: BLUE; -fx-border-width: 1; -fx-border-radius: 5;";
+    
     {
         data = Data.getInstance();
     }

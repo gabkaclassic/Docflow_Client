@@ -4,7 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -19,7 +19,7 @@
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <Label alignment="CENTER" layoutX="427.0" layoutY="256.0" prefHeight="48.0" prefWidth="587.0" text="Enter your login and password">
+      <Label alignment="CENTER" layoutX="399.0" layoutY="287.0" prefHeight="48.0" prefWidth="587.0" text="Enter your login and password">
          <font>
             <Font size="40.0" />
          </font></Label>
@@ -27,7 +27,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button layoutX="543.0" layoutY="577.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="58.0" prefWidth="282.0" stylesheets="@button.css" text="Sign up" textFill="WHITE">
+      <Button fx:id="signUpButton" layoutX="543.0" layoutY="577.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="41.0" prefWidth="186.0" stylesheets="@button.css" text="Sign up" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font></Button>
@@ -37,11 +37,11 @@
          </font>
       </Label>
       <CheckBox fx:id="checkBox" layoutX="848.0" layoutY="460.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" />
-      <ProgressBar fx:id="progressBar" layoutX="604.0" layoutY="666.0" prefHeight="17.0" prefWidth="177.0" visible="false" />
       <TextField fx:id="shownPassword" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText=" Password" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
+      <ProgressIndicator fx:id="indicator" layoutX="781.0" layoutY="577.0" prefHeight="50.0" prefWidth="54.0" />
    </children>
 </AnchorPane>

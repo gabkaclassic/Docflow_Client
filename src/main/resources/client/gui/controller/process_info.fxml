@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" translateX="10.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.ProcessInfoController">
+<AnchorPane style="-fx-background-color: #ffffff;" translateX="10.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.ProcessInfoController">
    <children>
       <Label fx:id="processTitle" alignment="TOP_CENTER" layoutX="155.0" layoutY="14.0" prefHeight="29.0" prefWidth="1036.0" text="Proccess" textAlignment="CENTER">
          <font>
@@ -24,32 +24,32 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Accordion fx:id="documents" layoutX="476.0" layoutY="201.0" prefHeight="128.0" prefWidth="260.0" />
-      <Label contentDisplay="CENTER" layoutX="469.0" layoutY="150.0" prefHeight="24.0" prefWidth="170.0" text="Your documents:">
+      <Accordion fx:id="documents" layoutX="503.0" layoutY="322.0" prefHeight="128.0" prefWidth="260.0" />
+      <Label contentDisplay="CENTER" layoutX="503.0" layoutY="282.0" prefHeight="24.0" prefWidth="170.0" text="Your documents:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="acceptButton" layoutX="934.0" layoutY="606.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Accept changes" textFill="WHITE">
+      <Button fx:id="acceptButton" layoutX="940.0" layoutY="735.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Accept changes" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="refuseButton" layoutX="673.0" layoutY="606.0" mnemonicParsing="false" onAction="#previousStep" prefHeight="60.0" prefWidth="231.0" stylesheets="@button.css" text="Refuse (go to previous step)" textFill="WHITE">
+      <Button fx:id="refuseButton" layoutX="666.0" layoutY="735.0" mnemonicParsing="false" onAction="#previousStep" prefHeight="60.0" prefWidth="231.0" stylesheets="@button.css" text="Refuse (go to previous step)" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="saveButton" layoutX="519.0" layoutY="606.0" mnemonicParsing="false" onAction="#saveAll" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Save all changes" textFill="WHITE">
+      <Button fx:id="saveButton" layoutX="503.0" layoutY="735.0" mnemonicParsing="false" onAction="#saveAll" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Save all changes" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Label fx:id="permissions" contentDisplay="CENTER" layoutX="86.0" layoutY="150.0" prefHeight="26.0" prefWidth="325.0" text="Your permissions: ">
+      <Label fx:id="permissions" alignment="TOP_LEFT" layoutX="503.0" layoutY="150.0" prefHeight="128.0" prefWidth="325.0" text="Your permissions: ">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
       <TextField fx:id="documentTitle" layoutX="915.0" layoutY="196.0" prefHeight="45.0" prefWidth="290.0" promptText="Filename:" />
       <TextField fx:id="documentExtension" layoutX="915.0" layoutY="252.0" prefHeight="45.0" prefWidth="290.0" promptText="Extension:" />
-      <Button fx:id="createDocument" layoutX="915.0" layoutY="352.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="45.0" prefWidth="290.0" stylesheets="@button.css" text="Create document" textFill="WHITE" />
+      <Button fx:id="createDocument" layoutX="916.0" layoutY="359.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="45.0" prefWidth="290.0" stylesheets="@button.css" text="Create document" textFill="WHITE" />
       <CheckBox fx:id="open" layoutX="915.0" layoutY="312.0" mnemonicParsing="false" text="Open after creating">
          <font>
             <Font size="14.0" />
@@ -75,7 +75,7 @@
          </center>
       </BorderPane>
       <TextArea fx:id="commentText" layoutX="85.0" layoutY="359.0" prefHeight="128.0" prefWidth="337.0" />
-      <Button layoutX="86.0" layoutY="487.0" mnemonicParsing="false" onAction="#addComment" prefHeight="30.0" prefWidth="133.0" stylesheets="@button.css" text="Add comment" textFill="WHITE">
+      <Button fx:id="addCommentButton" layoutX="86.0" layoutY="487.0" mnemonicParsing="false" onAction="#addComment" prefHeight="30.0" prefWidth="133.0" stylesheets="@button.css" text="Add comment" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font></Button>
@@ -98,7 +98,7 @@
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <Button layoutX="86.0" layoutY="718.0" mnemonicParsing="false" onAction="#addResource" prefHeight="30.0" prefWidth="133.0" stylesheets="@button.css" text="Add resource" textFill="WHITE">
+      <Button fx:id="addResourceButton" layoutX="86.0" layoutY="718.0" mnemonicParsing="false" onAction="#addResource" prefHeight="30.0" prefWidth="133.0" stylesheets="@button.css" text="Add resource" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font></Button>
@@ -111,9 +111,9 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="createDocumentError" layoutX="905.0" layoutY="423.0" prefHeight="17.0" prefWidth="290.0" textFill="#eb1212" />
-      <Label fx:id="approveError" layoutX="673.0" layoutY="701.0" prefHeight="17.0" prefWidth="231.0" textFill="#e40d0d" visible="false" />
-      <Label fx:id="commentError" layoutX="86.0" layoutY="536.0" prefHeight="17.0" prefWidth="290.0" textFill="#d70b0b" visible="false" />
-      <Label fx:id="resourceError" layoutX="86.0" layoutY="838.0" prefHeight="17.0" prefWidth="290.0" textFill="#d71313" visible="false" />
+      <Label fx:id="createDocumentError" layoutX="905.0" layoutY="410.0" prefHeight="45.0" prefWidth="290.0" textAlignment="CENTER" textFill="#eb1212" />
+      <Label fx:id="commentError" layoutX="86.0" layoutY="523.0" prefHeight="30.0" prefWidth="337.0" textAlignment="CENTER" textFill="#d70b0b" visible="false" />
+      <Label fx:id="resourceError" layoutX="86.0" layoutY="825.0" prefHeight="30.0" prefWidth="337.0" textAlignment="CENTER" textFill="#d71313" visible="false" />
+      <Label fx:id="approveError" layoutX="673.0" layoutY="808.0" prefHeight="35.0" prefWidth="231.0" textAlignment="CENTER" />
    </children>
 </AnchorPane>

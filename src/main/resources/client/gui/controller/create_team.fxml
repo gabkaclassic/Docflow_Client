@@ -15,7 +15,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Button layoutX="352.0" layoutY="600.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="55.0" prefWidth="377.0" stylesheets="@button.css" text=" Create team" textFill="WHITE">
+      <Button layoutX="352.0" layoutY="610.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="55.0" prefWidth="377.0" stylesheets="@button.css" text=" Create team" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font></Button>
@@ -48,13 +48,13 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="userError" layoutX="352.0" layoutY="440.0" prefHeight="18.0" prefWidth="210.0" text="Team with this title already exists" textFill="#e51010">
+      <Label fx:id="userError" layoutX="352.0" layoutY="440.0" prefHeight="30.0" prefWidth="377.0" text="Team with this title already exists" textFill="#e51010">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
 
-      <Label fx:id="teamError" layoutX="352.0" layoutY="568.0" prefHeight="20.0" prefWidth="294.0" text="Account with this username doesn't exists" textFill="#e51010">
+      <Label fx:id="teamError" layoutX="352.0" layoutY="568.0" prefHeight="25.0" prefWidth="370.0" text="Account with this username doesn't exists" textFill="#e51010">
          <font>
             <Font size="14.0" />
          </font>
@@ -69,7 +69,8 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="creationError" layoutX="349.0" layoutY="680.0" prefHeight="17.0" prefWidth="377.0" text="Label" textFill="#e40f07" />
+      <Label fx:id="creationError" layoutX="349.0" layoutY="686.0" prefHeight="17.0" prefWidth="377.0" text="Label" textFill="#e40f07" />
       <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
+      <Label fx:id="noParticipantsMessage" layoutX="824.0" layoutY="446.0" prefHeight="18.0" prefWidth="234.0" text="Label" textFill="#e40f07" />
    </children>
 </AnchorPane>

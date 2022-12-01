@@ -28,6 +28,9 @@ public class CreateTeamController extends Controller {
     private SplitMenuButton participantsList;
     @FXML
     private Label teamError;
+    
+    @FXML
+    private Label noParticipantsMessage;
     @FXML
     private Label userError;
     @FXML
@@ -75,6 +78,14 @@ public class CreateTeamController extends Controller {
                     log.debug(e.getMessage());
                 }
         });
+    
+        participantsList.setOnContextMenuRequested(event -> {
+        
+            if(participantsList.getItems().isEmpty()) {
+                noParticipantsMessage.setVisible(true);
+                noParticipantsMessage.setText("There are no invited participants");
+            }
+        });
     }
     
     public void createTeam(ActionEvent event) throws IOException{
@@ -114,6 +125,8 @@ public class CreateTeamController extends Controller {
                 log.warn("Create team error", e);
             }
         });
+        progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
+        
         new Thread(progress).start();
     }
     private void finishCreateTeam(Response response, ActionEvent event) throws IOException {
@@ -133,6 +146,7 @@ public class CreateTeamController extends Controller {
         participant.setOnAction(event1 -> participantsList.getItems().remove(participant));
         participantsList.getItems().add(participant);
         username.setText("");
+        noParticipantsMessage.setVisible(false);
         hideUserError();
     }
     

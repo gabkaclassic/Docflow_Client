@@ -1,13 +1,11 @@
 package client.gui.controller;
 
+import client.response.Response;
 import client.sender.Sender;
 import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -26,43 +24,84 @@ public class SignUpController extends Controller{
     private Label error;
     @FXML
     private CheckBox checkBox;
+    
+    @FXML
+    private ProgressIndicator indicator;
     @FXML
     private TextField shownPassword;
     
-    private final static String source = "sign_up.fxml";
+    @FXML
+    private Button signUpButton;
     
-    private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
-    private final String okStyle = "-fx-border-color: BLUE; -fx-border-width: 1; -fx-border-radius: 5;";
+    private final static String source = "sign_up.fxml";
     @FXML
     public void initialize() {
         
-        password.setOnKeyPressed(keyEvent -> checkPassword((checkBox.isSelected() ? shownPassword.getText() : this.password.getText())));
-        shownPassword.setOnKeyPressed(keyEvent -> checkPassword((checkBox.isSelected() ? shownPassword.getText() : this.password.getText())));
-        login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
+        indicator.setVisible(false);
+        signUpButton.setDisable(true);
+        var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+        var login = this.login.getText();
+        this.password.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
+        shownPassword.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
+        this.login.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
         
         hideError();
     }
     public void registrationUser(ActionEvent event) {
-        try {
-            var response = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText():password.getText());
     
-            if(response.isError()) {
-                login.setStyle(errorStyle);
-                error.setText(response.getMessage());
-                showError();
-                return;
-            }
-            showStage(event, "login.fxml", source);
-        }
-        catch (IOException e) {
-            log.warn("Registration error", e);
-            showError();
-        }
+        indicator.setVisible(true);
+        var progress = new Progress<>(() -> {
         
+            indicator.setVisible(true);
+        
+            Response result = null;
+            try {
+                result = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
+    
+                if (result.isError()) {
+                    login.setStyle(errorStyle);
+                    error.setText(result.getMessage());
+                    showError();
+                    return result;
+                }
+            } catch (IOException e) {
+                log.warn("Registration error", e);
+                showError();
+            }
+    
+            return result;
+        });
+    
+        indicator.progressProperty().bind(progress.progressProperty());
+    
+        progress.setOnSucceeded(workerStateEvent -> {
+    
+            try {
+                showStage(event, "login.fxml", source);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            finally {
+                indicator.setVisible(false);
+            }
+    
+        });
+        progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
+        
+        new Thread(progress).start();
     }
     
-    private void checkPassword(String password) {
+    private boolean checkLoginAndPassword(String login, String password) {
         
+        var result = checkLogin(login) && checkPassword(password);
+        
+        if(result)
+            signUpButton.setDisable(false);
+        
+        return result;
+    }
+    
+    private boolean checkPassword(String password) {
         
         error.setVisible(false);
         
@@ -71,26 +110,36 @@ public class SignUpController extends Controller{
             error.setVisible(true);
             this.shownPassword.setStyle(errorStyle);
             this.password.setStyle(errorStyle);
+            
+            return false;
         }
         else {
             error.setText("");
             error.setVisible(false);
             this.password.setStyle("");
             this.shownPassword.setStyle(okStyle);
+            
+            return true;
         }
     }
     
-    private void checkLogin(String login) {
+    private boolean checkLogin(String login) {
         
         if(!DataUtils.checkLogin(login)) {
+            signUpButton.setDisable(true);
             error.setText("Invalid login");
             error.setVisible(true);
             this.login.setStyle(errorStyle);
+            
+            return false;
         }
         else {
+            signUpButton.setDisable(false);
             error.setText("");
             error.setVisible(false);
             this.login.setStyle(okStyle);
+            
+            return true;
         }
     }
     @FXML

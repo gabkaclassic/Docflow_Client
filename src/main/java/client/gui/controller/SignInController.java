@@ -35,6 +35,7 @@ public class SignInController extends Controller {
     @FXML
     public void initialize() {
         
+        indicator.setVisible(false);
         hideError();
     }
     

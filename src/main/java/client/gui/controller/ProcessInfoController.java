@@ -51,6 +51,12 @@ public class ProcessInfoController extends Controller {
     private TextField documentExtension;
     
     @FXML
+    private Button addCommentButton;
+    
+    @FXML
+    private Button addResourceButton;
+    
+    @FXML
     private Button refuseButton;
     @FXML
     private Button acceptButton;
@@ -95,7 +101,7 @@ public class ProcessInfoController extends Controller {
     private static final String source = "process_info.fxml";
     
     @FXML
-    public void initialize() throws JsonProcessingException {
+    public void initialize() {
         
         process = data.getCurrentProcess();
         
@@ -106,7 +112,6 @@ public class ProcessInfoController extends Controller {
         }
         catch(NoSuchElementException e) {
             log.debug("No such step error", e);
-//            showError();
         }
         
         participant = data.getParticipant();
@@ -229,6 +234,7 @@ public class ProcessInfoController extends Controller {
     public void addDocument(ActionEvent event) throws IOException {
         
         createDocumentError.setVisible(false);
+        createDocument.setStyle(okStyle);
         var document = new Document();
         document.setTitle(documentTitle.getText());
         
@@ -281,6 +287,7 @@ public class ProcessInfoController extends Controller {
             return;
         }
         
+        addCommentButton.setStyle(okStyle);
         currentDocument.addComment(comText, participant);
         commentText.clear();
         
@@ -296,7 +303,7 @@ public class ProcessInfoController extends Controller {
             return;
         }
         if(!checkText(description)) {
-            showResourceError("description can't be emty");
+            showResourceError("description can't be empty");
             return;
         }
         currentDocument.addResource(resText, description);
@@ -371,8 +378,10 @@ public class ProcessInfoController extends Controller {
         approveError.setVisible(false);
         process.previousStep();
         var response = Sender.refuse(process);
+        refuseButton.setStyle(okStyle);
         
         if(response.isError()) {
+            refuseButton.setStyle(errorStyle);
             showApproveError(response.getMessage());
             return;
         }
@@ -392,19 +401,24 @@ public class ProcessInfoController extends Controller {
         initialize();
     }
     private void showDocumentCreateError(String error){
+        createDocument.setStyle(errorStyle);
         createDocumentError.setText(error);
         createDocumentError.setVisible(true);
     }
     private void showApproveError(String error){
+        acceptButton.setStyle(errorStyle);
         approveError.setText(error);
-        createDocumentError.setVisible(true);
+        approveError.setVisible(true);
     }
     private void showCommentError(String error){
+        addCommentButton.setStyle(errorStyle);
         commentError.setText(error);
-        createDocumentError.setVisible(true);
+        commentError.setVisible(true);
+        
     }
     private void showResourceError(String error){
-        commentError.setText(error);
+        addResourceButton.setStyle(errorStyle);
+        resourceError.setText(error);
         resourceError.setVisible(true);
     }
     
@@ -412,7 +426,6 @@ public class ProcessInfoController extends Controller {
         
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         Sender.updateStep(step);
-        
         
         showStage(event, data.getPreviousScene(), source);
     }
