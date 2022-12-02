@@ -2,7 +2,6 @@ package client.gui.controller;
 
 import client.response.InfoResponse;
 import client.sender.Sender;
-import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -31,7 +30,7 @@ public class SignInController extends Controller {
     private TextField shownPassword;
     
     private final static String source = "sign_in.fxml";
-    
+
     @FXML
     public void initialize() {
         
