@@ -26,6 +26,7 @@ public class SignInController extends Controller {
     private TextField shownPassword;
     
     private final static String source = "sign_in.fxml";
+
     @FXML
     public void initialize() {
         

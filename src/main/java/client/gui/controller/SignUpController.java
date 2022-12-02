@@ -27,6 +27,8 @@ public class SignUpController extends Controller{
     private final static String source = "sign_up.fxml";
 
     private final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+
+
     @FXML
     public void initialize() {
         
