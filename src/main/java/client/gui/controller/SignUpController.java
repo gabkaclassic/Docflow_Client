@@ -39,12 +39,21 @@ public class SignUpController extends Controller{
         
         indicator.setVisible(false);
         signUpButton.setDisable(true);
-        var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
-        var login = this.login.getText();
-        this.password.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
-        shownPassword.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
-        this.login.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
-        
+        this.password.setOnKeyReleased(keyEvent -> {
+            var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+            var login = this.login.getText();
+            checkLoginAndPassword(login, password);
+        });
+        shownPassword.setOnKeyReleased(keyEvent -> {
+            var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+            var login = this.login.getText();
+            checkLoginAndPassword(login, password);
+        });
+        this.login.setOnKeyReleased(keyEvent -> {
+            var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+            var login = this.login.getText();
+            checkLoginAndPassword(login, password);
+        });
         hideError();
     }
     public void registrationUser(ActionEvent event) {
@@ -92,8 +101,10 @@ public class SignUpController extends Controller{
     }
     
     private boolean checkLoginAndPassword(String login, String password) {
-        
+
+        System.out.println(login);
         var result = checkLogin(login) && checkPassword(password);
+        signUpButton.setDisable(true);
         
         if(result)
             signUpButton.setDisable(false);
@@ -124,7 +135,10 @@ public class SignUpController extends Controller{
     }
     
     private boolean checkLogin(String login) {
-        
+        System.out.println("=======================");
+        System.out.println(login);
+        System.out.println("=======================");
+
         if(!DataUtils.checkLogin(login)) {
             signUpButton.setDisable(true);
             error.setText("Invalid login");

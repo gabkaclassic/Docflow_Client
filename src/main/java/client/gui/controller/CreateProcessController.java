@@ -88,6 +88,54 @@ public class CreateProcessController extends Controller {
     private Team team;
     
     public void initialize() {
+        processTitle.setOnMouseEntered(keyEvent -> {
+            if(Objects.equals(processTitle.getText(), "")){
+                processTitle.setStyle(errorStyle);
+            }
+            else{
+                processTitle.setStyle(okStyle);
+            }
+        });
+        processTitle.setOnMouseExited(keyEvent -> {
+            if(Objects.equals(processTitle.getText(), "")){
+                processTitle.setStyle(errorStyle);
+            }
+            else{
+                processTitle.setStyle(okStyle);
+            }
+        });
+        stepTitle.setOnMouseEntered(keyEvent -> {
+            if(Objects.equals(stepTitle.getText(), "")){
+                stepTitle.setStyle(errorStyle);
+            }
+            else{
+                stepTitle.setStyle(okStyle);
+            }
+        });
+        stepTitle.setOnMouseExited(keyEvent -> {
+            if(Objects.equals(stepTitle.getText(), "")){
+                stepTitle.setStyle(errorStyle);
+            }
+            else{
+                stepTitle.setStyle(okStyle);
+            }
+        });
+        documentTitle.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(documentTitle.getText(), "")){
+                documentTitle.setStyle(errorStyle);
+            }
+            else{
+                documentTitle.setStyle(okStyle);
+            }
+        });
+        documentTitle.setOnMouseExited(keyEvent -> {
+            if(Objects.equals(documentTitle.getText(), "")){
+                documentTitle.setStyle(errorStyle);
+            }
+            else{
+                documentTitle.setStyle(okStyle);
+            }
+        });
 
         creator = data.getParticipant();
         

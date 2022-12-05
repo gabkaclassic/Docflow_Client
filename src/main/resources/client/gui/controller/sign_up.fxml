@@ -9,20 +9,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignUpController">
+<AnchorPane style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignUpController">
    <children>
-      <PasswordField fx:id="password" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText="    Password">
+      <PasswordField fx:id="password" layoutX="310.0" layoutY="385.0" prefHeight="58.0" prefWidth="282.0" promptText="    Password">
          <font>
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <TextField fx:id="login" layoutX="551.0" layoutY="378.0" prefHeight="58.0" prefWidth="282.0" promptText="    Login">
+      <TextField fx:id="login" layoutX="310.0" layoutY="273.0" prefHeight="58.0" prefWidth="282.0" promptText="    Login">
          <font>
             <Font size="18.0" />
 
          </font></TextField>
-      <Label alignment="CENTER" layoutX="399.0" layoutY="287.0" prefHeight="48.0" prefWidth="587.0" text="Enter your login and password">
+      <Label alignment="CENTER" layoutX="147.0" layoutY="187.0" prefHeight="48.0" prefWidth="587.0" text="Enter your login and password">
 
          <font>
             <Font size="40.0" />
@@ -32,23 +31,23 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="signUpButton" layoutX="543.0" layoutY="577.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="41.0" prefWidth="186.0" stylesheets="@button.css" text="Sign up" textFill="WHITE">
+      <Button fx:id="signUpButton" layoutX="354.0" layoutY="484.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="34.0" prefWidth="157.0" stylesheets="@button.css" text="Sign up" textFill="WHITE">
 
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label fx:id="error" alignment="TOP_CENTER" layoutX="334.0" layoutY="528.0" prefHeight="34.0" prefWidth="700.0" text="Sorry, unknowable connection error" textFill="RED">
+      <Label fx:id="error" alignment="TOP_CENTER" layoutX="101.0" layoutY="451.0" prefHeight="34.0" prefWidth="700.0" text="Sorry, unknowable connection error" textFill="RED">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <CheckBox fx:id="checkBox" layoutX="848.0" layoutY="460.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" />
+      <CheckBox fx:id="checkBox" layoutX="614.0" layoutY="394.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" />
       <TextField fx:id="shownPassword" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText=" Password" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <ProgressIndicator fx:id="indicator" layoutX="781.0" layoutY="577.0" prefHeight="50.0" prefWidth="54.0" />
+      <ProgressIndicator fx:id="indicator" layoutX="415.0" layoutY="535.0" prefHeight="50.0" prefWidth="54.0" />
    </children>
 </AnchorPane>

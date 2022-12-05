@@ -38,12 +38,12 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Button fx:id="signInButton" layoutX="551.0" layoutY="573.0" mnemonicParsing="false" onAction="#signIn" prefHeight="41.0" prefWidth="186.0" stylesheets="@button.css" text="Sign in" textFill="WHITE">
+      <Button fx:id="signInButton" layoutX="614.0" layoutY="581.0" mnemonicParsing="false" onAction="#signIn" prefHeight="41.0" prefWidth="186.0" stylesheets="@button.css" text="Sign in" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <ProgressIndicator fx:id="indicator" layoutX="789.0" layoutY="573.0" prefHeight="50.0" prefWidth="54.0" />
+      <ProgressIndicator fx:id="indicator" layoutX="680.0" layoutY="639.0" prefHeight="50.0" prefWidth="54.0" />
 
    </children>
 </AnchorPane>

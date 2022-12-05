@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +29,8 @@ public class CreateTeamController extends Controller {
     private SplitMenuButton participantsList;
     @FXML
     private Label teamError;
+    @FXML
+    private Button addParticipantButton;
     
     @FXML
     private Label noParticipantsMessage;
@@ -35,6 +38,8 @@ public class CreateTeamController extends Controller {
     private Label userError;
     @FXML
     private  Label creationError;
+    @FXML
+    private Button createTeamButton;
     @FXML
     private ProgressIndicator indicator;
     
@@ -50,7 +55,7 @@ public class CreateTeamController extends Controller {
         hideUserError();
         hideCreationError();
         participantsList.getItems().clear();
-    
+
         username.setOnKeyPressed(event -> {
                 if (event.getCode().equals(KeyCode.ENTER)) {
                     try {
@@ -59,6 +64,46 @@ public class CreateTeamController extends Controller {
                         log.debug(e.getMessage());
                     }
                 }
+        });
+        teamTitle.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(teamTitle.getText(), "")){
+                teamTitle.setStyle(errorStyle);
+                createTeamButton.setDisable(true);
+            }
+            else{
+                createTeamButton.setDisable(false);
+                teamTitle.setStyle(okStyle);
+            }
+        });
+        teamTitle.setOnMouseExited(keyEvent->{
+            if(Objects.equals(teamTitle.getText(), "")){
+                teamTitle.setStyle(errorStyle);
+                createTeamButton.setDisable(true);
+            }
+            else{
+                createTeamButton.setDisable(false);
+                teamTitle.setStyle(okStyle);
+            }
+        });
+        username.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(username.getText(), "")){
+                username.setStyle(errorStyle);
+                addParticipantButton.setDisable(true);
+            }
+            else{
+                addParticipantButton.setDisable(false);
+                username.setStyle(okStyle);
+            }
+        });
+        username.setOnMouseExited(keyEvent->{
+            if(Objects.equals(username.getText(), "")){
+                username.setStyle(errorStyle);
+                addParticipantButton.setDisable(true);
+            }
+            else{
+                addParticipantButton.setDisable(false);
+                username.setStyle(okStyle);
+            }
         });
         
         teamTitle.setOnKeyPressed(event -> {
