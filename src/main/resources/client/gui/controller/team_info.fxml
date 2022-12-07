@@ -54,7 +54,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="542.0" layoutY="235.0" mnemonicParsing="false" onAction="#kickOut" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Kick out" textFill="#105aaa">
+      <Button fx:id="kickOutButton" layoutX="542.0" layoutY="235.0" mnemonicParsing="false" onAction="#kickOut" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Kick out" textFill="#105aaa">
          <font>
             <Font size="18.0" />
          </font>

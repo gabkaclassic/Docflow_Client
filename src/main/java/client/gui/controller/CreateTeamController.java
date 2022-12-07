@@ -1,6 +1,6 @@
 package client.gui.controller;
 
-import client.entity.Team;
+import client.entity.team.Team;
 import client.gui.data.Data;
 import client.response.Response;
 import client.sender.Sender;
@@ -38,7 +38,6 @@ public class CreateTeamController extends Controller {
     @FXML
     private ProgressIndicator indicator;
     
-    private final static String source = "create_team.fxml";
     private final String alreadyExistTeamError = "Team with this title already exists";
     private final String blankFieldError = "The text field can't be blank";
     private final String dontExistAccountError = "Account with this username doesn't exists";
@@ -110,7 +109,7 @@ public class CreateTeamController extends Controller {
             participants.add(leader.getOwner().getUsername());
             team.addParticipants(participants);
 
-            var result = Sender.createTeam(team);
+            var result = Sender.createTeam(team, leader.getUsername());
             hideTeamError();
             indicator.setVisible(false);
             return result;
@@ -135,7 +134,7 @@ public class CreateTeamController extends Controller {
             showCreationError(response.getMessage());
             return;
         }
-        showStage(event, "general_info.fxml", source);
+        showStage(event, "general_info.fxml");
     }
     
     public void addParticipant(ActionEvent event) throws JsonProcessingException {
@@ -220,6 +219,6 @@ public class CreateTeamController extends Controller {
     }
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
 }

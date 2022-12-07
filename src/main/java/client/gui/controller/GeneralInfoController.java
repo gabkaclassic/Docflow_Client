@@ -8,10 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +28,10 @@ public class GeneralInfoController extends Controller{
     private SplitMenuButton processes;
     
     @FXML
+    private Label invitesLabel;
+    @FXML
+    private Accordion invites;
+    @FXML
     private Label noProcessesMessage;
     
     @FXML
@@ -37,7 +39,6 @@ public class GeneralInfoController extends Controller{
     @FXML
     private Button back;
     
-    private static final String source = "general_info.fxml";
     @FXML
     public void initialize() throws IOException {
     
@@ -48,6 +49,45 @@ public class GeneralInfoController extends Controller{
         
         teams.getItems().clear();
         processes.getItems().clear();
+        invites.getPanes().clear();
+        invitesLabel.setVisible(true);
+        
+        if(data.getInvites().isEmpty())
+            invitesLabel.setVisible(false);
+    
+        for(var invite: data.getInvites()) {
+            var acceptButton = new Button("Accept");
+            acceptButton.setOnAction(event -> {
+                try {
+                    Sender.accessInvite(invite);
+                    data.refresh();
+                    initialize();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            var refuseButton = new Button("Refuse");
+            refuseButton.setOnAction(event -> {
+                try {
+                    Sender.refuseInvite(invite);
+                    data.refresh();
+                    initialize();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+    
+            var bar = new ButtonBar();
+            bar.getButtons().add(acceptButton);
+            bar.getButtons().add(refuseButton);
+    
+            var anchor = new AnchorPane();
+            var pane = new TitledPane();
+            anchor.getChildren().add(bar);
+            pane.setText(invite.getTeam().getTitle());
+            pane.setContent(anchor);
+            invites.getPanes().add(pane);
+        }
         
         for(var team: data.getTeams()) {
         
@@ -106,20 +146,17 @@ public class GeneralInfoController extends Controller{
     
     public void createTeam(ActionEvent event) throws IOException{
         
-        showStage(event, "create_team.fxml", source);
+        showStage(event, "create_team.fxml");
     }
     
     public void createProcess(ActionEvent event) throws IOException{
         
-        showStage(event, "create_process.fxml", source);
+        showStage(event, "create_process.fxml");
     }
     
     public void back(ActionEvent event) throws IOException {
         
-        if(!data.getPreviousScene().contains("sign"))
-            showStage(event, data.getPreviousScene(), source);
-        else
-            showStage(event, source, source);
+        showStage(event, data.getPreviousScene());
     }
     public void logout(ActionEvent event) throws IOException{
 
@@ -138,12 +175,10 @@ public class GeneralInfoController extends Controller{
         finally {
             data.clear();
         }
-        showStage(event, "sign_in.fxml", source);
+        showStage(event, "sign_in.fxml");
     }
     
     private void showStage(Node node, String to) throws IOException {
-    
-        data.setPreviousScene(source);
     
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(to)));
         var stage = (Stage)(node.getScene().getWindow());

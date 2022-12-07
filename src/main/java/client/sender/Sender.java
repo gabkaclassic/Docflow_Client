@@ -1,6 +1,7 @@
 package client.sender;
 
-import client.entity.Team;
+import client.entity.team.Invite;
+import client.entity.team.Team;
 import client.entity.process.Process;
 import client.entity.process.step.Step;
 import client.entity.process.document.Document;
@@ -57,12 +58,13 @@ public class Sender {
         return mapper.readValue(send(HttpMethod.POST,"user/registry", params), Response.class);
     }
     
-    public static Response createTeam(Team team) throws JsonProcessingException {
+    public static Response createTeam(Team team, String teamLeaderNick) throws JsonProcessingException {
         
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
         var response = send(HttpMethod.POST, "create/team", params);
+        team.getParticipants().remove(teamLeaderNick);
         invites(team.getParticipants(), team.getTitle());
         
         return mapper.readValue(response, Response.class);
@@ -207,11 +209,25 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "exist/process", params), ExistResponse.class);
     }
-    public static Response refuseInvite(String username, String teamId) throws JsonProcessingException {
+    public static Response kickParticipant(String username, String teamId) throws JsonProcessingException {
     
-        var params = new LinkedMultiValueMap<String, String>();
+        var  params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", teamId);
+        return mapper.readValue(send(HttpMethod.POST, "invite/kick", params), Response.class);
+    }
+    
+    public static Response accessInvite(Invite invite) throws JsonProcessingException {
+        
+        var  params = new LinkedMultiValueMap<String, String>();
+        params.add("inviteId", invite.getId().toString());
+        return mapper.readValue(send(HttpMethod.POST, "invite/access", params), Response.class);
+    }
+    
+    public static Response refuseInvite(Invite invite) throws JsonProcessingException {
+        
+        var  params = new LinkedMultiValueMap<String, String>();
+        params.add("inviteId", invite.getId().toString());
         return mapper.readValue(send(HttpMethod.POST, "invite/refuse", params), Response.class);
     }
     

@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignUpController">
+<?import javafx.scene.control.ProgressBar?>
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignUpController">
    <children>
-      <PasswordField fx:id="password" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText="    Password">
+      <PasswordField fx:id="password" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText="    Password" AnchorPane.leftAnchor="551.0" AnchorPane.rightAnchor="607.0">
          <font>
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <TextField fx:id="login" layoutX="551.0" layoutY="378.0" prefHeight="58.0" prefWidth="282.0" promptText="    Login">
+      <TextField fx:id="login" layoutX="551.0" layoutY="378.0" prefHeight="58.0" prefWidth="282.0" promptText="    Login" AnchorPane.leftAnchor="551.0" AnchorPane.rightAnchor="607.0" AnchorPane.topAnchor="378.0">
          <font>
             <Font size="18.0" />
 
@@ -28,7 +28,7 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Button layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+      <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -43,7 +43,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <CheckBox fx:id="checkBox" layoutX="848.0" layoutY="460.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" />
+      <CheckBox fx:id="checkBox" layoutX="848.0" layoutY="460.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" AnchorPane.rightAnchor="435.0" />
+      <ProgressBar fx:id="progressBar" layoutX="604.0" layoutY="666.0" prefHeight="17.0" prefWidth="177.0" visible="false" />
       <TextField fx:id="shownPassword" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText=" Password" visible="false">
          <font>
             <Font size="18.0" />

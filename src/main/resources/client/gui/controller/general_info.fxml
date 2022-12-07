@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
@@ -48,5 +49,11 @@
          </font></Button>
       <Label fx:id="noTeamsMessage" layoutX="303.0" layoutY="412.0" prefHeight="31.0" prefWidth="348.0" textAlignment="CENTER" textFill="#c90000" />
       <Label fx:id="noProcessesMessage" layoutX="735.0" layoutY="412.0" prefHeight="31.0" prefWidth="348.0" textAlignment="CENTER" textFill="#cd0404" />
+      <Accordion fx:id="invites" layoutX="303.0" layoutY="586.0" prefHeight="128.0" prefWidth="220.0" />
+      <Label fx:id="invitesLabel" layoutX="303.0" layoutY="546.0" text="Your invites:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

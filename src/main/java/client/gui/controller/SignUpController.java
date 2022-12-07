@@ -3,6 +3,7 @@ package client.gui.controller;
 import client.response.Response;
 import client.sender.Sender;
 import client.util.DataUtils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -33,17 +34,27 @@ public class SignUpController extends Controller{
     @FXML
     private Button signUpButton;
     
-    private final static String source = "sign_up.fxml";
     @FXML
     public void initialize() {
         
         indicator.setVisible(false);
         signUpButton.setDisable(true);
-        var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
-        var login = this.login.getText();
-        this.password.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
-        shownPassword.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
-        this.login.setOnKeyPressed(keyEvent -> checkLoginAndPassword(login, password));
+
+        this.password.setOnKeyReleased(keyEvent -> {
+            var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+            var login = this.login.getText();
+            checkLoginAndPassword(login, password);
+        });
+        shownPassword.setOnKeyReleased(keyEvent -> {
+            var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+            var login = this.login.getText();
+            checkLoginAndPassword(login, password);
+        });
+        this.login.setOnKeyReleased(keyEvent -> {
+            var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
+            var login = this.login.getText();
+            checkLoginAndPassword(login, password);
+        });
         
         hideError();
     }
@@ -58,15 +69,16 @@ public class SignUpController extends Controller{
             try {
                 result = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
     
-                if (result.isError()) {
-                    login.setStyle(errorStyle);
-                    error.setText(result.getMessage());
-                    showError();
-                    return result;
-                }
+                if (result.isError())
+                    showRegistrationError(result);
+
             } catch (IOException e) {
                 log.warn("Registration error", e);
+                e.printStackTrace();
                 showError();
+            }
+            finally {
+                indicator.setVisible(false);
             }
     
             return result;
@@ -77,23 +89,46 @@ public class SignUpController extends Controller{
         progress.setOnSucceeded(workerStateEvent -> {
     
             try {
-                showStage(event, "login.fxml", source);
+                finishRegistration(event);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                error.setText("Connection error");
+                showError();
             }
             finally {
                 indicator.setVisible(false);
             }
-    
         });
         progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
         
         new Thread(progress).start();
+        
+    }
+    
+    private void showRegistrationError(Response result) {
+    
+        Platform.runLater(() -> {
+            login.setStyle(errorStyle);
+            error.setText(result.getMessage());
+            showError();
+        });
+    }
+    
+    private void finishRegistration(ActionEvent event) throws IOException {
+        
+        Platform.runLater(() -> {
+            try {
+                showStage(event, "login.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     
     private boolean checkLoginAndPassword(String login, String password) {
         
         var result = checkLogin(login) && checkPassword(password);
+        signUpButton.setDisable(true);
         
         if(result)
             signUpButton.setDisable(false);
@@ -165,6 +200,6 @@ public class SignUpController extends Controller{
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, "login.fxml", source);
+        showStage(event, "login.fxml");
     }
 }

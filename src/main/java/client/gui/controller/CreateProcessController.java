@@ -1,6 +1,6 @@
 package client.gui.controller;
 
-import client.entity.Team;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
@@ -76,7 +76,6 @@ public class CreateProcessController extends Controller {
     @FXML
     private Button createProcessButton;
     
-    private final static String source = "create_process.fxml";
     private Participant creator;
     
     private Set<Step> steps = new HashSet<>();
@@ -179,7 +178,7 @@ public class CreateProcessController extends Controller {
         progress.setOnSucceeded(workerStateEvent -> {
     
             try {
-                showStage(event, "general_info.fxml", source);
+                showStage(event, "general_info.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -363,7 +362,7 @@ public class CreateProcessController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
     private void refreshStepsList() {
         stepsList.getItems().clear();

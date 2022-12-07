@@ -1,6 +1,7 @@
 package client.response;
 
-import client.entity.Team;
+import client.entity.team.Invite;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.response.deserializer.InfoResponseDeserializer;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Тип ответа для получения всей информации, связанной с конкретным аккаунтом участника
@@ -25,6 +27,8 @@ public class InfoResponse extends Response {
     private List<Team> teams;
     
     private List<Process> processes;
+    
+    private List<Invite> invites;
     
     public InfoResponse message(String message) {
         

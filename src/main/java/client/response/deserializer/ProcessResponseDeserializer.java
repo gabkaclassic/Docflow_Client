@@ -1,9 +1,6 @@
 package client.response.deserializer;
 
-import client.entity.Team;
-import client.entity.process.Participant;
 import client.entity.process.Process;
-import client.response.InfoResponse;
 import client.response.ProcessResponse;
 import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;

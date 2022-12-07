@@ -1,13 +1,13 @@
-package client.gui;
+package client;
 
 import client.file.FileManager;
+import client.gui.controller.SignInController;
 import client.gui.data.Data;
 import client.sender.Sender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 public class Interface extends Application {
     
-    private static final String HOME_SCENE = "controller/login.fxml";
+    private static final String HOME_SCENE = "gui/controller/login.fxml";
     
     private static final FileManager fileManager = new FileManager();
     

@@ -71,6 +71,6 @@
       </Label>
       <Label fx:id="creationError" layoutX="349.0" layoutY="686.0" prefHeight="17.0" prefWidth="377.0" text="Label" textFill="#e40f07" />
       <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
-      <Label fx:id="noParticipantsMessage" layoutX="824.0" layoutY="446.0" prefHeight="18.0" prefWidth="234.0" text="Label" textFill="#e40f07" />
+      <Label fx:id="noParticipantsMessage" layoutX="824.0" layoutY="446.0" prefHeight="18.0" prefWidth="234.0" text="Label" textFill="#e40f07" visible="false" />
    </children>
 </AnchorPane>

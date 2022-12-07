@@ -28,9 +28,6 @@ public class SignInController extends Controller {
     private CheckBox checkBox;
     @FXML
     private TextField shownPassword;
-    
-    private final static String source = "sign_in.fxml";
-
     @FXML
     public void initialize() {
         
@@ -40,7 +37,7 @@ public class SignInController extends Controller {
     
     public void switchToLogin(ActionEvent event) throws IOException {
         
-        showStage(event, "login.fxml", source);
+        showStage(event, "login.fxml");
     }
     public void signIn(ActionEvent event) {
         
@@ -54,8 +51,9 @@ public class SignInController extends Controller {
                 InfoResponse result = null;
                 try {
                     result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
+                    result = Sender.getUserInfo();
                 }
-                catch (IOException e) {
+                catch (Exception e) {
                     log.warn("Login error", e);
                     e.printStackTrace();
                     showError("Unknown connection error");
@@ -92,17 +90,15 @@ public class SignInController extends Controller {
     
     private void finishSignIn(InfoResponse response, ActionEvent event) throws IOException {
         
-        if(response.isError()) {
+        if(response == null || response.isError()) {
             indicator.setVisible(false);
-            showError(response.getMessage());
+            showError((response == null) ? "Connection error" : response.getMessage());
             return;
         }
-    
-        data.setParticipant(response.getParticipant());
-        data.setTeams(response.getTeams());
-        data.setProcesses(response.getProcesses());
+        
+        data.setData(response);
         indicator.setVisible(false);
-        showStage(event, "general_info.fxml", source);
+        showStage(event, "general_info.fxml");
     }
     private void showError(String message) {
         
@@ -127,6 +123,6 @@ public class SignInController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, "login.fxml", source);
+        showStage(event, "login.fxml");
     }
 }

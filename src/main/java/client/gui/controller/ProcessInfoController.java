@@ -98,7 +98,6 @@ public class ProcessInfoController extends Controller {
     private final Pattern pattern = Pattern.compile(
             "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)"
     );
-    private static final String source = "process_info.fxml";
     
     @FXML
     public void initialize() {
@@ -340,7 +339,7 @@ public class ProcessInfoController extends Controller {
             var response = Sender.finishProcess(process);
             
             if(result && response != null && !response.isError())
-                showStage(event, "general_info.fxml", source);
+                showStage(event, "general_info.fxml");
             else
                 return;
         }
@@ -427,6 +426,6 @@ public class ProcessInfoController extends Controller {
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         Sender.updateStep(step);
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
 }
