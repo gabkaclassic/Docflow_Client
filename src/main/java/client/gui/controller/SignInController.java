@@ -83,6 +83,8 @@ public class SignInController extends Controller {
             
             new Thread(progress).start();
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             indicator.setVisible(false);
         }
