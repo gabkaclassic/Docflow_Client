@@ -58,7 +58,7 @@ public class SignUpController extends Controller{
         
         hideError();
     }
-    public void registrationUser(ActionEvent event) {
+    public void registrationUser(ActionEvent event) throws Exception {
     
         indicator.setVisible(true);
         var progress = new Progress<>(() -> {
@@ -101,7 +101,7 @@ public class SignUpController extends Controller{
         });
         progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
         
-        new Thread(progress).start();
+        progress.call();
         
     }
     
