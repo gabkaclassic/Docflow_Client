@@ -5,7 +5,6 @@ import client.sender.Sender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -13,7 +12,6 @@ import java.io.IOException;
  * Контроллер для отображения сцены аутентификации
  * @see Controller
  * */
-@Slf4j
 public class SignInController extends Controller {
     
     @FXML
@@ -54,7 +52,6 @@ public class SignInController extends Controller {
                     result = Sender.getUserInfo();
                 }
                 catch (Exception e) {
-                    log.warn("Login error", e);
                     e.printStackTrace();
                     showError("Unknown connection error");
                 }
@@ -73,7 +70,6 @@ public class SignInController extends Controller {
                     finishSignIn(progress.get(), event);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    log.warn("Login error", e);
                     showError("Unknown connection error");
                 }
                 finally {

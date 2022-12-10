@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -25,7 +24,6 @@ import java.util.regex.Pattern;
  * Контроллер для отображения сцены работы над процессом
  * @see Controller
  * */
-@Slf4j
 public class ProcessInfoController extends Controller {
     @FXML
     private Label processTitle;
@@ -110,7 +108,6 @@ public class ProcessInfoController extends Controller {
                     .findFirst().orElseThrow();
         }
         catch(NoSuchElementException e) {
-            log.debug("No such step error", e);
         }
         
         participant = data.getParticipant();
@@ -146,7 +143,6 @@ public class ProcessInfoController extends Controller {
             try {
                 fileManager.saveDocument(document, process.getTitle());
             } catch (IOException e) {
-                log.warn("Save document error", e);
             }
         });
         
@@ -167,16 +163,14 @@ public class ProcessInfoController extends Controller {
         saveButton.setOnAction(event -> {
             try {
                 updateDocument(event, document);
-            } catch (IOException e) {
-                log.warn("Update document error", e);
+            } catch (IOException ignored) {
             }
         });
         var openButton = new Button("Open");
         openButton.setOnAction(event -> {
             try {
                 fileManager.openDocument(document, process.getTitle());
-            } catch (IOException e) {
-                log.warn("Open document error", e);
+            } catch (IOException ignored) {
             }
         });
         var selectButton = new Button("Select");
@@ -366,8 +360,7 @@ public class ProcessInfoController extends Controller {
         
             data.setCurrentProcess(processResponse.getProcess());
         }
-        catch (NoSuchElementException e) {
-            log.warn("No such process error", e);
+        catch (NoSuchElementException ignored) {
         }
         
         initialize();
@@ -394,7 +387,6 @@ public class ProcessInfoController extends Controller {
             data.setCurrentProcess(processResponse.getProcess());
         }
         catch (NoSuchElementException e) {
-            log.warn("No such process error", e);
         }
         
         initialize();

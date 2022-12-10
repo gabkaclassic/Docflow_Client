@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -19,7 +18,6 @@ import java.util.Objects;
  * Контроллер для отображения сцены с главной информацией о команде
  * @see Controller
  * */
-@Slf4j
 public class TeamInfoController extends Controller {
     
     @FXML
@@ -63,8 +61,7 @@ public class TeamInfoController extends Controller {
                 data.setCurrentProcess(process);
                 try {
                     showStage(teamTitle, "process_info.fxml");
-                } catch (IOException e) {
-                    log.debug("Error of transition to process info scene", e);
+                } catch (IOException ignored) {
                 }
             });
             

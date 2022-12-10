@@ -6,7 +6,6 @@ import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
  * Контроллер для отображения сцены регистрации
  * @see Controller
  * */
-@Slf4j
 public class SignUpController extends Controller{
     @FXML
     private TextField login;
@@ -80,7 +78,6 @@ public class SignUpController extends Controller{
                     
                 }
                 catch (Exception e) {
-                    log.warn("Login error", e);
                     e.printStackTrace();
                     showRegistrationError(result);
                 }
@@ -98,7 +95,6 @@ public class SignUpController extends Controller{
                     finishRegistration(event);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    log.warn("Login error", e);
                     error.setText("Connection error");
                     showError();
                 }

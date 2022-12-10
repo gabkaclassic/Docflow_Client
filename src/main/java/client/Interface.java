@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-@Slf4j
 public class Interface extends Application {
     
     private static final String HOME_SCENE = "gui/controller/login.fxml";
@@ -21,6 +20,7 @@ public class Interface extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
+        
         
         FXMLLoader fxmlLoader = new FXMLLoader(Interface.class.getResource(HOME_SCENE));
         Scene scene = new Scene(fxmlLoader.load(), 1440, 1024);
@@ -62,10 +62,7 @@ public class Interface extends Application {
     
     public static void main(String[] args) {
     
-        log.trace("Application was started with home scene: " + HOME_SCENE);
-        
         launch();
         
-        log.trace("Application was finished");
     }
 }

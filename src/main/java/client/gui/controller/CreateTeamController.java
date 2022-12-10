@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
  * Контроллер для сцены создания команды
  * @see Controller
  * */
-@Slf4j
 public class CreateTeamController extends Controller {
     @FXML
     private TextField teamTitle;
@@ -55,7 +53,6 @@ public class CreateTeamController extends Controller {
                     try {
                         addParticipant(new ActionEvent());
                     } catch (JsonProcessingException e) {
-                        log.debug(e.getMessage());
                     }
                 }
         });
@@ -65,7 +62,6 @@ public class CreateTeamController extends Controller {
                 try {
                     checkTitle(teamTitle.getText());
                 } catch (JsonProcessingException e) {
-                    log.debug(e.getMessage());
                 }
             }
         });
@@ -74,7 +70,6 @@ public class CreateTeamController extends Controller {
                 try {
                     checkTitle(teamTitle.getText());
                 } catch (JsonProcessingException e) {
-                    log.debug(e.getMessage());
                 }
         });
     
@@ -121,7 +116,6 @@ public class CreateTeamController extends Controller {
 
             } catch (IOException e) {
                 indicator.setVisible(false);
-                log.warn("Create team error", e);
             }
         });
         progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));

@@ -29,7 +29,6 @@ import java.util.function.Function;
 /**
  * Класс-реактивный-клиент для обмена информацией с сервером
  * */
-@Slf4j
 public class Sender {
     
     private static final String BASE_URL = System.getenv("BASE_URL");
@@ -75,8 +74,6 @@ public class Sender {
      * */
     private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
         
-        log.trace(String.format("Send request: (%s : %s)", method.name(), BASE_URL + url));
-        
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
                 .defaultCookie("SESSION", session)
@@ -104,11 +101,8 @@ public class Sender {
             response = headersSpec.exchangeToMono(request).block();
         }
         catch (Exception exception) {
-            log.info("Retrying request");
             response = headersSpec.exchangeToMono(request).block();
         }
-        
-        log.debug("Response: ", response);
         
         return response;
     }
@@ -121,7 +115,6 @@ public class Sender {
         String response = send(HttpMethod.POST, "user/login", params);
         
         if(response == null) {
-            log.debug("User info after login is null");
             return getUserInfo();
         }
         

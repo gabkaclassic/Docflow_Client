@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * Контроллер для сцены создания процесса
  * @see Controller
  * */
-@Slf4j
 public class CreateProcessController extends Controller {
     @FXML
     private TextField processTitle;
@@ -124,8 +122,7 @@ public class CreateProcessController extends Controller {
         try {
             team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().orElseThrow();
         }
-        catch (NoSuchElementException e) {
-            log.debug("No such team error", e);
+        catch (NoSuchElementException ignored) {
         }
         
         team.getParticipants().forEach(participantsChoice.getItems()::add);
@@ -216,7 +213,6 @@ public class CreateProcessController extends Controller {
                 throw new InvalidParameterException();
         }
         catch (InvalidParameterException | NumberFormatException e) {
-            log.info("Invalid input data error", e);
             showAddStepError("Incorrect value in step number");
             return;
         }
@@ -255,7 +251,6 @@ public class CreateProcessController extends Controller {
             stepNumber.getValueFactory().setValue(steps.stream().mapToInt(Step::getNumber).max().orElseThrow() + 1);
         }
         catch (NoSuchElementException e) {
-            log.warn("No such step error", e);
         }
     }
     
@@ -283,7 +278,6 @@ public class CreateProcessController extends Controller {
             );
         }
         catch (NoSuchElementException exception) {
-            log.debug("No such step error", exception);
             return;
         }
         

@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -20,7 +19,6 @@ import java.util.Objects;
  * Контроллер для сцены отображения главной информации, связанной с пользователем
  * @see Controller
  * */
-@Slf4j
 public class GeneralInfoController extends Controller{
     @FXML
     private SplitMenuButton teams;
@@ -98,8 +96,7 @@ public class GeneralInfoController extends Controller{
                 try {
                     this.showStage(teams, "team_info.fxml");
                     
-                } catch (IOException e) {
-                    log.warn("Error of transition to team info scene", e);
+                } catch (IOException ignored) {
                 }
             });
         
@@ -118,8 +115,7 @@ public class GeneralInfoController extends Controller{
                 
                 try {
                     showStage(processes, "process_info.fxml");
-                } catch (IOException e) {
-                    log.warn("Error of transition to process info scene", e);
+                } catch (IOException ignored) {
                 }
             });
         
@@ -169,8 +165,6 @@ public class GeneralInfoController extends Controller{
             }
         }
         catch (Exception e) {
-    
-            log.warn("Logout error", e);
         }
         finally {
             data.clear();
