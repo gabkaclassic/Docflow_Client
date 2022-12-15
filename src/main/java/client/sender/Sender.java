@@ -9,7 +9,6 @@ import client.response.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -23,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient.UriSpec;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -57,14 +57,13 @@ public class Sender {
         return mapper.readValue(send(HttpMethod.POST,"user/registry", params), Response.class);
     }
     
-    public static Response createTeam(Team team, String teamLeaderNick) throws JsonProcessingException {
+    public static Response createTeam(Team team, List<String> participants, String teamLeaderNick) throws JsonProcessingException {
         
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
         var response = send(HttpMethod.POST, "create/team", params);
-        team.getParticipants().remove(teamLeaderNick);
-        invites(team.getParticipants(), team.getTitle());
+        invites(participants, team.getTitle());
         
         return mapper.readValue(response, Response.class);
     }
@@ -73,7 +72,7 @@ public class Sender {
      * Общий шаблон всех запросов
      * */
     private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
-        
+    
         var client = WebClient.builder()
                 .baseUrl(BASE_URL)
                 .defaultCookie("SESSION", session)
@@ -157,7 +156,7 @@ public class Sender {
         return mapper.readValue(send(HttpMethod.POST, "update/team/addProcess", params), Response.class);
     }
     
-    public static void invites(Set<String> usernames, String title) throws JsonProcessingException {
+    public static void invites(List<String> usernames, String title) throws JsonProcessingException {
         
         var params = new LinkedMultiValueMap<String, String>();
         params.add("usernames", writer.writeValueAsString(usernames));

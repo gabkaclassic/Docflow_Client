@@ -101,10 +101,8 @@ public class CreateTeamController extends Controller {
 
             team.setTitle(title);
             team.setTeamLeaderId(leader.getId());
-            participants.add(leader.getOwner().getUsername());
-            team.addParticipants(participants);
 
-            var result = Sender.createTeam(team, leader.getUsername());
+            var result = Sender.createTeam(team, participants, leader.getUsername());
             hideTeamError();
             indicator.setVisible(false);
             return result;
