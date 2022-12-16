@@ -45,9 +45,12 @@ public class GeneralInfoController extends Controller{
         if(data.getPreviousScene() == null)
             back.setVisible(false);
         
+        noTeamsMessage.setVisible(false);
+        noProcessesMessage.setVisible(false);
         teams.getItems().clear();
         processes.getItems().clear();
         invites.getPanes().clear();
+        invites.setVisible(true);
         invitesLabel.setVisible(true);
         
         if(data.getInvites().isEmpty())
@@ -57,6 +60,8 @@ public class GeneralInfoController extends Controller{
             var acceptButton = new Button("Accept");
             acceptButton.setOnAction(event -> {
                 try {
+                    invitesLabel.setVisible(false);
+                    invites.setVisible(false);
                     Sender.accessInvite(invite);
                     data.refresh();
                     initialize();
@@ -67,6 +72,8 @@ public class GeneralInfoController extends Controller{
             var refuseButton = new Button("Refuse");
             refuseButton.setOnAction(event -> {
                 try {
+                    invitesLabel.setVisible(false);
+                    invites.setVisible(false);
                     Sender.refuseInvite(invite);
                     data.refresh();
                     initialize();
@@ -122,20 +129,18 @@ public class GeneralInfoController extends Controller{
             processes.getItems().add(item);
         }
         
-        processes.setOnContextMenuRequested(event -> {
-            
-            if(processes.getItems().isEmpty()) {
+        processes.setOnAction(event -> {
+    
+            if(processes.getItems().isEmpty())
                 noProcessesMessage.setVisible(true);
-                noProcessesMessage.setText("There are no available processes");
-            }
+            
         });
     
-        teams.setOnContextMenuRequested(event -> {
+        teams.setOnAction(event -> {
         
-            if(teams.getItems().isEmpty()) {
+            if(teams.getItems().isEmpty())
                 noTeamsMessage.setVisible(true);
-                noTeamsMessage.setText("There are no available teams");
-            }
+            
         });
         
     }

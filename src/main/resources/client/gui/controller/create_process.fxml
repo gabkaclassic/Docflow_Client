@@ -11,6 +11,7 @@
 
 <?import java.lang.Integer?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ProgressIndicator?>
 <AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
    <children>
       <Label layoutX="270.0" layoutY="140.0" text="Process:">
@@ -106,5 +107,6 @@
          <Integer fx:id="max" fx:value="1000"/>
       </fx:define>
       <Spinner fx:id="stepNumber" editable="true" layoutX="563.0" layoutY="373.0" prefHeight="37.0" prefWidth="75.0" min="$min" max="$max"/>
+      <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
    </children>
 </AnchorPane>

@@ -63,7 +63,15 @@ public class Sender {
         var teamString = writer.writeValueAsString(team);
         params.add("team", teamString);
         var response = send(HttpMethod.POST, "create/team", params);
-        invites(participants, team.getTitle());
+        
+        new Thread(() -> {
+            try {
+                invites(participants, team.getTitle());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        ).start();
         
         return mapper.readValue(response, Response.class);
     }

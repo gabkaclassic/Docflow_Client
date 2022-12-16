@@ -94,7 +94,7 @@ public class TeamInfoController extends Controller {
         
         inviteParticipantErrorFiled.setVisible(false);
         var username = usernameField.getText();
-        
+        usernameField.clear();
         if(username == null || username.isBlank()) {
             showInviteParticipantError("This field can't be empty");
             return;
@@ -108,8 +108,6 @@ public class TeamInfoController extends Controller {
 
         }
         
-        data.refresh();
-        refreshCurrentTeam();
         initialize();
     }
     
@@ -126,8 +124,8 @@ public class TeamInfoController extends Controller {
             return;
         }
         
-        data.refresh();
-        refreshCurrentTeam();
+        currentTeam.getParticipants().remove(currentParticipant);
+        
         initialize();
     }
     

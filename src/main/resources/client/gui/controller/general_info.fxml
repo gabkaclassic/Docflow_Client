@@ -39,20 +39,24 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
       <Button layoutX="967.0" layoutY="330.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="55.0" prefWidth="145.0" stylesheets="@button.css" text="Add process" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="noTeamsMessage" layoutX="303.0" layoutY="412.0" prefHeight="31.0" prefWidth="348.0" textAlignment="CENTER" textFill="#c90000" />
-      <Label fx:id="noProcessesMessage" layoutX="735.0" layoutY="412.0" prefHeight="31.0" prefWidth="348.0" textAlignment="CENTER" textFill="#cd0404" />
       <Accordion fx:id="invites" layoutX="303.0" layoutY="586.0" prefHeight="128.0" prefWidth="220.0" />
       <Label fx:id="invitesLabel" layoutX="303.0" layoutY="546.0" text="Your invites:">
          <font>
             <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="noTeamsMessage" layoutX="306.0" layoutY="399.0" text="List of your teams is empty" textFill="#ff1919">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="noProcessesMessage" layoutX="724.0" layoutY="399.0" text="List of your processes is empty" textFill="#ff1919">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
    </children>

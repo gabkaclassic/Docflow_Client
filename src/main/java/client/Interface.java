@@ -30,7 +30,7 @@ public class Interface extends Application {
         stage.setOnCloseRequest(event -> {
             event.consume();
             try {
-                closeProject();
+                closeProject(stage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -42,8 +42,9 @@ public class Interface extends Application {
     /**
      * Настройка сохранения данных при выходе пользователя из системы
      * */
-    private void closeProject() throws IOException {
+    private void closeProject(Stage stage) throws IOException {
         
+        stage.close();
         var data = Data.getInstance();
         
         if(data.getParticipant() != null) {

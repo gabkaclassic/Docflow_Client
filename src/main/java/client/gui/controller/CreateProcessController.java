@@ -98,7 +98,7 @@ public class CreateProcessController extends Controller {
         stepNumber.setValueFactory(new SpinnerValueFactory<>() {
     
             public void decrement(int i) {
-                if(getValue() > 0)
+                if(getValue() > 1)
                     setValue(getValue() - 1);
             }
     
@@ -106,6 +106,7 @@ public class CreateProcessController extends Controller {
                 setValue(getValue() + 1);
             }
         });
+        stepNumber.getValueFactory().setValue(1);
         teamsList.setOnAction(e -> {
             selectTeam(teamsList.getValue());
             steps.clear();
@@ -293,13 +294,14 @@ public class CreateProcessController extends Controller {
         var document = new Document();
         var title = documentTitle.getText();
         var extension = documentExtension.getText();
-        if(checkDocument(title)) {
+        
+        if(!checkDocument(title)) {
             showAddDocumentError("Document name field can't be empty");
             return;
         }
-        if (!steps.stream().flatMap(s -> s.getDocuments().stream())
+        if (steps.stream().flatMap(s -> s.getDocuments().stream())
                 .map(Document::getTitle)
-                .noneMatch(t -> t.equals(title))){
+                .anyMatch(t -> t.equals(title))){
             showAddDocumentError("Document with such name");
             return;
         }

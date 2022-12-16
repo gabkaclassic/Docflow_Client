@@ -145,6 +145,13 @@ public class ProcessInfoController extends Controller {
             } catch (IOException e) {
             }
         });
+    
+        comments.setVisible(true);
+        resourcesFlow.setVisible(true);
+        if(currentDocument == null) {
+            comments.setVisible(false);
+            resourcesFlow.setVisible(false);
+        }
         
         updateDocuments();
     }
@@ -159,7 +166,7 @@ public class ProcessInfoController extends Controller {
     
     private void addDocument(Document document) {
     
-        var saveButton = new Button("Save");
+        var saveButton = new Button("Load from disk");
         saveButton.setOnAction(event -> {
             try {
                 updateDocument(event, document);
@@ -237,6 +244,13 @@ public class ProcessInfoController extends Controller {
         document.setFormat(extension);
         
         document.setStepTitle(step.getTitle());
+    
+        fileManager.saveDocument(document, process.getTitle());
+        if(open.isSelected())
+            fileManager.openDocument(document, process.getTitle());
+    
+        documentTitle.clear();
+        documentExtension.clear();
         
         if(checkDocument(document)) {
             showDocumentCreateError("Document with such name already exist");
@@ -244,14 +258,14 @@ public class ProcessInfoController extends Controller {
         }
         
         step.addDocument(document);
-        Sender.updateStep(step);
         
-        fileManager.saveDocument(document, process.getTitle());
-        if(open.isSelected())
-            fileManager.openDocument(document, process.getTitle());
-        
-        documentTitle.clear();
-        documentExtension.clear();
+        new Thread(() -> {
+            try {
+                Sender.updateStep(step);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
         
         addDocument(document);
     }
