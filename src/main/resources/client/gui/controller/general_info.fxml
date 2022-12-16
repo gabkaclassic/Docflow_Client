@@ -2,13 +2,15 @@
 
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
    <children>
       <SplitMenuButton fx:id="teams" layoutX="303.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Teams">
         <items>
@@ -43,7 +45,29 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Accordion fx:id="invites" layoutX="303.0" layoutY="586.0" prefHeight="128.0" prefWidth="220.0" />
+      <Accordion fx:id="invites" layoutX="303.0" layoutY="586.0" maxHeight="350.0" prefHeight="27.0" prefWidth="220.0">
+         <panes>
+            <TitledPane alignment="TOP_CENTER" prefHeight="27.0" prefWidth="100.0" styleClass="title" stylesheets="@titled-pane.css" text="name team" textAlignment="RIGHT" textFill="WHITE">
+               <content>
+                  <ButtonBar prefHeight="27.0" prefWidth="200.0">
+                     <buttons>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@acc_button.css" text="Button" textFill="#12c62a" translateX="-15.0" />
+                        <Button layoutX="154.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@refuse_button.css" text="Button" textFill="#c62222" translateX="-5.0" />
+                     </buttons>
+                  </ButtonBar>
+               </content>
+            </TitledPane>
+            <TitledPane alignment="TOP_CENTER" prefHeight="30.0" prefWidth="100.0" styleClass="title" stylesheets="@titled-pane.css" text="name team" textAlignment="RIGHT" textFill="WHITE">
+               <content>
+                  <ButtonBar prefHeight="100.0" prefWidth="200.0">
+                    <buttons>
+                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@acc_button.css" text="Button" />
+                        <Button layoutX="154.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@refuse_button.css" text="Button" />
+                    </buttons>
+                  </ButtonBar>
+               </content>
+            </TitledPane>
+         </panes></Accordion>
       <Label fx:id="invitesLabel" layoutX="303.0" layoutY="546.0" text="Your invites:">
          <font>
             <Font size="20.0" />

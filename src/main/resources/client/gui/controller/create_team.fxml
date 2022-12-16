@@ -15,7 +15,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Button layoutX="352.0" layoutY="610.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="55.0" prefWidth="377.0" stylesheets="@button.css" text=" Create team" textFill="WHITE">
+      <Button fx:id="createTeamButton" layoutX="352.0" layoutY="610.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="55.0" prefWidth="377.0" stylesheets="@button.css" text=" Create team" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font></Button>
@@ -43,7 +43,7 @@
          </font>
       </SplitMenuButton>
 
-      <Button layoutX="612.0" layoutY="511.0" minWidth="0.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="45.0" prefWidth="117.0" stylesheets="@add.css" text="Add" textFill="WHITE">
+      <Button fx:id="addParticipantButton" layoutX="612.0" layoutY="511.0" minWidth="0.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="45.0" prefWidth="117.0" stylesheets="@add.css" text="Add" textFill="WHITE">
 
          <font>
             <Font size="18.0" />

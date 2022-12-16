@@ -66,7 +66,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" accessibleText="Team:" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" />
+      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" accessibleText="Team:" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" styleClass="context-menu" stylesheets="@choicebox.css" />
       <Label layoutX="219.0" layoutY="253.0" text="Team:">
          <font>
             <Font size="14.0" />
@@ -79,7 +79,7 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="584.0" layoutY="433.0" prefHeight="45.0" prefWidth="181.0" />
+      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="584.0" layoutY="433.0" prefHeight="45.0" prefWidth="181.0" styleClass="context-menu" stylesheets="@choicebox.css" />
       <Label layoutX="537.0" layoutY="447.0" text="Rules:">
          <font>
             <Font size="14.0" />
@@ -92,7 +92,7 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="433.0" prefHeight="45.0" prefWidth="240.0" />
+      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="433.0" prefHeight="45.0" prefWidth="240.0" styleClass="context-menu" stylesheets="@choicebox.css" />
       <Label layoutX="188.0" layoutY="447.0" text="Participants:">
 
          <font>
@@ -107,6 +107,8 @@
          <Integer fx:id="max" fx:value="1000"/>
       </fx:define>
       <Spinner fx:id="stepNumber" editable="true" layoutX="563.0" layoutY="373.0" prefHeight="37.0" prefWidth="75.0" min="$min" max="$max"/>
-      <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
+      <ProgressIndicator fx:id="indicator" layoutX="890.0" layoutY="922.0" prefHeight="60.0" prefWidth="60.0" visible="false" />
    </children>
 </AnchorPane>
+
+<!--       indicator-->

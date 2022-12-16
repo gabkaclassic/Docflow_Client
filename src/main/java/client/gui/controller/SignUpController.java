@@ -57,7 +57,7 @@ public class SignUpController extends Controller{
             var login = this.login.getText();
             checkLoginAndPassword(login, password);
         });
-        
+
         hideError();
     }
     public void registrationUser(ActionEvent event) {
@@ -130,7 +130,8 @@ public class SignUpController extends Controller{
     }
     
     private boolean checkLoginAndPassword(String login, String password) {
-        
+
+        System.out.println(login);
         var result = checkLogin(login) && checkPassword(password);
         signUpButton.setDisable(true);
         
@@ -163,7 +164,10 @@ public class SignUpController extends Controller{
     }
     
     private boolean checkLogin(String login) {
-        
+        System.out.println("=======================");
+        System.out.println(login);
+        System.out.println("=======================");
+
         if(!DataUtils.checkLogin(login)) {
             signUpButton.setDisable(true);
             error.setText("Invalid login");
