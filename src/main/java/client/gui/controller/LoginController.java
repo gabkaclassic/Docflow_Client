@@ -11,7 +11,6 @@ import java.io.IOException;
  * @see Controller
  * */
 public class LoginController extends Controller {
-    private static final String source = "login.fxml";
     
     @FXML
     private Button back;
@@ -24,14 +23,10 @@ public class LoginController extends Controller {
     }
     public void switchToSignIn(ActionEvent event) throws IOException {
         
-        showStage(event, "sign_in.fxml", source);
+        showStage(event, "sign_in.fxml");
     }
     public void switchToSignUp(ActionEvent event) throws IOException {
     
-        showStage(event, "sign_up.fxml", source);
-    }
-    public void back(ActionEvent event) throws IOException {
-        
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, "sign_up.fxml");
     }
 }

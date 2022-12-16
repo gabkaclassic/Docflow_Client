@@ -1,6 +1,7 @@
 package client.response.deserializer;
 
-import client.entity.Team;
+import client.entity.team.Invite;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.response.InfoResponse;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class InfoResponseDeserializer extends StdDeserializer<InfoResponse> {
     public InfoResponseDeserializer() {
@@ -39,6 +41,7 @@ public class InfoResponseDeserializer extends StdDeserializer<InfoResponse> {
                         .map(Team.class::cast)
                         .toList()
                 )
+                .invites(JSONUtils.splitObjects(node, "invites", Invite.class).toList())
                 .build()
                 .message(node.get("message").textValue())
                 .status(node.get("status").textValue());

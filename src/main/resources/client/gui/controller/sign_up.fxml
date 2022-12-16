@@ -4,44 +4,61 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignUpController">
+<AnchorPane prefHeight="732.0" prefWidth="831.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.SignUpController">
    <children>
-      <PasswordField fx:id="password" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText="    Password">
+      <PasswordField fx:id="password" layoutX="270.0" layoutY="385.0" prefHeight="58.0" prefWidth="296.0" promptText="Password">
+
          <font>
             <Font size="18.0" />
-         </font></PasswordField>
-      <TextField fx:id="login" layoutX="551.0" layoutY="378.0" prefHeight="58.0" prefWidth="282.0" promptText="    Login">
+         </font>
+      </PasswordField>
+
+      <TextField fx:id="login" layoutX="270.0" layoutY="315.0" prefHeight="58.0" prefWidth="296.0" promptText="    Login" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="315.0">
+
          <font>
             <Font size="18.0" />
+
          </font></TextField>
-      <Label alignment="CENTER" layoutX="427.0" layoutY="256.0" prefHeight="48.0" prefWidth="587.0" text="Enter your login and password">
+      <Label alignment="CENTER" layoutX="115.0" layoutY="186.0" prefHeight="48.0" prefWidth="587.0" text="Enter your login and password">
+
+
          <font>
             <Font size="40.0" />
-         </font></Label>
-      <Button layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
+         </font>
+      </Label>
+      <Button fx:id="back" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button layoutX="543.0" layoutY="577.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="58.0" prefWidth="282.0" stylesheets="@button.css" text="Sign up" textFill="WHITE">
+
+      <Button fx:id="signUpButton" layoutX="270.0" layoutY="491.0" mnemonicParsing="false" onAction="#registrationUser" prefHeight="34.0" prefWidth="171.0" stylesheets="@button.css" text="Sign up" textFill="WHITE">
+
+
          <font>
             <Font size="24.0" />
-         </font></Button>
-      <Label fx:id="error" alignment="TOP_CENTER" layoutX="334.0" layoutY="528.0" prefHeight="34.0" prefWidth="700.0" text="Sorry, unknowable connection error" textFill="RED">
+         </font>
+      </Button>
+
+      <Label fx:id="error" alignment="TOP_CENTER" layoutX="61.0" layoutY="450.0" prefHeight="34.0" prefWidth="700.0" text="Sorry, unknowable connection error" textFill="RED">
+
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <CheckBox fx:id="checkBox" layoutX="848.0" layoutY="460.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" />
-      <ProgressBar fx:id="progressBar" layoutX="604.0" layoutY="666.0" prefHeight="17.0" prefWidth="177.0" visible="false" />
-      <TextField fx:id="shownPassword" layoutX="551.0" layoutY="451.0" prefHeight="58.0" prefWidth="282.0" promptText=" Password" visible="false">
+
+      <CheckBox fx:id="checkBox" layoutX="580.0" layoutY="394.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="41.0" prefWidth="157.0" text="Show Password" />
+      <ProgressIndicator fx:id="indicator" layoutX="511.0" layoutY="491.0" prefHeight="50.0" prefWidth="54.0" />
+      <TextField fx:id="shownPassword" layoutX="270.0" layoutY="385.0" prefHeight="58.0" prefWidth="296.0" promptText="Password">
+
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
+
    </children>
 </AnchorPane>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -37,13 +41,48 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="back" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="50.0" prefWidth="145.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Back" textFill="#105aaa">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
       <Button layoutX="967.0" layoutY="330.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="55.0" prefWidth="145.0" stylesheets="@button.css" text="Add process" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font></Button>
+      <Accordion fx:id="invites" layoutX="303.0" layoutY="586.0" maxHeight="350.0" prefHeight="27.0" prefWidth="220.0">
+         <panes>
+            <TitledPane alignment="TOP_CENTER" prefHeight="27.0" prefWidth="100.0" styleClass="title" stylesheets="@titled-pane.css" text="name team" textAlignment="RIGHT" textFill="WHITE">
+               <content>
+                  <ButtonBar prefHeight="27.0" prefWidth="200.0">
+                     <buttons>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@acc_button.css" text="Button" textFill="#12c62a" translateX="-15.0" />
+                        <Button layoutX="154.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@refuse_button.css" text="Button" textFill="#c62222" translateX="-5.0" />
+                     </buttons>
+                  </ButtonBar>
+               </content>
+            </TitledPane>
+            <TitledPane alignment="TOP_CENTER" prefHeight="30.0" prefWidth="100.0" styleClass="title" stylesheets="@titled-pane.css" text="name team" textAlignment="RIGHT" textFill="WHITE">
+               <content>
+                  <ButtonBar prefHeight="100.0" prefWidth="200.0">
+                    <buttons>
+                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@acc_button.css" text="Button" />
+                        <Button layoutX="154.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" stylesheets="@refuse_button.css" text="Button" />
+                    </buttons>
+                  </ButtonBar>
+               </content>
+            </TitledPane>
+         </panes>
+      </Accordion>
+      <Label fx:id="invitesLabel" layoutX="303.0" layoutY="546.0" text="Your invites:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="noTeamsMessage" layoutX="306.0" layoutY="399.0" text="List of your teams is empty" textFill="#ff1919">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="noProcessesMessage" layoutX="724.0" layoutY="399.0" text="List of your processes is empty" textFill="#ff1919">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

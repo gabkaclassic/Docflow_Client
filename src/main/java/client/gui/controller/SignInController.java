@@ -2,11 +2,9 @@ package client.gui.controller;
 
 import client.response.InfoResponse;
 import client.sender.Sender;
-import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -14,8 +12,10 @@ import java.io.IOException;
  * Контроллер для отображения сцены аутентификации
  * @see Controller
  * */
-@Slf4j
 public class SignInController extends Controller {
+    
+    @FXML
+    private Label error;
     @FXML
     private TextField login;
     @FXML
@@ -23,39 +23,19 @@ public class SignInController extends Controller {
     @FXML
     private ProgressIndicator indicator;
     @FXML
-    private Label error;
-    @FXML
     private CheckBox checkBox;
     @FXML
     private TextField shownPassword;
-    
-    private final static String source = "sign_in.fxml";
     @FXML
     public void initialize() {
         
+        indicator.setVisible(false);
         hideError();
-       
-        password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
-        login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
-    }
-    
-    private void checkPassword(String password) {
-        
-        if(!DataUtils.checkPassword(password)) {
-//            showError();
-        }
-    }
-    
-    private void checkLogin(String login) {
-        
-        if(!DataUtils.checkLogin(login)) {
-//            showError();
-        }
     }
     
     public void switchToLogin(ActionEvent event) throws IOException {
         
-        showStage(event, "login.fxml", source);
+        showStage(event, "login.fxml");
     }
     public void signIn(ActionEvent event) {
         
@@ -69,9 +49,9 @@ public class SignInController extends Controller {
                 InfoResponse result = null;
                 try {
                     result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
+                    result = Sender.getUserInfo();
                 }
-                catch (IOException e) {
-                    log.warn("Login error", e);
+                catch (Exception e) {
                     e.printStackTrace();
                     showError("Unknown connection error");
                 }
@@ -90,7 +70,6 @@ public class SignInController extends Controller {
                     finishSignIn(progress.get(), event);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    log.warn("Login error", e);
                     showError("Unknown connection error");
                 }
                 finally {
@@ -100,6 +79,8 @@ public class SignInController extends Controller {
             
             new Thread(progress).start();
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             indicator.setVisible(false);
         }
@@ -107,17 +88,15 @@ public class SignInController extends Controller {
     
     private void finishSignIn(InfoResponse response, ActionEvent event) throws IOException {
         
-        if(response.isError()) {
+        if(response == null || response.isError()) {
             indicator.setVisible(false);
-            showError(response.getMessage());
+            showError((response == null) ? "Connection error" : response.getMessage());
             return;
         }
-    
-        data.setParticipant(response.getParticipant());
-        data.setTeams(response.getTeams());
-        data.setProcesses(response.getProcesses());
+        
+        data.setData(response);
         indicator.setVisible(false);
-        showStage(event, "general_info.fxml", source);
+        showStage(event, "general_info.fxml");
     }
     private void showError(String message) {
         
@@ -142,6 +121,6 @@ public class SignInController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, "login.fxml", source);
+        showStage(event, "login.fxml");
     }
 }

@@ -29,6 +29,11 @@ public class Controller {
      * */
     protected Data data;
     
+    protected static String source;
+    
+    protected final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
+    protected final String okStyle = "-fx-border-color: BLUE; -fx-border-width: 1; -fx-border-radius: 5;";
+    
     {
         data = Data.getInstance();
     }
@@ -36,14 +41,18 @@ public class Controller {
     /**
      * Переход на другую сцену (контроллер)
      * */
-    protected void showStage(ActionEvent event, String resource, String current) throws IOException {
-        
-        data.setPreviousScene(current);
+    protected void showStage(ActionEvent event, String resource) throws IOException {
         
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
         var stage = (Stage)(((Node)event.getSource()).getScene().getWindow());
         var scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public void back(ActionEvent event) throws IOException {
+        
+        data.refresh();
+        showStage(event, data.getPreviousScene());
     }
 }

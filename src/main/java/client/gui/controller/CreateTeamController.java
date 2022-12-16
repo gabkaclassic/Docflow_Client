@@ -1,6 +1,6 @@
 package client.gui.controller;
 
-import client.entity.Team;
+import client.entity.team.Team;
 import client.gui.data.Data;
 import client.response.Response;
 import client.sender.Sender;
@@ -9,16 +9,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * Контроллер для сцены создания команды
  * @see Controller
  * */
-@Slf4j
 public class CreateTeamController extends Controller {
     @FXML
     private TextField teamTitle;
@@ -29,13 +28,19 @@ public class CreateTeamController extends Controller {
     @FXML
     private Label teamError;
     @FXML
+    private Button addParticipantButton;
+    
+    @FXML
+    private Label noParticipantsMessage;
+    @FXML
     private Label userError;
     @FXML
     private  Label creationError;
     @FXML
+    private Button createTeamButton;
+    @FXML
     private ProgressIndicator indicator;
     
-    private final static String source = "create_team.fxml";
     private final String alreadyExistTeamError = "Team with this title already exists";
     private final String blankFieldError = "The text field can't be blank";
     private final String dontExistAccountError = "Account with this username doesn't exists";
@@ -47,15 +52,54 @@ public class CreateTeamController extends Controller {
         hideUserError();
         hideCreationError();
         participantsList.getItems().clear();
-    
+
         username.setOnKeyPressed(event -> {
                 if (event.getCode().equals(KeyCode.ENTER)) {
                     try {
                         addParticipant(new ActionEvent());
                     } catch (JsonProcessingException e) {
-                        log.debug(e.getMessage());
                     }
                 }
+        });
+        teamTitle.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(teamTitle.getText(), "")){
+                teamTitle.setStyle(errorStyle);
+                createTeamButton.setDisable(true);
+            }
+            else{
+                createTeamButton.setDisable(false);
+                teamTitle.setStyle(okStyle);
+            }
+        });
+        teamTitle.setOnMouseExited(keyEvent->{
+            if(Objects.equals(teamTitle.getText(), "")){
+                teamTitle.setStyle(errorStyle);
+                createTeamButton.setDisable(true);
+            }
+            else{
+                createTeamButton.setDisable(false);
+                teamTitle.setStyle(okStyle);
+            }
+        });
+        username.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(username.getText(), "")){
+                username.setStyle(errorStyle);
+                addParticipantButton.setDisable(true);
+            }
+            else{
+                addParticipantButton.setDisable(false);
+                username.setStyle(okStyle);
+            }
+        });
+        username.setOnMouseExited(keyEvent->{
+            if(Objects.equals(username.getText(), "")){
+                username.setStyle(errorStyle);
+                addParticipantButton.setDisable(true);
+            }
+            else{
+                addParticipantButton.setDisable(false);
+                username.setStyle(okStyle);
+            }
         });
         
         teamTitle.setOnKeyPressed(event -> {
@@ -63,7 +107,6 @@ public class CreateTeamController extends Controller {
                 try {
                     checkTitle(teamTitle.getText());
                 } catch (JsonProcessingException e) {
-                    log.debug(e.getMessage());
                 }
             }
         });
@@ -72,8 +115,15 @@ public class CreateTeamController extends Controller {
                 try {
                     checkTitle(teamTitle.getText());
                 } catch (JsonProcessingException e) {
-                    log.debug(e.getMessage());
                 }
+        });
+    
+        participantsList.setOnContextMenuRequested(event -> {
+        
+            if(participantsList.getItems().isEmpty()) {
+                noParticipantsMessage.setVisible(true);
+                noParticipantsMessage.setText("There are no invited participants");
+            }
         });
     }
     
@@ -96,10 +146,8 @@ public class CreateTeamController extends Controller {
 
             team.setTitle(title);
             team.setTeamLeaderId(leader.getId());
-            participants.add(leader.getOwner().getUsername());
-            team.addParticipants(participants);
 
-            var result = Sender.createTeam(team);
+            var result = Sender.createTeam(team, participants, leader.getUsername());
             hideTeamError();
             indicator.setVisible(false);
             return result;
@@ -111,9 +159,10 @@ public class CreateTeamController extends Controller {
 
             } catch (IOException e) {
                 indicator.setVisible(false);
-                log.warn("Create team error", e);
             }
         });
+        progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
+        
         new Thread(progress).start();
     }
     private void finishCreateTeam(Response response, ActionEvent event) throws IOException {
@@ -122,7 +171,7 @@ public class CreateTeamController extends Controller {
             showCreationError(response.getMessage());
             return;
         }
-        showStage(event, "general_info.fxml", source);
+        showStage(event, "general_info.fxml");
     }
     
     public void addParticipant(ActionEvent event) throws JsonProcessingException {
@@ -133,6 +182,7 @@ public class CreateTeamController extends Controller {
         participant.setOnAction(event1 -> participantsList.getItems().remove(participant));
         participantsList.getItems().add(participant);
         username.setText("");
+        noParticipantsMessage.setVisible(false);
         hideUserError();
     }
     
@@ -206,6 +256,6 @@ public class CreateTeamController extends Controller {
     }
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
 }

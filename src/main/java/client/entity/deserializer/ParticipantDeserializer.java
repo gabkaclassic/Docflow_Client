@@ -1,6 +1,7 @@
 package client.entity.deserializer;
 
-import client.entity.Team;
+import client.entity.team.Invite;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.user.User;
 import client.util.JSONUtils;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class ParticipantDeserializer extends StdDeserializer<Participant> {
     

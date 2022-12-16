@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -25,7 +24,6 @@ import java.util.regex.Pattern;
  * Контроллер для отображения сцены работы над процессом
  * @see Controller
  * */
-@Slf4j
 public class ProcessInfoController extends Controller {
     @FXML
     private Label processTitle;
@@ -49,6 +47,12 @@ public class ProcessInfoController extends Controller {
     
     @FXML
     private TextField documentExtension;
+    
+    @FXML
+    private Button addCommentButton;
+    
+    @FXML
+    private Button addResourceButton;
     
     @FXML
     private Button refuseButton;
@@ -79,6 +83,13 @@ public class ProcessInfoController extends Controller {
     private Label commentError;
     @FXML
     private Label resourceError;
+    
+    @FXML
+    private Label documentName;
+    
+    
+    
+    
     private Process process;
     private Step step;
     
@@ -92,10 +103,9 @@ public class ProcessInfoController extends Controller {
     private final Pattern pattern = Pattern.compile(
             "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)"
     );
-    private static final String source = "process_info.fxml";
     
     @FXML
-    public void initialize() throws JsonProcessingException {
+    public void initialize() {
         
         process = data.getCurrentProcess();
         
@@ -105,8 +115,6 @@ public class ProcessInfoController extends Controller {
                     .findFirst().orElseThrow();
         }
         catch(NoSuchElementException e) {
-            log.debug("No such step error", e);
-//            showError();
         }
         
         participant = data.getParticipant();
@@ -142,9 +150,16 @@ public class ProcessInfoController extends Controller {
             try {
                 fileManager.saveDocument(document, process.getTitle());
             } catch (IOException e) {
-                log.warn("Save document error", e);
             }
         });
+    
+        comments.setVisible(true);
+        resourcesFlow.setVisible(true);
+        if(currentDocument == null) {
+            comments.setVisible(false);
+            resourcesFlow.setVisible(false);
+            addResourceButton.setVisible(false);
+        }
         
         updateDocuments();
     }
@@ -159,23 +174,27 @@ public class ProcessInfoController extends Controller {
     
     private void addDocument(Document document) {
     
-        var saveButton = new Button("Save");
+        var saveButton = new Button("Load");
+        saveButton.setTranslateX(-10);
+        saveButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         saveButton.setOnAction(event -> {
             try {
                 updateDocument(event, document);
-            } catch (IOException e) {
-                log.warn("Update document error", e);
+            } catch (IOException ignored) {
             }
         });
         var openButton = new Button("Open");
+        openButton.setTranslateX(-10);
+        openButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         openButton.setOnAction(event -> {
             try {
                 fileManager.openDocument(document, process.getTitle());
-            } catch (IOException e) {
-                log.warn("Open document error", e);
+            } catch (IOException ignored) {
             }
         });
         var selectButton = new Button("Select");
+        selectButton.setTranslateX(-10);
+        selectButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         selectButton.setOnAction(event -> {
             currentDocument = document;
             defineComments();
@@ -229,6 +248,7 @@ public class ProcessInfoController extends Controller {
     public void addDocument(ActionEvent event) throws IOException {
         
         createDocumentError.setVisible(false);
+        createDocument.setStyle(okStyle);
         var document = new Document();
         document.setTitle(documentTitle.getText());
         
@@ -238,6 +258,13 @@ public class ProcessInfoController extends Controller {
         document.setFormat(extension);
         
         document.setStepTitle(step.getTitle());
+    
+        fileManager.saveDocument(document, process.getTitle());
+        if(open.isSelected())
+            fileManager.openDocument(document, process.getTitle());
+    
+        documentTitle.clear();
+        documentExtension.clear();
         
         if(checkDocument(document)) {
             showDocumentCreateError("Document with such name already exist");
@@ -245,14 +272,14 @@ public class ProcessInfoController extends Controller {
         }
         
         step.addDocument(document);
-        Sender.updateStep(step);
         
-        fileManager.saveDocument(document, process.getTitle());
-        if(open.isSelected())
-            fileManager.openDocument(document, process.getTitle());
-        
-        documentTitle.clear();
-        documentExtension.clear();
+        new Thread(() -> {
+            try {
+                Sender.updateStep(step);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
         
         addDocument(document);
     }
@@ -281,6 +308,7 @@ public class ProcessInfoController extends Controller {
             return;
         }
         
+        addCommentButton.setStyle(okStyle);
         currentDocument.addComment(comText, participant);
         commentText.clear();
         
@@ -296,7 +324,7 @@ public class ProcessInfoController extends Controller {
             return;
         }
         if(!checkText(description)) {
-            showResourceError("description can't be emty");
+            showResourceError("description can't be empty");
             return;
         }
         currentDocument.addResource(resText, description);
@@ -333,7 +361,7 @@ public class ProcessInfoController extends Controller {
             var response = Sender.finishProcess(process);
             
             if(result && response != null && !response.isError())
-                showStage(event, "general_info.fxml", source);
+                showStage(event, "general_info.fxml");
             else
                 return;
         }
@@ -360,8 +388,7 @@ public class ProcessInfoController extends Controller {
         
             data.setCurrentProcess(processResponse.getProcess());
         }
-        catch (NoSuchElementException e) {
-            log.warn("No such process error", e);
+        catch (NoSuchElementException ignored) {
         }
         
         initialize();
@@ -371,8 +398,10 @@ public class ProcessInfoController extends Controller {
         approveError.setVisible(false);
         process.previousStep();
         var response = Sender.refuse(process);
+        refuseButton.setStyle(okStyle);
         
         if(response.isError()) {
+            refuseButton.setStyle(errorStyle);
             showApproveError(response.getMessage());
             return;
         }
@@ -386,25 +415,29 @@ public class ProcessInfoController extends Controller {
             data.setCurrentProcess(processResponse.getProcess());
         }
         catch (NoSuchElementException e) {
-            log.warn("No such process error", e);
         }
         
         initialize();
     }
     private void showDocumentCreateError(String error){
+        createDocument.setStyle(errorStyle);
         createDocumentError.setText(error);
         createDocumentError.setVisible(true);
     }
     private void showApproveError(String error){
+        acceptButton.setStyle(errorStyle);
         approveError.setText(error);
-        createDocumentError.setVisible(true);
+        approveError.setVisible(true);
     }
     private void showCommentError(String error){
+        addCommentButton.setStyle(errorStyle);
         commentError.setText(error);
-        createDocumentError.setVisible(true);
+        commentError.setVisible(true);
+        
     }
     private void showResourceError(String error){
-        commentError.setText(error);
+        addResourceButton.setStyle(errorStyle);
+        resourceError.setText(error);
         resourceError.setVisible(true);
     }
     
@@ -413,7 +446,6 @@ public class ProcessInfoController extends Controller {
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         Sender.updateStep(step);
         
-        
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
 }

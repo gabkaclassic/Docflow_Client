@@ -3,12 +3,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import java.lang.Integer?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ProgressIndicator?>
 <AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.CreateProcessController">
    <children>
       <Label layoutX="270.0" layoutY="140.0" text="Process:">
@@ -17,18 +19,12 @@
          </font></Label>
       <TextField fx:id="stepTitle" layoutX="270.0" layoutY="368.0" prefHeight="45.0" prefWidth="240.0" promptText="Step title" />
       <SplitMenuButton fx:id="stepsList" layoutX="880.0" layoutY="174.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Steps">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-        </items>
-         <font>
-            <Font size="14.0" />
-         </font>
       </SplitMenuButton>
-      <Button layoutX="1160.0" layoutY="174.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="45.0" prefWidth="83.0" stylesheets="@button.css" text="Save" textFill="WHITE">
+      <Button fx:id="saveStepButton" layoutX="1160.0" layoutY="174.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="45.0" prefWidth="83.0" stylesheets="@button.css" text="Save" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button layoutX="600.0" layoutY="922.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="60.0" prefWidth="260.0" stylesheets="@button.css" text="Create process" textFill="WHITE">
+      <Button fx:id="createProcessButton" layoutX="600.0" layoutY="922.0" mnemonicParsing="false" onAction="#createProcess" prefHeight="60.0" prefWidth="260.0" stylesheets="@button.css" text="Create process" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -63,7 +59,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" accessibleText="Team:" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" />
+      <ChoiceBox fx:id="teamsList" accessibleRole="CHECK_MENU_ITEM" accessibleText="Team:" layoutX="270.0" layoutY="239.0" prefHeight="45.0" prefWidth="240.0" styleClass="context-menu" stylesheets="@choicebox.css" />
       <Label layoutX="219.0" layoutY="253.0" text="Team:">
          <font>
             <Font size="14.0" />
@@ -72,25 +68,24 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <TextField fx:id="stepNumber" layoutX="584.0" layoutY="368.0" prefHeight="45.0" prefWidth="58.0" />
       <Label layoutX="584.0" layoutY="334.0" text="Step:">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="584.0" layoutY="433.0" prefHeight="45.0" prefWidth="181.0" />
+      <ChoiceBox fx:id="rulesList" accessibleRole="CHECK_MENU_ITEM" layoutX="584.0" layoutY="433.0" prefHeight="45.0" prefWidth="181.0" styleClass="context-menu" stylesheets="@choicebox.css" />
       <Label layoutX="537.0" layoutY="447.0" text="Rules:">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Button layoutX="270.0" layoutY="503.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="45.0" prefWidth="240.0" stylesheets="@button.css" text="Add to step" textFill="WHITE">
+      <Button fx:id="addParticipantButton" layoutX="270.0" layoutY="503.0" mnemonicParsing="false" onAction="#addParticipant" prefHeight="45.0" prefWidth="240.0" stylesheets="@button.css" text="Add to step" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button layoutX="270.0" layoutY="767.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="45.0" prefWidth="240.0" stylesheets="@button.css" text="Add document" textFill="WHITE">
+      <Button fx:id="addDocumentButton" layoutX="270.0" layoutY="767.0" mnemonicParsing="false" onAction="#addDocument" prefHeight="45.0" prefWidth="240.0" stylesheets="@button.css" text="Add document" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="433.0" prefHeight="45.0" prefWidth="240.0" />
+      <ChoiceBox fx:id="participantsChoice" accessibleRole="CHECK_MENU_ITEM" layoutX="270.0" layoutY="433.0" prefHeight="45.0" prefWidth="240.0" styleClass="context-menu" stylesheets="@choicebox.css" />
       <Label layoutX="188.0" layoutY="447.0" text="Participants:">
 
          <font>
@@ -100,5 +95,11 @@
       <Label fx:id="addStepError" layoutX="893.0" layoutY="242.0" prefHeight="45.0" prefWidth="215.0" textFill="#e10909" />
       <Label fx:id="addDocumentError" layoutX="278.0" layoutY="831.0" prefHeight="17.0" prefWidth="215.0" textFill="#da1515" />
       <Label fx:id="addParticipantErrorField" layoutX="260.0" layoutY="574.0" prefHeight="17.0" prefWidth="240.0" textFill="#e40f0f" visible="false" />
+      <fx:define>
+         <Integer fx:id="min" fx:value="1"/>
+         <Integer fx:id="max" fx:value="1000"/>
+      </fx:define>
+      <Spinner fx:id="stepNumber" editable="true" layoutX="563.0" layoutY="373.0" prefHeight="37.0" prefWidth="75.0" min="$min" max="$max"/>
+      <ProgressIndicator fx:id="indicator" layoutX="890.0" layoutY="922.0" prefHeight="60.0" prefWidth="60.0" visible="false" />
    </children>
 </AnchorPane>

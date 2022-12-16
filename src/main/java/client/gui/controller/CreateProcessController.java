@@ -1,17 +1,17 @@
 package client.gui.controller;
 
-import client.entity.Team;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
 import client.entity.process.step.Step;
 import client.entity.process.document.Document;
+import client.response.Response;
 import client.sender.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -22,18 +22,23 @@ import java.util.stream.Collectors;
  * Контроллер для сцены создания процесса
  * @see Controller
  * */
-@Slf4j
 public class CreateProcessController extends Controller {
     @FXML
     private TextField processTitle;
     
+    @FXML
+    private Button saveStepButton;
+    @FXML
+    private Button addDocumentButton;
+    @FXML
+    private Button addParticipantButton;
     @FXML
     private TextField stepTitle;
     @FXML
     private TextField documentTitle;
     
     @FXML
-    private TextField stepNumber;
+    private Spinner<Integer> stepNumber;
     @FXML
     private TextField documentExtension;
     
@@ -53,6 +58,9 @@ public class CreateProcessController extends Controller {
     private ChoiceBox<String> participantsChoice;
     
     @FXML
+    private ProgressIndicator indicator;
+    
+    @FXML
     private SplitMenuButton documentsList;
     @FXML
     private Label createProcessErrorField;
@@ -63,7 +71,9 @@ public class CreateProcessController extends Controller {
     @FXML
     private Label addParticipantErrorField;
     
-    private final static String source = "create_process.fxml";
+    @FXML
+    private Button createProcessButton;
+    
     private Participant creator;
     
     private Set<Step> steps = new HashSet<>();
@@ -75,6 +85,54 @@ public class CreateProcessController extends Controller {
     private Team team;
     
     public void initialize() {
+        processTitle.setOnMouseEntered(keyEvent -> {
+            if(Objects.equals(processTitle.getText(), "")){
+                processTitle.setStyle(errorStyle);
+            }
+            else{
+                processTitle.setStyle(okStyle);
+            }
+        });
+        processTitle.setOnMouseExited(keyEvent -> {
+            if(Objects.equals(processTitle.getText(), "")){
+                processTitle.setStyle(errorStyle);
+            }
+            else{
+                processTitle.setStyle(okStyle);
+            }
+        });
+        stepTitle.setOnMouseEntered(keyEvent -> {
+            if(Objects.equals(stepTitle.getText(), "")){
+                stepTitle.setStyle(errorStyle);
+            }
+            else{
+                stepTitle.setStyle(okStyle);
+            }
+        });
+        stepTitle.setOnMouseExited(keyEvent -> {
+            if(Objects.equals(stepTitle.getText(), "")){
+                stepTitle.setStyle(errorStyle);
+            }
+            else{
+                stepTitle.setStyle(okStyle);
+            }
+        });
+        documentTitle.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(documentTitle.getText(), "")){
+                documentTitle.setStyle(errorStyle);
+            }
+            else{
+                documentTitle.setStyle(okStyle);
+            }
+        });
+        documentTitle.setOnMouseExited(keyEvent -> {
+            if(Objects.equals(documentTitle.getText(), "")){
+                documentTitle.setStyle(errorStyle);
+            }
+            else{
+                documentTitle.setStyle(okStyle);
+            }
+        });
 
         creator = data.getParticipant();
         
@@ -85,7 +143,18 @@ public class CreateProcessController extends Controller {
         participantsList.getItems().clear();
         documentsList.getItems().clear();
         stepsList.getItems().clear();
-        stepNumber.setText("1");
+        stepNumber.setValueFactory(new SpinnerValueFactory<>() {
+    
+            public void decrement(int i) {
+                if(getValue() > 1)
+                    setValue(getValue() - 1);
+            }
+    
+            public void increment(int i) {
+                setValue(getValue() + 1);
+            }
+        });
+        stepNumber.getValueFactory().setValue(1);
         teamsList.setOnAction(e -> {
             selectTeam(teamsList.getValue());
             steps.clear();
@@ -102,31 +171,29 @@ public class CreateProcessController extends Controller {
         try {
             team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().orElseThrow();
         }
-        catch (NoSuchElementException e) {
-            log.debug("No such team error", e);
-            
-//            showError();
+        catch (NoSuchElementException ignored) {
         }
         
         team.getParticipants().forEach(participantsChoice.getItems()::add);
     }
     
     public void createProcess(ActionEvent event) throws IOException {
-
+        
+        
         createProcessErrorField.setVisible(false);
         if(processTitle.getText()==null || processTitle.getText().isBlank()) {
             showCreateProcessError("Process can't be blank");
+    
             return;
         }
         if (Sender.processExists(processTitle.getText()).isExist()){
             showCreateProcessError("Process with such title already exist");
             return;
         }
-        
+    
         if(steps.size() == 0) {
             showCreateProcessError("Process can't have 0 steps");
             return;
-
         }
         
         var stepList = steps.stream().sorted(Comparator.comparingInt(Step::getNumber)).toList();
@@ -138,15 +205,38 @@ public class CreateProcessController extends Controller {
         process.setTitle(processTitle.getText());
         process.setSteps(stepList);
         process.setCurrentStep(process.getSteps().stream().map(Step::getNumber).min(Integer::compareTo).get());
-
-        var response = Sender.createProcess(team, process);  // TO DO
+    
+        var progress = new Progress<>(() -> {
         
-        if(response == null || response.isError()) {
-            showCreateProcessError(response.getMessage());
-            return;
-        }
+            indicator.setVisible(true);
         
-        showStage(event, "general_info.fxml", source);
+            Response result = Sender.createProcess(team, process);
+    
+            if(result == null || result.isError()) {
+                showCreateProcessError(result.getMessage());
+            }
+    
+             return result;
+        });
+    
+        indicator.progressProperty().bind(progress.progressProperty());
+    
+        progress.setOnSucceeded(workerStateEvent -> {
+    
+            try {
+                showStage(event, "general_info.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            finally {
+                indicator.setVisible(false);
+            }
+    
+        });
+        
+        progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
+        
+        new Thread(progress).start();
     }
     
     public void saveStep() {
@@ -162,7 +252,7 @@ public class CreateProcessController extends Controller {
         
         try {
             
-            number = Integer.parseInt(stepNumber.getText());
+            number = stepNumber.getValue();
             title = stepTitle.getText();
             
             if(number <= 0)
@@ -172,7 +262,6 @@ public class CreateProcessController extends Controller {
                 throw new InvalidParameterException();
         }
         catch (InvalidParameterException | NumberFormatException e) {
-            log.info("Invalid input data error", e);
             showAddStepError("Incorrect value in step number");
             return;
         }
@@ -208,18 +297,16 @@ public class CreateProcessController extends Controller {
         participantsList.getItems().clear();
         
         try {
-            stepNumber.setText(String.valueOf(steps.stream().mapToInt(Step::getNumber).max().orElseThrow() + 1));
+            stepNumber.getValueFactory().setValue(steps.stream().mapToInt(Step::getNumber).max().orElseThrow() + 1);
         }
         catch (NoSuchElementException e) {
-            log.warn("No such step error", e);
-//            showError();
         }
     }
     
     private void selectStep(Step step) {
         
         stepTitle.setText(step.getTitle());
-        stepNumber.setText(String.valueOf(step.getNumber()));
+        stepNumber.getValueFactory().setValue(step.getNumber());
         
         refreshDocumentsList(step);
         refreshParticipantsList(step);
@@ -240,8 +327,6 @@ public class CreateProcessController extends Controller {
             );
         }
         catch (NoSuchElementException exception) {
-            log.debug("No such step error", exception);
-//            showError();
             return;
         }
         
@@ -257,13 +342,14 @@ public class CreateProcessController extends Controller {
         var document = new Document();
         var title = documentTitle.getText();
         var extension = documentExtension.getText();
-        if(title == null || title.isBlank()) {
+        
+        if(!checkDocument(title)) {
             showAddDocumentError("Document name field can't be empty");
             return;
         }
-        if (!steps.stream().flatMap(s -> s.getDocuments().stream())
+        if (steps.stream().flatMap(s -> s.getDocuments().stream())
                 .map(Document::getTitle)
-                .noneMatch(t -> t.equals(title))){
+                .anyMatch(t -> t.equals(title))){
             showAddDocumentError("Document with such name");
             return;
         }
@@ -283,14 +369,14 @@ public class CreateProcessController extends Controller {
     }
     
     public void addParticipant(ActionEvent event) {
-    
-        if(participantsChoice.getValue().isBlank()) {
-//            showError();
+        addParticipantErrorField.setVisible(false);
+        if(participantsChoice.getValue()==null) {
+            showAddParticipantError("You have to choose participant");
             return;
         }
         
-        if(rulesList.getValue().isBlank()) {
-//            showError();
+        if(rulesList.getValue()==null) {
+            showAddParticipantError("You have to choose rules");
             return;
         }
         
@@ -300,10 +386,10 @@ public class CreateProcessController extends Controller {
         addParticipantErrorField.setVisible(false);
         if((rule.equals(Rules.CHANGE) && rules.containsValue(Rules.CHANGE))
             || rules.containsKey(username)) {
-            showAddParticipantError("Participant can't have no rules");
+            showAddParticipantError("Participant with same rules already added");
             return;
         }
-        
+
         var participant = new MenuItem(String.format("%s (%s)", username, rule));
         rules.put(username, rule);
         participant.setOnAction(e -> participantsList.getItems().remove(participant));
@@ -320,7 +406,7 @@ public class CreateProcessController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
     private void refreshStepsList() {
         stepsList.getItems().clear();
@@ -364,25 +450,27 @@ public class CreateProcessController extends Controller {
                 .noneMatch(t -> t.equals(title));
     }
 
-    private void  showAddStepError(String error){
+    private void showAddStepError(String error) {
+        saveStepButton.setStyle(errorStyle);
         addStepError.setText(error);
         addStepError.setVisible(true);
-
     }
-    private void  showCreateProcessError(String error){
+    private void showCreateProcessError(String error) {
+        createProcessButton.setStyle(errorStyle);
         addStepError.setText(error);
         addStepError.setVisible(true);
-
+    
     }
-    private void  showAddDocumentError(String error){
+    private void showAddDocumentError(String error) {
+        addDocumentButton.setStyle(errorStyle);
         addDocumentError.setText(error);
         addDocumentError.setVisible(true);
 
     }
-    private void  showAddParticipantError(String error){
+    private void  showAddParticipantError(String error) {
+        addParticipantButton.setStyle(errorStyle);
         addParticipantErrorField.setText(error);
         addParticipantErrorField.setVisible(true);
-
     }
 
 }
