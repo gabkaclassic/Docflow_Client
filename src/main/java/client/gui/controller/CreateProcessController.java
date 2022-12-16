@@ -1,6 +1,6 @@
 package client.gui.controller;
 
-import client.entity.Team;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * Контроллер для сцены создания процесса
  * @see Controller
  * */
-@Slf4j
 public class CreateProcessController extends Controller {
     @FXML
     private TextField processTitle;
@@ -76,7 +74,6 @@ public class CreateProcessController extends Controller {
     @FXML
     private Button createProcessButton;
     
-    private final static String source = "create_process.fxml";
     private Participant creator;
     
     private Set<Step> steps = new HashSet<>();
@@ -149,7 +146,7 @@ public class CreateProcessController extends Controller {
         stepNumber.setValueFactory(new SpinnerValueFactory<>() {
     
             public void decrement(int i) {
-                if(getValue() > 0)
+                if(getValue() > 1)
                     setValue(getValue() - 1);
             }
     
@@ -157,6 +154,7 @@ public class CreateProcessController extends Controller {
                 setValue(getValue() + 1);
             }
         });
+        stepNumber.getValueFactory().setValue(1);
         teamsList.setOnAction(e -> {
             selectTeam(teamsList.getValue());
             steps.clear();
@@ -173,8 +171,7 @@ public class CreateProcessController extends Controller {
         try {
             team = creator.getTeams().stream().filter(t -> t.getTitle().equals(value)).findFirst().orElseThrow();
         }
-        catch (NoSuchElementException e) {
-            log.debug("No such team error", e);
+        catch (NoSuchElementException ignored) {
         }
         
         team.getParticipants().forEach(participantsChoice.getItems()::add);
@@ -227,7 +224,7 @@ public class CreateProcessController extends Controller {
         progress.setOnSucceeded(workerStateEvent -> {
     
             try {
-                showStage(event, "general_info.fxml", source);
+                showStage(event, "general_info.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -265,7 +262,6 @@ public class CreateProcessController extends Controller {
                 throw new InvalidParameterException();
         }
         catch (InvalidParameterException | NumberFormatException e) {
-            log.info("Invalid input data error", e);
             showAddStepError("Incorrect value in step number");
             return;
         }
@@ -304,7 +300,6 @@ public class CreateProcessController extends Controller {
             stepNumber.getValueFactory().setValue(steps.stream().mapToInt(Step::getNumber).max().orElseThrow() + 1);
         }
         catch (NoSuchElementException e) {
-            log.warn("No such step error", e);
         }
     }
     
@@ -332,7 +327,6 @@ public class CreateProcessController extends Controller {
             );
         }
         catch (NoSuchElementException exception) {
-            log.debug("No such step error", exception);
             return;
         }
         
@@ -348,13 +342,14 @@ public class CreateProcessController extends Controller {
         var document = new Document();
         var title = documentTitle.getText();
         var extension = documentExtension.getText();
-        if(checkDocument(title)) {
+        
+        if(!checkDocument(title)) {
             showAddDocumentError("Document name field can't be empty");
             return;
         }
-        if (!steps.stream().flatMap(s -> s.getDocuments().stream())
+        if (steps.stream().flatMap(s -> s.getDocuments().stream())
                 .map(Document::getTitle)
-                .noneMatch(t -> t.equals(title))){
+                .anyMatch(t -> t.equals(title))){
             showAddDocumentError("Document with such name");
             return;
         }
@@ -411,7 +406,7 @@ public class CreateProcessController extends Controller {
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, data.getPreviousScene(), source);
+        showStage(event, data.getPreviousScene());
     }
     private void refreshStepsList() {
         stepsList.getItems().clear();

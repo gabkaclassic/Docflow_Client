@@ -1,23 +1,16 @@
 package client.gui.controller;
 
-import client.entity.Team;
-import client.entity.process.Participant;
+import client.entity.team.Team;
 import client.sender.Sender;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -25,7 +18,6 @@ import java.util.Objects;
  * Контроллер для отображения сцены с главной информацией о команде
  * @see Controller
  * */
-@Slf4j
 public class TeamInfoController extends Controller {
     
     @FXML
@@ -44,9 +36,13 @@ public class TeamInfoController extends Controller {
     
     private String currentParticipant;
     
-    private Team currentTeam;
+    @FXML
+    private Button invite;
     
-    private final String source = "team_info.fxml";
+    @FXML
+    private Button kickOutButton;
+    
+    private Team currentTeam;
     
     @FXML
     public void initialize() {
@@ -65,8 +61,7 @@ public class TeamInfoController extends Controller {
                 data.setCurrentProcess(process);
                 try {
                     showStage(teamTitle, "process_info.fxml");
-                } catch (IOException e) {
-                    log.debug("Error of transition to process info scene", e);
+                } catch (IOException ignored) {
                 }
             });
             
@@ -74,6 +69,16 @@ public class TeamInfoController extends Controller {
         }
     
         var isTeamLeader = Objects.equals(data.getParticipant().getId(), currentTeam.getTeamLeaderId());
+    
+        invite.setVisible(true);
+        kickOutButton.setVisible(true);
+        usernameField.setVisible(true);
+        
+        if(!isTeamLeader) {
+            invite.setVisible(false);
+            kickOutButton.setVisible(false);
+            usernameField.setVisible(false);
+        }
         
         currentTeam.getParticipants().forEach(p -> {
             var item = new MenuItem(p);
@@ -89,7 +94,7 @@ public class TeamInfoController extends Controller {
         
         inviteParticipantErrorFiled.setVisible(false);
         var username = usernameField.getText();
-        
+        usernameField.clear();
         if(username == null || username.isBlank()) {
             showInviteParticipantError("This field can't be empty");
             return;
@@ -103,8 +108,6 @@ public class TeamInfoController extends Controller {
 
         }
         
-        data.refresh();
-        refreshCurrentTeam();
         initialize();
     }
     
@@ -115,14 +118,14 @@ public class TeamInfoController extends Controller {
             return;
         }
     
-        var response = Sender.refuseInvite(currentParticipant, currentTeam.getTitle());
+        var response = Sender.kickParticipant(currentParticipant, currentTeam.getTitle());
         if(response.isError()) {
             showInviteParticipantError("Unsuccessful kick out");
             return;
         }
         
-        data.refresh();
-        refreshCurrentTeam();
+        currentTeam.getParticipants().remove(currentParticipant);
+        
         initialize();
     }
     
@@ -136,8 +139,6 @@ public class TeamInfoController extends Controller {
     
     private void showStage(Node node, String to) throws IOException {
         
-        data.setPreviousScene(source);
-        
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(to)));
         var stage = (Stage)(node.getScene().getWindow());
         var scene = new Scene(root);
@@ -147,10 +148,5 @@ public class TeamInfoController extends Controller {
     private void showInviteParticipantError(String error){
         inviteParticipantErrorFiled.setText(error);
         inviteParticipantErrorFiled.setVisible(true);
-    }
-    
-    public void back(ActionEvent event) throws IOException {
-        
-        showStage(event, data.getPreviousScene(), source);
     }
 }

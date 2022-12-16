@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.File;
@@ -20,7 +19,6 @@ import java.util.Set;
 /**
  * Класс-утилита для работы с файлами
  * */
-@Slf4j
 public class FileManager {
     
     private static final String WORKDIR = System.getenv("WORKDIR");
@@ -38,8 +36,7 @@ public class FileManager {
         try(var out = new FileOutputStream(file)) {
             var data = document.getFile() == null ? new byte[1] : document.getFile();
             out.write(data);
-        } catch (IOException e) {
-            log.debug("Save document error", e);
+        } catch (IOException ignored) {
         }
     }
     
@@ -58,7 +55,6 @@ public class FileManager {
         
                     document.setFile(in.readAllBytes());
                 } catch (IOException e) {
-                    log.debug("Update documents error", e);
                 }
     
             }
@@ -86,7 +82,6 @@ public class FileManager {
             document.setFile(data);
             out.write(data);
         } catch (IOException e) {
-            log.debug("Update document error", e);
         }
     }
     
@@ -128,7 +123,6 @@ public class FileManager {
         var directory = new File(getFilename(process.getTitle()));
         
         if(!directory.exists() || !directory.isDirectory()) {
-            log.warn("Save result error", Thread.currentThread().getStackTrace());
             return false;
         }
     
@@ -152,7 +146,6 @@ public class FileManager {
         
         var directory = new File(getFilename(process.getTitle()));
         if(!directory.exists() || !directory.isDirectory()) {
-            log.warn("Save result error", Thread.currentThread().getStackTrace());
             return false;
         }
         

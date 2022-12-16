@@ -1,8 +1,10 @@
 package client.gui.data;
 
-import client.entity.Team;
+import client.entity.team.Invite;
+import client.entity.team.Team;
 import client.entity.process.Participant;
 import client.entity.process.Process;
+import client.response.InfoResponse;
 import client.sender.Sender;
 
 import java.io.IOException;
@@ -22,11 +24,13 @@ public class Data {
     
     private List<Process> processes = new ArrayList<>();
     
+    private List<Invite> invites = new ArrayList<>();
+    
     private Team currentTeam;
     
     private Process currentProcess;
     
-    private String previousScene;
+    private final String previousScene = "general_info.fxml";
     private static Data instance;
     
     public static Data getInstance() {
@@ -37,6 +41,14 @@ public class Data {
         return instance;
     }
     
+    public void setData(InfoResponse response) {
+    
+        setParticipant(response.getParticipant());
+        setTeams(response.getTeams());
+        setProcesses(response.getProcesses());
+        setInvites(response.getInvites());
+    }
+    
     public void refresh() throws IOException {
         
         var response = Sender.getUserInfo();
@@ -45,6 +57,7 @@ public class Data {
         processes = teams.stream()
                 .flatMap(t -> t.getProcesses().stream())
                 .toList();
+        invites = response.getInvites();
     }
     
     public void clear() {

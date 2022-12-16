@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
 class Progress <T extends Response> extends Task<T> {
     private T response;
     
+    private String message;
     private final Callable<T> task;
     
     public Progress(Callable<T> task) {

@@ -6,7 +6,6 @@ import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
  * Контроллер для отображения сцены регистрации
  * @see Controller
  * */
-@Slf4j
 public class SignUpController extends Controller{
     @FXML
     private TextField login;
@@ -33,12 +31,17 @@ public class SignUpController extends Controller{
     @FXML
     private Button signUpButton;
     
-    private final static String source = "sign_up.fxml";
+    private String messageResponse;
+    
+    private boolean errorResponse;
+    
     @FXML
     public void initialize() {
         
         indicator.setVisible(false);
         signUpButton.setDisable(true);
+        shownPassword.setVisible(false);
+
         this.password.setOnKeyReleased(keyEvent -> {
             var password = (checkBox.isSelected() ? shownPassword : this.password).getText();
             var login = this.login.getText();
@@ -54,50 +57,76 @@ public class SignUpController extends Controller{
             var login = this.login.getText();
             checkLoginAndPassword(login, password);
         });
+
         hideError();
     }
     public void registrationUser(ActionEvent event) {
     
-        indicator.setVisible(true);
-        var progress = new Progress<>(() -> {
         
             indicator.setVisible(true);
-        
-            Response result = null;
-            try {
-                result = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
-    
-                if (result.isError()) {
-                    login.setStyle(errorStyle);
-                    error.setText(result.getMessage());
-                    showError();
-                    return result;
+            var progress = new Progress<>(() -> {
+            
+                indicator.setVisible(true);
+            
+                Response result = null;
+                try {
+                    messageResponse = "";
+                    errorResponse = false;
+                    result = Sender.registration(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
+                    errorResponse = result == null || result.isError();
+                    messageResponse = (result == null) ? "Connection error" : result.getMessage();
+                    
                 }
-            } catch (IOException e) {
-                log.warn("Registration error", e);
-                showError();
-            }
-    
-            return result;
-        });
-    
-        indicator.progressProperty().bind(progress.progressProperty());
-    
-        progress.setOnSucceeded(workerStateEvent -> {
-    
-            try {
-                showStage(event, "login.fxml", source);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            finally {
-                indicator.setVisible(false);
-            }
-    
-        });
-        progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
+                catch (Exception e) {
+                    e.printStackTrace();
+                    showRegistrationError(result);
+                }
+                finally {
+                    indicator.setVisible(false);
+                }
+                
+                return result;
+            });
         
-        new Thread(progress).start();
+            indicator.progressProperty().bind(progress.progressProperty());
+        
+            progress.setOnSucceeded(workerStateEvent -> {
+                try {
+                    finishRegistration(event);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    error.setText("Connection error");
+                    showError();
+                }
+                finally {
+                    indicator.setVisible(false);
+                }
+            });
+        
+            new Thread(progress).start();
+    }
+    
+    private void showRegistrationError(Response result) {
+        
+        login.setStyle(errorStyle);
+        error.setText(result.getMessage());
+        showError();
+    }
+    
+    private void finishRegistration(ActionEvent event) throws IOException {
+    
+        if(errorResponse) {
+            indicator.setVisible(false);
+            error.setText(messageResponse);
+            error.setVisible(true);
+            return;
+        }
+        
+        try {
+            showStage(event, "login.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     private boolean checkLoginAndPassword(String login, String password) {
@@ -179,6 +208,6 @@ public class SignUpController extends Controller{
     
     public void back(ActionEvent event) throws IOException {
         
-        showStage(event, "login.fxml", source);
+        showStage(event, "login.fxml");
     }
 }

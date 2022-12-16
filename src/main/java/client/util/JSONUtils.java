@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 /**
  * Класс-утилита для десериализации сущностей из формата JSON
  * */
-@Slf4j
 public class JSONUtils {
     
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -36,7 +35,6 @@ public class JSONUtils {
                     try {
                         return s.isBlank() ? null : mapper.readValue(s, cl);
                     } catch (JsonProcessingException e) {
-                        log.warn("Split objects parser error", e);
                         return null;
                     }
                 })

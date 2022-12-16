@@ -48,13 +48,13 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="userError" layoutX="352.0" layoutY="440.0" prefHeight="30.0" prefWidth="377.0" text="Team with this title already exists" textFill="#e51010">
+      <Label fx:id="userError" layoutX="352.0" layoutY="556.0" prefHeight="30.0" prefWidth="377.0" text="Account with this username doesn't exists" textFill="#e51010">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
 
-      <Label fx:id="teamError" layoutX="352.0" layoutY="568.0" prefHeight="25.0" prefWidth="370.0" text="Account with this username doesn't exists" textFill="#e51010">
+      <Label fx:id="teamError" layoutX="353.0" layoutY="434.0" prefHeight="25.0" prefWidth="391.0" text="Team with this title already exists   " textFill="#e51010">
          <font>
             <Font size="14.0" />
          </font>
@@ -70,7 +70,7 @@
          </font>
       </Label>
       <Label fx:id="creationError" layoutX="349.0" layoutY="686.0" prefHeight="17.0" prefWidth="377.0" text="Label" textFill="#e40f07" />
-      <ProgressIndicator fx:id="indicator" layoutX="282.0" layoutY="361.0" prefHeight="25.0" prefWidth="28.0" visible="false" />
-      <Label fx:id="noParticipantsMessage" layoutX="824.0" layoutY="446.0" prefHeight="18.0" prefWidth="234.0" text="Label" textFill="#e40f07" />
+      <Label fx:id="noParticipantsMessage" layoutX="824.0" layoutY="446.0" prefHeight="18.0" prefWidth="234.0" text="Label" textFill="#e40f07" visible="false" />
+      <ProgressIndicator fx:id="indicator" layoutX="766.0" layoutY="615.0" prefHeight="50.0" prefWidth="56.0" visible="false" />
    </children>
 </AnchorPane>
