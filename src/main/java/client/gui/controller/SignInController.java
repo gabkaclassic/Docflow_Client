@@ -2,7 +2,6 @@ package client.gui.controller;
 
 import client.response.InfoResponse;
 import client.sender.Sender;
-import client.util.DataUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,16 +9,21 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+/**
+ * Контроллер для отображения сцены аутентификации
+ * @see Controller
+ * */
 @Slf4j
 public class SignInController extends Controller {
+    
+    @FXML
+    private Label error;
     @FXML
     private TextField login;
     @FXML
     private PasswordField password;
     @FXML
     private ProgressIndicator indicator;
-    @FXML
-    private Label error;
     @FXML
     private CheckBox checkBox;
     @FXML
@@ -30,24 +34,8 @@ public class SignInController extends Controller {
     @FXML
     public void initialize() {
         
+        indicator.setVisible(false);
         hideError();
-       
-        password.setOnKeyPressed(keyEvent -> checkPassword(password.getText()));
-        login.setOnKeyPressed(keyEvent -> checkLogin(login.getText()));
-    }
-    
-    private void checkPassword(String password) {
-        
-        if(!DataUtils.checkPassword(password)) {
-//            showError();
-        }
-    }
-    
-    private void checkLogin(String login) {
-        
-        if(!DataUtils.checkLogin(login)) {
-//            showError();
-        }
     }
     
     public void switchToLogin(ActionEvent event) throws IOException {

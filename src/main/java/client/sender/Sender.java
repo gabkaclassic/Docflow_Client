@@ -2,7 +2,7 @@ package client.sender;
 
 import client.entity.Team;
 import client.entity.process.Process;
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.entity.process.document.Document;
 import client.response.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.function.Function;
 
+/**
+ * Класс-реактивный-клиент для обмена информацией с сервером
+ * */
 @Slf4j
 public class Sender {
     
@@ -65,6 +68,9 @@ public class Sender {
         return mapper.readValue(response, Response.class);
     }
     
+    /**
+     * Общий шаблон всех запросов
+     * */
     private static String send(HttpMethod method, String url, LinkedMultiValueMap<String, String> params) {
         
         log.trace(String.format("Send request: (%s : %s)", method.name(), BASE_URL + url));
@@ -133,12 +139,12 @@ public class Sender {
         return mapper.readValue(send, InfoResponse.class);
     }
     
-    public static void invite(String username, String title) {
+    public static Response invite(String username, String title) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", title);
-        send(HttpMethod.POST,"invite", params);
+        return mapper.readValue(send(HttpMethod.POST,"invite", params), Response.class);
     }
     
     public static Response updateStep(Step step) throws JsonProcessingException {
@@ -201,12 +207,12 @@ public class Sender {
     
         return mapper.readValue(send(HttpMethod.GET, "exist/process", params), ExistResponse.class);
     }
-    public static void refuseInvite(String username, String teamId) {
+    public static Response refuseInvite(String username, String teamId) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();
         params.add("username", username);
         params.add("teamId", teamId);
-        send(HttpMethod.POST, "invite/refuse", params);
+        return mapper.readValue(send(HttpMethod.POST, "invite/refuse", params), Response.class);
     }
     
     public static ExistResponse documentExists(Document document) throws JsonProcessingException {

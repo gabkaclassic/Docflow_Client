@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Сущность "Команда"
+ * */
 @Data
 @JsonDeserialize(using = TeamDeserializer.class)
 public class Team implements Serializable {

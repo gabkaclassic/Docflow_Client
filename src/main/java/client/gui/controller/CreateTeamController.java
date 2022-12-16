@@ -12,8 +12,13 @@ import javafx.scene.input.KeyCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Контроллер для сцены создания команды
+ * @see Controller
+ * */
 @Slf4j
 public class CreateTeamController extends Controller {
     @FXML
@@ -25,9 +30,16 @@ public class CreateTeamController extends Controller {
     @FXML
     private Label teamError;
     @FXML
+    private Button addParticipantButton;
+    
+    @FXML
+    private Label noParticipantsMessage;
+    @FXML
     private Label userError;
     @FXML
     private  Label creationError;
+    @FXML
+    private Button createTeamButton;
     @FXML
     private ProgressIndicator indicator;
     
@@ -43,7 +55,7 @@ public class CreateTeamController extends Controller {
         hideUserError();
         hideCreationError();
         participantsList.getItems().clear();
-    
+
         username.setOnKeyPressed(event -> {
                 if (event.getCode().equals(KeyCode.ENTER)) {
                     try {
@@ -52,6 +64,46 @@ public class CreateTeamController extends Controller {
                         log.debug(e.getMessage());
                     }
                 }
+        });
+        teamTitle.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(teamTitle.getText(), "")){
+                teamTitle.setStyle(errorStyle);
+                createTeamButton.setDisable(true);
+            }
+            else{
+                createTeamButton.setDisable(false);
+                teamTitle.setStyle(okStyle);
+            }
+        });
+        teamTitle.setOnMouseExited(keyEvent->{
+            if(Objects.equals(teamTitle.getText(), "")){
+                teamTitle.setStyle(errorStyle);
+                createTeamButton.setDisable(true);
+            }
+            else{
+                createTeamButton.setDisable(false);
+                teamTitle.setStyle(okStyle);
+            }
+        });
+        username.setOnMouseEntered(keyEvent->{
+            if(Objects.equals(username.getText(), "")){
+                username.setStyle(errorStyle);
+                addParticipantButton.setDisable(true);
+            }
+            else{
+                addParticipantButton.setDisable(false);
+                username.setStyle(okStyle);
+            }
+        });
+        username.setOnMouseExited(keyEvent->{
+            if(Objects.equals(username.getText(), "")){
+                username.setStyle(errorStyle);
+                addParticipantButton.setDisable(true);
+            }
+            else{
+                addParticipantButton.setDisable(false);
+                username.setStyle(okStyle);
+            }
         });
         
         teamTitle.setOnKeyPressed(event -> {
@@ -71,7 +123,14 @@ public class CreateTeamController extends Controller {
                     log.debug(e.getMessage());
                 }
         });
+    
+        participantsList.setOnContextMenuRequested(event -> {
         
+            if(participantsList.getItems().isEmpty()) {
+                noParticipantsMessage.setVisible(true);
+                noParticipantsMessage.setText("There are no invited participants");
+            }
+        });
     }
     
     public void createTeam(ActionEvent event) throws IOException{
@@ -111,6 +170,8 @@ public class CreateTeamController extends Controller {
                 log.warn("Create team error", e);
             }
         });
+        progress.setOnFailed(workerStateEvent -> indicator.setVisible(false));
+        
         new Thread(progress).start();
     }
     private void finishCreateTeam(Response response, ActionEvent event) throws IOException {
@@ -130,6 +191,7 @@ public class CreateTeamController extends Controller {
         participant.setOnAction(event1 -> participantsList.getItems().remove(participant));
         participantsList.getItems().add(participant);
         username.setText("");
+        noParticipantsMessage.setVisible(false);
         hideUserError();
     }
     

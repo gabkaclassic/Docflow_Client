@@ -21,6 +21,10 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Контроллер для отображения сцены с главной информацией о команде
+ * @see Controller
+ * */
 @Slf4j
 public class TeamInfoController extends Controller {
     
@@ -37,7 +41,6 @@ public class TeamInfoController extends Controller {
     private TextField usernameField;
     @FXML
     private Label inviteParticipantErrorFiled;
-
     
     private String currentParticipant;
     
@@ -75,7 +78,7 @@ public class TeamInfoController extends Controller {
         currentTeam.getParticipants().forEach(p -> {
             var item = new MenuItem(p);
             
-            if(isTeamLeader)
+            if(isTeamLeader && !p.equals(data.getParticipant().getUsername()))
                 item.setOnAction(e -> currentParticipant = p);
             
             participants.getItems().add(item);
@@ -91,20 +94,44 @@ public class TeamInfoController extends Controller {
             showInviteParticipantError("This field can't be empty");
             return;
         }
-        if(!Sender.userExists(username).isExist()){
-            showInviteParticipantError("No user with such user");
+        usernameField.clear();
+        
+        var response = Sender.invite(username, currentTeam.getTitle());
+        if(response.isError()) {
+            showInviteParticipantError("Unsuccessful invite");
+            return;
+
         }
         
-        Sender.invite(username, currentTeam.getTitle());
         data.refresh();
+        refreshCurrentTeam();
         initialize();
     }
     
-    public void kickOut(ActionEvent e) throws IOException, InterruptedException {
+    public void kickOut(ActionEvent e) throws IOException {
     
-        Sender.refuseInvite(currentParticipant, currentTeam.getTitle());
+        if(currentParticipant == null) {
+            showInviteParticipantError("User is not selected");
+            return;
+        }
+    
+        var response = Sender.refuseInvite(currentParticipant, currentTeam.getTitle());
+        if(response.isError()) {
+            showInviteParticipantError("Unsuccessful kick out");
+            return;
+        }
+        
         data.refresh();
+        refreshCurrentTeam();
         initialize();
+    }
+    
+    private void refreshCurrentTeam() {
+        data.setCurrentTeam(
+                data.getTeams().stream()
+                        .filter(t -> t.getTitle().equals(currentTeam.getTitle()))
+                        .findFirst().get()
+        );
     }
     
     private void showStage(Node node, String to) throws IOException {

@@ -10,6 +10,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+/**
+ * Класс-утилита для десериализации сущностей из формата JSON
+ * */
 @Slf4j
 public class JSONUtils {
     

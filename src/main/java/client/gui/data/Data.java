@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, singleton-сущность которого хранит информацию, общую для всех контроллеров
+ * @see client.gui.controller.Controller
+ * */
 @lombok.Data
 public class Data {
     

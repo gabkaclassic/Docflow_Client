@@ -23,27 +23,27 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button layoutX="551.0" layoutY="600.0" mnemonicParsing="false" onAction="#signIn" prefHeight="75.0" prefWidth="311.0" stylesheets="@button.css" text="Sign in" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
       <TextField fx:id="login" layoutX="551.0" layoutY="361.0" prefHeight="75.0" prefWidth="311.0" promptText="    Login">
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <Label fx:id="error" alignment="CENTER" layoutX="551.0" layoutY="556.0" prefHeight="25.0" prefWidth="287.0" text="login error" textFill="#ff0404">
+      <Label fx:id="error" alignment="CENTER" layoutX="563.0" layoutY="535.0" prefHeight="25.0" prefWidth="287.0" text="login error" textFill="#ff0404">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-
-      <ProgressIndicator fx:id="indicator" disable="true" layoutX="681.0" layoutY="707.0" prefHeight="59.0" prefWidth="53.0" visible="false" />
       <CheckBox fx:id="checkBox" layoutX="877.0" layoutY="480.0" mnemonicParsing="false" onAction="#changeVisibility" prefHeight="33.0" prefWidth="125.0" text="Show password" />
       <TextField fx:id="shownPassword" layoutX="551.0" layoutY="451.0" prefHeight="75.0" prefWidth="311.0" promptText="    Password" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
+      <Button fx:id="signInButton" layoutX="614.0" layoutY="581.0" mnemonicParsing="false" onAction="#signIn" prefHeight="41.0" prefWidth="186.0" stylesheets="@button.css" text="Sign in" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <ProgressIndicator fx:id="indicator" layoutX="680.0" layoutY="639.0" prefHeight="50.0" prefWidth="54.0" />
 
    </children>
 </AnchorPane>

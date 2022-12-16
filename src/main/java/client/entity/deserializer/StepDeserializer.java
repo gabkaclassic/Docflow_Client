@@ -1,8 +1,8 @@
 package client.entity.deserializer;
 
 import client.entity.process.Rules;
-import client.entity.process.Step;
-import client.entity.process.StepId;
+import client.entity.process.step.Step;
+import client.entity.process.step.StepId;
 import client.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

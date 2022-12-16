@@ -2,6 +2,9 @@ package client.util;
 
 import java.util.regex.Pattern;
 
+/**
+ * Класс-утилита для проверки валидности данных пользователя
+ * */
 public class DataUtils {
     
     private static final int MIN_LOGIN_LENGTH = 2;
@@ -12,6 +15,9 @@ public class DataUtils {
     private static final Pattern PASSWORD_PATTERN_THIRD = Pattern.compile("[^а-яА-Я0-9a-zA-Z]+");
     
     public static boolean checkLogin(String login) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>");
+        System.out.println(login);
+        System.out.println("<<<<<<<<<<<<<<<<<<<<");
         
         return login != null && login.length() >= MIN_LOGIN_LENGTH && login.length() <= MAX_LOGIN_LENGTH;
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,7 +21,7 @@
             <Font size="20.0" />
          </font>
       </SplitMenuButton>
-       <Button fx:id="logout" layoutX="1200.0" layoutY="25.0" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="145.0" stylesheets="@back_button.css" text="Logout">
+       <Button fx:id="logout" layoutX="1196.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="120.0" style="-fx-border-radius: 10;" stylesheets="@back_button.css" text="Logout" textFill="#105aaa">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -45,5 +46,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
+      <Label fx:id="noTeamsMessage" layoutX="303.0" layoutY="412.0" prefHeight="31.0" prefWidth="348.0" textAlignment="CENTER" textFill="#c90000" />
+      <Label fx:id="noProcessesMessage" layoutX="735.0" layoutY="412.0" prefHeight="31.0" prefWidth="348.0" textAlignment="CENTER" textFill="#cd0404" />
    </children>
 </AnchorPane>

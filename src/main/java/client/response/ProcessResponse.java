@@ -6,6 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Тип ответа для получения полной информации о процессе
+ * @see Response
+ * @see Process
+ * */
 @Data
 @Builder
 @JsonDeserialize(using = ProcessResponseDeserializer.class)

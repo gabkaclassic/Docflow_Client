@@ -3,7 +3,7 @@ package client.gui.controller;
 import client.entity.process.Participant;
 import client.entity.process.Process;
 import client.entity.process.Rules;
-import client.entity.process.Step;
+import client.entity.process.step.Step;
 import client.entity.process.document.Document;
 import client.file.FileManager;
 import client.sender.Sender;
@@ -16,12 +16,15 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.extern.slf4j.Slf4j;
 
-import java.awt.font.TextLayout;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Контроллер для отображения сцены работы над процессом
+ * @see Controller
+ * */
 @Slf4j
 public class ProcessInfoController extends Controller {
     @FXML
@@ -46,6 +49,12 @@ public class ProcessInfoController extends Controller {
     
     @FXML
     private TextField documentExtension;
+    
+    @FXML
+    private Button addCommentButton;
+    
+    @FXML
+    private Button addResourceButton;
     
     @FXML
     private Button refuseButton;
@@ -92,7 +101,7 @@ public class ProcessInfoController extends Controller {
     private static final String source = "process_info.fxml";
     
     @FXML
-    public void initialize() throws JsonProcessingException {
+    public void initialize() {
         
         process = data.getCurrentProcess();
         
@@ -103,7 +112,6 @@ public class ProcessInfoController extends Controller {
         }
         catch(NoSuchElementException e) {
             log.debug("No such step error", e);
-//            showError();
         }
         
         participant = data.getParticipant();
@@ -145,7 +153,7 @@ public class ProcessInfoController extends Controller {
         
         updateDocuments();
     }
-    private void updateDocuments() throws JsonProcessingException {
+    private void updateDocuments() {
         
         documents.getPanes().clear();
     
@@ -199,12 +207,10 @@ public class ProcessInfoController extends Controller {
         document.addResources(currentDocument.getResources());
         
         fileManager.updateDocument(event, document, process.getTitle());
-        
-        Sender.updateDocuments(step.getDocuments());
+        Sender.updateStep(step);
     }
     
     private void defineComments() {
-        
         comments.getChildren().clear();
         
         comments.getChildren().add(
@@ -228,6 +234,7 @@ public class ProcessInfoController extends Controller {
     public void addDocument(ActionEvent event) throws IOException {
         
         createDocumentError.setVisible(false);
+        createDocument.setStyle(okStyle);
         var document = new Document();
         document.setTitle(documentTitle.getText());
         
@@ -244,7 +251,7 @@ public class ProcessInfoController extends Controller {
         }
         
         step.addDocument(document);
-        Sender.updateDocuments(step.getDocuments());
+        Sender.updateStep(step);
         
         fileManager.saveDocument(document, process.getTitle());
         if(open.isSelected())
@@ -280,6 +287,7 @@ public class ProcessInfoController extends Controller {
             return;
         }
         
+        addCommentButton.setStyle(okStyle);
         currentDocument.addComment(comText, participant);
         commentText.clear();
         
@@ -295,7 +303,7 @@ public class ProcessInfoController extends Controller {
             return;
         }
         if(!checkText(description)) {
-            showResourceError("description can't be emty");
+            showResourceError("description can't be empty");
             return;
         }
         currentDocument.addResource(resText, description);
@@ -370,8 +378,10 @@ public class ProcessInfoController extends Controller {
         approveError.setVisible(false);
         process.previousStep();
         var response = Sender.refuse(process);
+        refuseButton.setStyle(okStyle);
         
         if(response.isError()) {
+            refuseButton.setStyle(errorStyle);
             showApproveError(response.getMessage());
             return;
         }
@@ -391,28 +401,31 @@ public class ProcessInfoController extends Controller {
         initialize();
     }
     private void showDocumentCreateError(String error){
+        createDocument.setStyle(errorStyle);
         createDocumentError.setText(error);
         createDocumentError.setVisible(true);
     }
     private void showApproveError(String error){
+        acceptButton.setStyle(errorStyle);
         approveError.setText(error);
-        createDocumentError.setVisible(true);
+        approveError.setVisible(true);
     }
     private void showCommentError(String error){
+        addCommentButton.setStyle(errorStyle);
         commentError.setText(error);
-        createDocumentError.setVisible(true);
+        commentError.setVisible(true);
+        
     }
     private void showResourceError(String error){
-        commentError.setText(error);
+        addResourceButton.setStyle(errorStyle);
+        resourceError.setText(error);
         resourceError.setVisible(true);
     }
     
     public void back(ActionEvent event) throws IOException {
-    
-        Sender.updateStep(step);
-        fileManager.updateDocuments(process.getTitle(), step.getDocuments());
-        Sender.updateDocuments(step.getDocuments());
         
+        fileManager.updateDocuments(process.getTitle(), step.getDocuments());
+        Sender.updateStep(step);
         
         showStage(event, data.getPreviousScene(), source);
     }
