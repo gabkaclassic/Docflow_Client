@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,12 +19,6 @@
          </font></Label>
       <TextField fx:id="stepTitle" layoutX="270.0" layoutY="368.0" prefHeight="45.0" prefWidth="240.0" promptText="Step title" />
       <SplitMenuButton fx:id="stepsList" layoutX="880.0" layoutY="174.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Steps">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-         </items>
-         <font>
-            <Font size="14.0" />
-         </font>
       </SplitMenuButton>
       <Button fx:id="saveStepButton" layoutX="1160.0" layoutY="174.0" mnemonicParsing="false" onAction="#saveStep" prefHeight="45.0" prefWidth="83.0" stylesheets="@button.css" text="Save" textFill="WHITE">
          <font>
@@ -110,5 +103,3 @@
       <ProgressIndicator fx:id="indicator" layoutX="890.0" layoutY="922.0" prefHeight="60.0" prefWidth="60.0" visible="false" />
    </children>
 </AnchorPane>
-
-<!--       indicator-->

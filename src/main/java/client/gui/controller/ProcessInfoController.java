@@ -176,7 +176,7 @@ public class ProcessInfoController extends Controller {
     
         var saveButton = new Button("Load");
         saveButton.setTranslateX(-10);
-        saveButton.getStyleClass().add("acc_button");
+        saveButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         saveButton.setOnAction(event -> {
             try {
                 updateDocument(event, document);
@@ -185,7 +185,7 @@ public class ProcessInfoController extends Controller {
         });
         var openButton = new Button("Open");
         openButton.setTranslateX(-10);
-        openButton.getStyleClass().add("acc_button");
+        openButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         openButton.setOnAction(event -> {
             try {
                 fileManager.openDocument(document, process.getTitle());
@@ -194,7 +194,7 @@ public class ProcessInfoController extends Controller {
         });
         var selectButton = new Button("Select");
         selectButton.setTranslateX(-10);
-        selectButton.getStyleClass().add("document_button");
+        selectButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         selectButton.setOnAction(event -> {
             currentDocument = document;
             defineComments();

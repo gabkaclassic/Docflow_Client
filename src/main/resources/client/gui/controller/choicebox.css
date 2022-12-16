@@ -1,46 +1,50 @@
 .choice-box
 {
+  -fx-text-fill: black;
   -fx-background-color: #EBEBEB;
-  -fx-mark-color: #105AAA; // arrow color
+  -fx-mark-color: #105AAA;
   -fx-border-radius : 5 5 5 5;
   -fx-border-color : #105AAA;
 }
 
 .choice-box:hover
 {
+    -fx-text-fill: black;
   -fx-background-color: #d0d0d0;
-  -fx-mark-color: #105AAA; // arrow color
+  -fx-mark-color: #105AAA;
   -fx-border-radius : 5 5 5 5;
   -fx-border-color : #105AAA;
 }
 
 .choice-box:pressed
 {
+-fx-text-fill: black;
   -fx-background-color: #EBEBEB;
-  -fx-mark-color: #105AAA; // arrow color
+  -fx-mark-color: #105AAA;
   -fx-border-radius : 5 5 5 5;
   -fx-border-color : #105AAA;
 }
 .choice-box .context-menu
 {
-    -fx-background-color: black;
+-fx-text-fill: black;
+    -fx-background-color: #EBEBEB;
 }
 
 
 
 .choice-box > .label
 {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .choice-box .menu-item:focused
 {
-    -fx-background-color: orange;
+    -fx-background-color: #EBEBEB;
 }
 
 .choice-box .menu-item > .label
 {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .choice-box .menu-item:focused > .label

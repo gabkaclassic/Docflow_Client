@@ -1,7 +1,2 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Main-Class: client.gui.Interface
-=======
 Main-Class: client.Interface
->>>>>>> bd17ba4e99bb7252ca5787c69f767630970ba3b3
-

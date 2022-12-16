@@ -54,7 +54,7 @@ public class GeneralInfoController extends Controller{
     
         for(var invite: data.getInvites()) {
             var acceptButton = new Button("Accept");
-            acceptButton.getStyleClass().add("acc_button");
+            acceptButton.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("acc_button.css")).toExternalForm());
             acceptButton.setTranslateX(-15);
             acceptButton.setOnAction(event -> {
                 try {
@@ -68,7 +68,7 @@ public class GeneralInfoController extends Controller{
                 }
             });
             var refuseButton = new Button("Refuse");
-            refuseButton.getStyleClass().add("refuse_button");
+            refuseButton.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("refuse_button.css")).toExternalForm());
             refuseButton.setTranslateX(-5);
             refuseButton.setOnAction(event -> {
                 try {
@@ -88,7 +88,7 @@ public class GeneralInfoController extends Controller{
     
             var anchor = new AnchorPane();
             var pane = new TitledPane();
-            pane.getStyleClass().add("titled-pane");
+            pane.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("titled-pane.css")).toExternalForm());
             anchor.getChildren().add(bar);
             pane.setTextAlignment(TextAlignment.CENTER);
             pane.setText(invite.getTeam().getTitle());

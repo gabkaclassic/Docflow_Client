@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
    <children>
       <SplitMenuButton fx:id="teams" layoutX="303.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Teams">
         <items>
@@ -67,7 +67,8 @@
                   </ButtonBar>
                </content>
             </TitledPane>
-         </panes></Accordion>
+         </panes>
+      </Accordion>
       <Label fx:id="invitesLabel" layoutX="303.0" layoutY="546.0" text="Your invites:">
          <font>
             <Font size="20.0" />
