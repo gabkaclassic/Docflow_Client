@@ -83,6 +83,13 @@ public class ProcessInfoController extends Controller {
     private Label commentError;
     @FXML
     private Label resourceError;
+    
+    @FXML
+    private Label documentName;
+    
+    
+    
+    
     private Process process;
     private Step step;
     
@@ -151,6 +158,7 @@ public class ProcessInfoController extends Controller {
         if(currentDocument == null) {
             comments.setVisible(false);
             resourcesFlow.setVisible(false);
+            addResourceButton.setVisible(false);
         }
         
         updateDocuments();
@@ -166,7 +174,9 @@ public class ProcessInfoController extends Controller {
     
     private void addDocument(Document document) {
     
-        var saveButton = new Button("Load from disk");
+        var saveButton = new Button("Load");
+        saveButton.setTranslateX(-10);
+        saveButton.getStyleClass().add("acc_button");
         saveButton.setOnAction(event -> {
             try {
                 updateDocument(event, document);
@@ -174,6 +184,8 @@ public class ProcessInfoController extends Controller {
             }
         });
         var openButton = new Button("Open");
+        openButton.setTranslateX(-10);
+        openButton.getStyleClass().add("acc_button");
         openButton.setOnAction(event -> {
             try {
                 fileManager.openDocument(document, process.getTitle());
@@ -181,6 +193,8 @@ public class ProcessInfoController extends Controller {
             }
         });
         var selectButton = new Button("Select");
+        selectButton.setTranslateX(-10);
+        selectButton.getStyleClass().add("document_button");
         selectButton.setOnAction(event -> {
             currentDocument = document;
             defineComments();

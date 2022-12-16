@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,16 +35,11 @@ public class GeneralInfoController extends Controller{
     
     @FXML
     private Label noTeamsMessage;
-    @FXML
-    private Button back;
     
     @FXML
     public void initialize() throws IOException {
     
         data.refresh();
-        
-        if(data.getPreviousScene() == null)
-            back.setVisible(false);
         
         noTeamsMessage.setVisible(false);
         noProcessesMessage.setVisible(false);
@@ -58,6 +54,8 @@ public class GeneralInfoController extends Controller{
     
         for(var invite: data.getInvites()) {
             var acceptButton = new Button("Accept");
+            acceptButton.getStyleClass().add("acc_button");
+            acceptButton.setTranslateX(-15);
             acceptButton.setOnAction(event -> {
                 try {
                     invitesLabel.setVisible(false);
@@ -70,6 +68,8 @@ public class GeneralInfoController extends Controller{
                 }
             });
             var refuseButton = new Button("Refuse");
+            refuseButton.getStyleClass().add("refuse_button");
+            refuseButton.setTranslateX(-5);
             refuseButton.setOnAction(event -> {
                 try {
                     invitesLabel.setVisible(false);
@@ -88,7 +88,9 @@ public class GeneralInfoController extends Controller{
     
             var anchor = new AnchorPane();
             var pane = new TitledPane();
+            pane.getStyleClass().add("titled-pane");
             anchor.getChildren().add(bar);
+            pane.setTextAlignment(TextAlignment.CENTER);
             pane.setText(invite.getTeam().getTitle());
             pane.setContent(anchor);
             invites.getPanes().add(pane);
