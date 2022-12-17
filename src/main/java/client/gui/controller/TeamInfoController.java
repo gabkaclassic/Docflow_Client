@@ -54,6 +54,7 @@ public class TeamInfoController extends Controller {
         teamTitle.setText(currentTeam.getTitle());
         
         for(var process: currentTeam.getProcesses()) {
+    
             
             var item = new MenuItem(process.getTitle());
             
@@ -80,7 +81,7 @@ public class TeamInfoController extends Controller {
             usernameField.setVisible(false);
         }
         
-        currentTeam.getParticipants().forEach(p -> {
+        currentTeam.getParticipants().stream().filter(p -> !p.isBlank()).forEach(p -> {
             var item = new MenuItem(p);
             
             if(isTeamLeader && !p.equals(data.getParticipant().getUsername()))
@@ -107,7 +108,7 @@ public class TeamInfoController extends Controller {
             return;
 
         }
-        
+        data.refresh();
         initialize();
     }
     
@@ -125,7 +126,8 @@ public class TeamInfoController extends Controller {
         }
         
         currentTeam.getParticipants().remove(currentParticipant);
-        
+    
+        data.refresh();
         initialize();
     }
     
@@ -148,5 +150,11 @@ public class TeamInfoController extends Controller {
     private void showInviteParticipantError(String error){
         inviteParticipantErrorFiled.setText(error);
         inviteParticipantErrorFiled.setVisible(true);
+    }
+    
+    public void refresh(ActionEvent event) throws IOException {
+        
+        data.refresh();
+        initialize();
     }
 }

@@ -61,5 +61,10 @@
       </Button>
       <TextField fx:id="usernameField" layoutX="264.0" layoutY="381.0" prefHeight="50.0" prefWidth="192.0" />
       <Label fx:id="inviteParticipantErrorFiled" layoutX="264.0" layoutY="451.0" prefHeight="17.0" prefWidth="192.0" textFill="#eb0e0e" />
+      <Button fx:id="refreshButton" layoutX="264.0" layoutY="452.0" mnemonicParsing="false" onAction="#refresh" prefHeight="35.0" prefWidth="73.0" stylesheets="@button.css" text="Refresh" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Тип ответа для получения всей информации, связанной с конкретным аккаунтом участника

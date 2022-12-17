@@ -1,6 +1,7 @@
 package client.entity.team;
 
 import client.entity.deserializer.TeamDeserializer;
+
 import client.entity.process.Process;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
