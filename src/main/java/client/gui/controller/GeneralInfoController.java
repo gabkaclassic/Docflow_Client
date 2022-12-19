@@ -41,7 +41,6 @@ public class GeneralInfoController extends Controller{
     public void initialize() throws IOException {
     
         data.refresh();
-        
         noTeamsMessage.setVisible(false);
         noProcessesMessage.setVisible(false);
         teams.getItems().clear();

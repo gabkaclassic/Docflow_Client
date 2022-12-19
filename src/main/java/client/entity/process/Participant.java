@@ -52,4 +52,7 @@ public class Participant implements Serializable {
     public String getUsername() {
         return owner.getUsername();
     }
+    
+    @JsonIgnore
+    public Long getOwnerId() { return owner.getId(); }
 }

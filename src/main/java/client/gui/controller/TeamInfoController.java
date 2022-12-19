@@ -96,7 +96,7 @@ public class TeamInfoController extends Controller {
         inviteParticipantErrorFiled.setVisible(false);
         var username = usernameField.getText();
         usernameField.clear();
-        if(username == null || username.isBlank()) {
+        if(!checkUsername(username)) {
             showInviteParticipantError("This field can't be empty");
             return;
         }
@@ -112,16 +112,23 @@ public class TeamInfoController extends Controller {
         initialize();
     }
     
+    private boolean checkUsername(String username) {
+     
+        return username != null && !username.isBlank() && !username.equals(data.getParticipant().getUsername());
+    }
+    
     public void kickOut(ActionEvent e) throws IOException {
     
-        if(currentParticipant == null) {
-            showInviteParticipantError("User is not selected");
+        var username = usernameField.getText();
+        
+        if(!checkUsername(username)) {
+            showInviteParticipantError("Invalid username");
             return;
         }
     
-        var response = Sender.kickParticipant(currentParticipant, currentTeam.getTitle());
+        var response = Sender.kickParticipant(username, currentTeam.getTitle());
         if(response.isError()) {
-            showInviteParticipantError("Unsuccessful kick out");
+            showInviteParticipantError("Invalid username");
             return;
         }
         
