@@ -33,7 +33,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <SplitMenuButton fx:id="participantsList" layoutX="824.0" layoutY="387.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Participants list">
+      <SplitMenuButton fx:id="participantsList"  stylesheets="@splitmenubutton.css" layoutX="824.0" layoutY="387.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" text="Participants list">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />

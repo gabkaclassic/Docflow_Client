@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.springframework.util.FileSystemUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -111,7 +112,7 @@ public class FileManager {
         return String.join(SEPARATOR, WORKDIR, processTitle, document.getTitle()) + document.getFormat();
     }
     
-    private String getFilename(String processTitle) {
+    private static String getFilename(String processTitle) {
         return String.join(SEPARATOR, WORKDIR, processTitle);
     }
     
@@ -122,9 +123,9 @@ public class FileManager {
     
         var directory = new File(getFilename(process.getTitle()));
         
-        if(!directory.exists() || !directory.isDirectory()) {
+        if(!directory.exists() || !directory.isDirectory())
             return false;
-        }
+        
     
         var directoryChooser = new DirectoryChooser();
         var resultDirectory = directoryChooser.showDialog((((Node)event.getSource()).getScene().getWindow()));
@@ -142,13 +143,13 @@ public class FileManager {
     /**
      * Удаление папки проекта
      * */
-    public boolean removeProcessPath(Process process) {
+    public static boolean removeProcessPath(Process process) {
         
         var directory = new File(getFilename(process.getTitle()));
         if(!directory.exists() || !directory.isDirectory()) {
             return false;
         }
         
-        return directory.delete();
+        return FileSystemUtils.deleteRecursively(directory);
     }
 }

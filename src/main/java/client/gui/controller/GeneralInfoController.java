@@ -2,6 +2,7 @@ package client.gui.controller;
 
 import client.gui.data.Data;
 import client.sender.Sender;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +41,6 @@ public class GeneralInfoController extends Controller{
     public void initialize() throws IOException {
     
         data.refresh();
-        
         noTeamsMessage.setVisible(false);
         noProcessesMessage.setVisible(false);
         teams.getItems().clear();
@@ -60,8 +60,15 @@ public class GeneralInfoController extends Controller{
                 try {
                     invitesLabel.setVisible(false);
                     invites.setVisible(false);
-                    Sender.accessInvite(invite);
-                    data.refresh();
+                    
+                    new Thread(() -> {
+                        try {
+                            Sender.accessInvite(invite);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
+                    
                     initialize();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -72,10 +79,18 @@ public class GeneralInfoController extends Controller{
             refuseButton.setTranslateX(-5);
             refuseButton.setOnAction(event -> {
                 try {
+                    
                     invitesLabel.setVisible(false);
                     invites.setVisible(false);
-                    Sender.refuseInvite(invite);
-                    data.refresh();
+                    
+                    new Thread(() -> {
+                        try {
+                            Sender.refuseInvite(invite);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
+                    
                     initialize();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -105,7 +120,8 @@ public class GeneralInfoController extends Controller{
                 try {
                     this.showStage(teams, "team_info.fxml");
                     
-                } catch (IOException ignored) {
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
         

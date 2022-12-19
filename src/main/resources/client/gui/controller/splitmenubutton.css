@@ -1,16 +1,4 @@
-.split-menu-button .arrow-button
-{
-    -fx-background-color: yellow ;
-}
 
-.menu-button {
-    -fx-background-color: red;
-    }
-
-.split-menu-button .label {
-    -fx-background-color: green;
-    }
-
-.split-menu-button .arrow {
-    -fx-background-color: black;
-}
+.split-menu-button {
+    -fx-font-size: 18;
+ }

@@ -54,6 +54,7 @@ public class TeamInfoController extends Controller {
         teamTitle.setText(currentTeam.getTitle());
         
         for(var process: currentTeam.getProcesses()) {
+    
             
             var item = new MenuItem(process.getTitle());
             
@@ -80,7 +81,7 @@ public class TeamInfoController extends Controller {
             usernameField.setVisible(false);
         }
         
-        currentTeam.getParticipants().forEach(p -> {
+        currentTeam.getParticipants().stream().filter(p -> !p.isBlank()).forEach(p -> {
             var item = new MenuItem(p);
             
             if(isTeamLeader && !p.equals(data.getParticipant().getUsername()))
@@ -95,7 +96,7 @@ public class TeamInfoController extends Controller {
         inviteParticipantErrorFiled.setVisible(false);
         var username = usernameField.getText();
         usernameField.clear();
-        if(username == null || username.isBlank()) {
+        if(!checkUsername(username)) {
             showInviteParticipantError("This field can't be empty");
             return;
         }
@@ -107,25 +108,33 @@ public class TeamInfoController extends Controller {
             return;
 
         }
-        
+        data.refresh();
         initialize();
+    }
+    
+    private boolean checkUsername(String username) {
+     
+        return username != null && !username.isBlank() && !username.equals(data.getParticipant().getUsername());
     }
     
     public void kickOut(ActionEvent e) throws IOException {
     
-        if(currentParticipant == null) {
-            showInviteParticipantError("User is not selected");
+        var username = usernameField.getText();
+        
+        if(!checkUsername(username)) {
+            showInviteParticipantError("Invalid username");
             return;
         }
     
-        var response = Sender.kickParticipant(currentParticipant, currentTeam.getTitle());
+        var response = Sender.kickParticipant(username, currentTeam.getTitle());
         if(response.isError()) {
-            showInviteParticipantError("Unsuccessful kick out");
+            showInviteParticipantError("Invalid username");
             return;
         }
         
         currentTeam.getParticipants().remove(currentParticipant);
-        
+    
+        data.refresh();
         initialize();
     }
     
@@ -148,5 +157,11 @@ public class TeamInfoController extends Controller {
     private void showInviteParticipantError(String error){
         inviteParticipantErrorFiled.setText(error);
         inviteParticipantErrorFiled.setVisible(true);
+    }
+    
+    public void refresh(ActionEvent event) throws IOException {
+        
+        data.refresh();
+        initialize();
     }
 }

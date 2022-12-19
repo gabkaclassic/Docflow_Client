@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.GeneralInfoController">
    <children>
-      <SplitMenuButton fx:id="teams" layoutX="303.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Teams">
+      <SplitMenuButton fx:id="teams" layoutX="303.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" style="-fx-font-size: 18;" stylesheets="@splitmenubutton.css" text="Teams">
         <items>
           <MenuItem mnemonicParsing="false">
                <graphic>
@@ -28,7 +28,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <SplitMenuButton fx:id="processes" layoutX="735.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" text="Proccess">
+      <SplitMenuButton fx:id="processes" layoutX="735.0" layoutY="330.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="220.0" style="-fx-font-size: 18;" stylesheets="@splitmenubutton.css" text="Proccess">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -84,5 +84,10 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Button fx:id="refreshButton" layoutX="53.0" layoutY="41.0" mnemonicParsing="false" onAction="#initialize" prefHeight="35.0" prefWidth="73.0" stylesheets="@button.css" text="Refresh" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

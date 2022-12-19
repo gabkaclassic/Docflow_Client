@@ -24,7 +24,7 @@ public class DocumentDeserializer extends StdDeserializer<Document> {
     }
     
     @Override
-    public client.entity.process.document.Document deserialize(JsonParser jp, DeserializationContext ctxt)
+    public Document deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException {
         
         JsonNode node = jp.getCodec().readTree(jp);

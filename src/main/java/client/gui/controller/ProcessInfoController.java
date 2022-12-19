@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -30,8 +31,6 @@ public class ProcessInfoController extends Controller {
     
     @FXML
     private Label stepTitle;
-    @FXML
-    private Label permissions;
 
     @FXML
     private Button createDocument;
@@ -87,7 +86,14 @@ public class ProcessInfoController extends Controller {
     @FXML
     private Label documentName;
     
+    @FXML
+    private Label resourceName;
     
+    @FXML
+    private BorderPane commentPane;
+    
+    @FXML
+    private BorderPane resourcePane;
     
     
     private Process process;
@@ -105,7 +111,9 @@ public class ProcessInfoController extends Controller {
     );
     
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
+        
+        data.refresh();
         
         process = data.getCurrentProcess();
         
@@ -114,28 +122,23 @@ public class ProcessInfoController extends Controller {
                     .filter(s -> Objects.equals(s.getNumber(), process.getCurrentStep()))
                     .findFirst().orElseThrow();
         }
-        catch(NoSuchElementException e) {
+        catch(NoSuchElementException ignored) {
         }
         
         participant = data.getParticipant();
         permission = step.getRules().get(participant.getUsername());
         
-        if(permission.equals(Rules.READ)) {
-            
-            documentTitle.setVisible(false);
-            documentExtension.setVisible(false);
-            open.setVisible(false);
-            filenameLabel.setVisible(false);
-            createDocument.setVisible(false);
-        }
-        
+        documentTitle.setVisible(!permission.equals(Rules.READ));
+        documentExtension.setVisible(!permission.equals(Rules.READ));
+        open.setVisible(!permission.equals(Rules.READ));
+        filenameLabel.setVisible(!permission.equals(Rules.READ));
+        createDocument.setVisible(!permission.equals(Rules.READ));
         
         acceptButton.setText("Accept changes");
         if(process.finished())
             acceptButton.setText("Progress completion");
-        refuseButton.setVisible(true);
-        if(process.started())
-            refuseButton.setVisible(false);
+        
+        refuseButton.setVisible(!process.started());
             
         if(permission != null && !permission.equals(Rules.CONTROL)) {
             refuseButton.setVisible(false);
@@ -144,25 +147,34 @@ public class ProcessInfoController extends Controller {
         
         processTitle.setText(process.getTitle());
         stepTitle.setText(step.getTitle());
-        permissions.setText("Your permissions: " + permission.getView());
         
         step.getDocuments().forEach(document -> {
             try {
                 fileManager.saveDocument(document, process.getTitle());
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         });
-    
-        comments.setVisible(true);
-        resourcesFlow.setVisible(true);
-        if(currentDocument == null) {
-            comments.setVisible(false);
-            resourcesFlow.setVisible(false);
-            addResourceButton.setVisible(false);
-        }
+        
+        checkCurrentDocument();
         
         updateDocuments();
     }
+    
+    private void checkCurrentDocument() {
+        boolean currentDocumentIsNotNull = currentDocument != null;
+        documentName.setVisible(currentDocumentIsNotNull);
+        resourceName.setVisible(currentDocumentIsNotNull);
+        comments.setVisible(currentDocumentIsNotNull);
+        commentText.setVisible(currentDocumentIsNotNull);
+        resourcesFlow.setVisible(currentDocumentIsNotNull);
+        addResourceButton.setVisible(currentDocumentIsNotNull);
+        addCommentButton.setVisible(currentDocumentIsNotNull);
+        commentPane.setVisible(currentDocumentIsNotNull);
+        resourceText.setVisible(currentDocumentIsNotNull);
+        descriptionText.setVisible(currentDocumentIsNotNull);
+        resourcePane.setVisible(currentDocumentIsNotNull);
+    }
+    
     private void updateDocuments() {
         
         documents.getPanes().clear();
@@ -174,9 +186,9 @@ public class ProcessInfoController extends Controller {
     
     private void addDocument(Document document) {
     
-        var saveButton = new Button("Load");
+        var saveButton = new Button("Save");
         saveButton.setTranslateX(-10);
-        saveButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
+        saveButton.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         saveButton.setOnAction(event -> {
             try {
                 updateDocument(event, document);
@@ -185,7 +197,7 @@ public class ProcessInfoController extends Controller {
         });
         var openButton = new Button("Open");
         openButton.setTranslateX(-10);
-        openButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
+        openButton.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         openButton.setOnAction(event -> {
             try {
                 fileManager.openDocument(document, process.getTitle());
@@ -194,9 +206,10 @@ public class ProcessInfoController extends Controller {
         });
         var selectButton = new Button("Select");
         selectButton.setTranslateX(-10);
-        selectButton.getStyleClass().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
+        selectButton.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("document_button.css")).toExternalForm());
         selectButton.setOnAction(event -> {
             currentDocument = document;
+            checkCurrentDocument();
             defineComments();
             defineResources();
         });
@@ -209,6 +222,7 @@ public class ProcessInfoController extends Controller {
     
         var anchor = new AnchorPane();
         var pane = new TitledPane();
+        pane.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("titled-pane.css")).toExternalForm());
         anchor.getChildren().add(bar);
         pane.setText(document.getTitle());
         pane.setContent(anchor);
@@ -217,11 +231,18 @@ public class ProcessInfoController extends Controller {
     
     private void updateDocument(ActionEvent event, Document document) throws IOException {
     
+        
         document.addComments(currentDocument.getComments());
         document.addResources(currentDocument.getResources());
-        
+    
+        new Thread(() -> {
+            try {
+                Sender.updateStep(step);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
         fileManager.updateDocument(event, document, process.getTitle());
-        Sender.updateStep(step);
     }
     
     private void defineComments() {
@@ -267,7 +288,7 @@ public class ProcessInfoController extends Controller {
         documentExtension.clear();
         
         if(checkDocument(document)) {
-            showDocumentCreateError("Document with such name already exist");
+            showDocumentCreateError();
             return;
         }
         
@@ -294,7 +315,6 @@ public class ProcessInfoController extends Controller {
             return;
         }
     
-        data.refresh();
         initialize();
     }
     
@@ -304,7 +324,7 @@ public class ProcessInfoController extends Controller {
         var comText = commentText.getText();
         
         if(!checkText(comText)) {
-            showCommentError("Comments can't be empty");
+            showCommentError();
             return;
         }
         
@@ -419,9 +439,9 @@ public class ProcessInfoController extends Controller {
         
         initialize();
     }
-    private void showDocumentCreateError(String error){
+    private void showDocumentCreateError(){
         createDocument.setStyle(errorStyle);
-        createDocumentError.setText(error);
+        createDocumentError.setText("Document with such name already exist");
         createDocumentError.setVisible(true);
     }
     private void showApproveError(String error){
@@ -429,9 +449,9 @@ public class ProcessInfoController extends Controller {
         approveError.setText(error);
         approveError.setVisible(true);
     }
-    private void showCommentError(String error){
+    private void showCommentError(){
         addCommentButton.setStyle(errorStyle);
-        commentError.setText(error);
+        commentError.setText("Comments can't be empty");
         commentError.setVisible(true);
         
     }

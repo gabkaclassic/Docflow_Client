@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.TeamInfoController">
+<AnchorPane prefHeight="1024.0" prefWidth="1440.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.controller.TeamInfoController">
    <children>
       <Label fx:id="teamTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="614.0" layoutY="60.0" prefHeight="58.0" prefWidth="212.0" text="Name team">
          <font>
@@ -27,7 +27,8 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <SplitMenuButton fx:id="participants" layoutX="214.0" layoutY="240.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Participants list">
+      <SplitMenuButton fx:id="participants" layoutX="214.0" layoutY="240.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" stylesheets="@splitmenubutton.css" text="Participants list">
+
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -36,7 +37,7 @@
             <Font size="18.0" />
          </font>
       </SplitMenuButton>
-      <SplitMenuButton fx:id="processes" layoutX="928.0" layoutY="240.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Proccess list">
+      <SplitMenuButton fx:id="processes" layoutX="928.0" layoutY="240.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" stylesheets="@splitmenubutton.css" text="Proccess list">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
             <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -59,7 +60,12 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <TextField fx:id="usernameField" layoutX="264.0" layoutY="381.0" prefHeight="50.0" prefWidth="192.0" />
+      <TextField fx:id="usernameField" layoutX="264.0" layoutY="381.0" prefHeight="50.0" prefWidth="192.0" stylesheets="@titled-pane.css" />
       <Label fx:id="inviteParticipantErrorFiled" layoutX="264.0" layoutY="451.0" prefHeight="17.0" prefWidth="192.0" textFill="#eb0e0e" />
+      <Button fx:id="refreshButton" layoutX="264.0" layoutY="485.0" mnemonicParsing="false" onAction="#refresh" prefHeight="35.0" prefWidth="73.0" stylesheets="@button.css" text="Refresh" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

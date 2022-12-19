@@ -174,7 +174,7 @@ public class CreateProcessController extends Controller {
         catch (NoSuchElementException ignored) {
         }
         
-        team.getParticipants().forEach(participantsChoice.getItems()::add);
+        team.getParticipants().stream().filter(p -> !p.isBlank()).forEach(participantsChoice.getItems()::add);
     }
     
     public void createProcess(ActionEvent event) throws IOException {

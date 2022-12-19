@@ -49,7 +49,6 @@ public class SignInController extends Controller {
                 InfoResponse result = null;
                 try {
                     result = Sender.login(login.getText(), checkBox.isSelected() ? shownPassword.getText() : password.getText());
-                    result = Sender.getUserInfo();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -58,7 +57,6 @@ public class SignInController extends Controller {
                 finally {
                     indicator.setVisible(false);
                 }
-                
                 
                 return result;
             });
