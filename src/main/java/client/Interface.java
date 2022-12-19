@@ -23,7 +23,7 @@ public class Interface extends Application {
         
         
         FXMLLoader fxmlLoader = new FXMLLoader(Interface.class.getResource(HOME_SCENE));
-        Scene scene = new Scene(fxmlLoader.load(), 1440, 1024);
+        Scene scene = new Scene(fxmlLoader.load(), 831, 732);
         fxmlLoader.setRoot(scene);
         stage.setTitle("Document flow");
         stage.setScene(scene);
