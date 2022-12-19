@@ -26,7 +26,8 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Accordion fx:id="documents" layoutX="503.0" layoutY="217.0" prefHeight="30.0" prefWidth="260.0">
+
+      <Accordion fx:id="documents" layoutX="503.0" layoutY="217.0" maxHeight="500.0" prefHeight="30.0" prefWidth="260.0">
          <panes>
             <TitledPane alignment="CENTER" prefHeight="30.0" prefWidth="200.0" styleClass="title" stylesheets="@titled-pane.css" text="Name document">
                <content>
@@ -45,15 +46,15 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="acceptButton" layoutX="940.0" layoutY="735.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Accept changes" textFill="WHITE">
+      <Button fx:id="acceptButton" layoutX="940.0" layoutY="765.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Accept changes" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="refuseButton" layoutX="666.0" layoutY="735.0" mnemonicParsing="false" onAction="#previousStep" prefHeight="60.0" prefWidth="231.0" stylesheets="@button.css" text="Refuse (go to previous step)" textFill="WHITE">
+      <Button fx:id="refuseButton" layoutX="666.0" layoutY="765.0" mnemonicParsing="false" onAction="#previousStep" prefHeight="60.0" prefWidth="231.0" stylesheets="@button.css" text="Refuse changes" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="saveButton" layoutX="503.0" layoutY="735.0" mnemonicParsing="false" onAction="#saveAll" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Save all changes" textFill="WHITE">
+      <Button fx:id="saveButton" layoutX="503.0" layoutY="765.0" mnemonicParsing="false" onAction="#saveAll" prefHeight="60.0" prefWidth="120.0" stylesheets="@button.css" text="Save all changes" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -130,5 +131,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+
    </children>
 </AnchorPane>
