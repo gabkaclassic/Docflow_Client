@@ -62,8 +62,12 @@ public class Interface extends Application {
     }
     
     public static void main(String[] args) {
-    
+
+        if(args.length == 2) {
+            FileManager.setWORKDIR(args[0]);
+            Sender.setBaseUrl(args[1]);
+        }
+
         launch();
-        
     }
 }

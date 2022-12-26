@@ -9,10 +9,9 @@
 
 .choice-box:hover
 {
-    -fx-text-fill: black;
+   -fx-text-fill: black;
   -fx-background-color: #d0d0d0;
   -fx-mark-color: #105AAA;
-  -fx-border-radius : 5 5 5 5;
   -fx-border-color : #105AAA;
 }
 
@@ -21,12 +20,11 @@
 -fx-text-fill: black;
   -fx-background-color: #EBEBEB;
   -fx-mark-color: #105AAA;
-  -fx-border-radius : 5 5 5 5;
   -fx-border-color : #105AAA;
 }
 .choice-box .context-menu
 {
--fx-text-fill: black;
+    -fx-text-fill: black;
     -fx-background-color: #EBEBEB;
 }
 

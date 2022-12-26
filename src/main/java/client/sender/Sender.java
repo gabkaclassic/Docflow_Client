@@ -31,7 +31,7 @@ import java.util.function.Function;
  * */
 public class Sender {
     
-    private static final String BASE_URL = System.getenv("BASE_URL");
+    private static String BASE_URL = System.getenv("BASE_URL");
     
     private static final ObjectMapper mapper = new ObjectMapper();
     
@@ -48,7 +48,11 @@ public class Sender {
     };
     
     private static String session = "";
-    
+
+    public static void setBaseUrl(String baseUrl) {
+        BASE_URL = baseUrl;
+    }
+
     public static Response registration(String username, String password) throws JsonProcessingException {
     
         var params = new LinkedMultiValueMap<String, String>();

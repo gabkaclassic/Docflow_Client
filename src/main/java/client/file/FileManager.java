@@ -22,9 +22,13 @@ import java.util.Set;
  * */
 public class FileManager {
     
-    private static final String WORKDIR = System.getenv("WORKDIR");
+    private static String WORKDIR = System.getenv("WORKDIR");
     private static final String SEPARATOR = System.getProperty("file.separator");
-    
+
+    public static void setWORKDIR(String WORKDIR) {
+        FileManager.WORKDIR = WORKDIR;
+    }
+
     /**
      * Сохранение содержимого документов в файлы
      * */
@@ -33,7 +37,7 @@ public class FileManager {
         var file = new File(getFilename(document, processTitle));
         
         createDirectory(document, processTitle);
-        
+
         try(var out = new FileOutputStream(file)) {
             var data = document.getFile() == null ? new byte[1] : document.getFile();
             out.write(data);
@@ -90,8 +94,15 @@ public class FileManager {
      * Открытие документа программой по умолчанию
      * */
     public void openDocument(Document document, String processTitle) throws IOException {
-        
-        Desktop.getDesktop().open(new File(getFilename(document, processTitle)));
+
+        var filename = getFilename(document, processTitle);
+        if(!System.getProperty("os.name").equals("Linux"))
+            Desktop.getDesktop().open(new File(filename));
+        else {
+            Runtime.getRuntime().exec("sudo chmod -R a+x+s+X " + WORKDIR);
+            Runtime.getRuntime().exec("xdg-open " + filename);
+        }
+
     }
     
     private void createDirectory(Document document, String processTitle) throws IOException {
