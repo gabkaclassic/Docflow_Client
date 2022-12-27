@@ -78,5 +78,7 @@ public class Data {
         participant = null;
         teams = null;
         processes = null;
+        currentProcess = null;
+        currentTeam = null;
     }
 }

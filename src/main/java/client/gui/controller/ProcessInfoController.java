@@ -114,8 +114,13 @@ public class ProcessInfoController extends Controller {
     public void initialize() throws IOException {
         
         data.refresh();
-        
-        process = data.getCurrentProcess();
+
+        if(process != null)
+            process = data.getProcesses().stream()
+                    .filter(p -> p.getId().equals(process.getId()))
+                    .findFirst().orElseThrow();
+        else
+            process = data.getCurrentProcess();
         
         try {
             step = process.getSteps().stream()
@@ -123,6 +128,7 @@ public class ProcessInfoController extends Controller {
                     .findFirst().orElseThrow();
         }
         catch(NoSuchElementException ignored) {
+            ignored.printStackTrace();
         }
         
         participant = data.getParticipant();
@@ -309,6 +315,7 @@ public class ProcessInfoController extends Controller {
         approveError.setVisible(false);
         fileManager.updateDocuments(process.getTitle(), step.getDocuments());
         var response = Sender.updateStep(step);
+        response = Sender.updateDocuments(step.getDocuments());
     
         if(response.isError()) {
             showApproveError(response.getMessage());

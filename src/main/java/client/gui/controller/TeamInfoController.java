@@ -133,17 +133,10 @@ public class TeamInfoController extends Controller {
         }
         
         currentTeam.getParticipants().remove(currentParticipant);
-    
+        usernameField.clear();
+
         data.refresh();
         initialize();
-    }
-    
-    private void refreshCurrentTeam() {
-        data.setCurrentTeam(
-                data.getTeams().stream()
-                        .filter(t -> t.getTitle().equals(currentTeam.getTitle()))
-                        .findFirst().get()
-        );
     }
     
     private void showStage(Node node, String to) throws IOException {
@@ -162,6 +155,9 @@ public class TeamInfoController extends Controller {
     public void refresh(ActionEvent event) throws IOException {
         
         data.refresh();
+        currentTeam = data.getTeams().stream()
+                .filter(t -> t.getTitle().equals(currentTeam.getTitle()))
+                .findFirst().orElseThrow();
         initialize();
     }
 }
