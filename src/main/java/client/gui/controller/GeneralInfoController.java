@@ -36,6 +36,8 @@ public class GeneralInfoController extends Controller{
     
     @FXML
     private Label noTeamsMessage;
+    @FXML
+    private Button refreshButton;
     
     @FXML
     public void initialize() throws IOException {
@@ -193,6 +195,10 @@ public class GeneralInfoController extends Controller{
             data.clear();
         }
         showStage(event, "sign_in.fxml");
+    }
+    public void refresh(ActionEvent event) throws IOException{
+        data.refresh();
+        initialize();
     }
     
     private void showStage(Node node, String to) throws IOException {
