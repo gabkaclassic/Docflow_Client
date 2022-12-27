@@ -151,9 +151,9 @@ public class TeamInfoController extends Controller {
         inviteParticipantErrorFiled.setText(error);
         inviteParticipantErrorFiled.setVisible(true);
     }
-    
+
     public void refresh(ActionEvent event) throws IOException {
-        
+
         data.refresh();
         currentTeam = data.getTeams().stream()
                 .filter(t -> t.getTitle().equals(currentTeam.getTitle()))
